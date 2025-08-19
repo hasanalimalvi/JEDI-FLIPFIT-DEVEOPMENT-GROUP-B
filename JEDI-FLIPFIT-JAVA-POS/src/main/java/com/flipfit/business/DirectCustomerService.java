@@ -2,6 +2,7 @@ package com.flipfit.business;
 
 import com.flipfit.bean.Booking;
 import com.flipfit.bean.DirectCustomer;
+import com.flipfit.bean.Gym;
 
 import java.util.List;
 
