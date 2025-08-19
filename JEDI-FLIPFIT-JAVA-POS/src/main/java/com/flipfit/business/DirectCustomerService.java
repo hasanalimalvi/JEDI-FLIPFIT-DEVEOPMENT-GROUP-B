@@ -11,4 +11,6 @@ public interface DirectCustomerService {
     DirectCustomer viewDetails(int customerId);
     DirectCustomer registerCustomer(DirectCustomer directCustomer);
     DirectCustomer editDetails(DirectCustomer directCustomer);
+    List<Gym> viewGyms();
+    boolean makePayment(int customerId);
 }
