@@ -1,14 +1,10 @@
 package com.flipfit.bean;
 
-public class GymOwner {
+public class GymOwner extends User{
     private int gymOwnerId;
-    private String gymOwnerName;
-    private String password;
-    private String emailID;
     private String phoneNumber;
     private String city;
     private String pinCode;
-    private String role;
     public String panCard;
     public String gstin;
     public String aadharNumber;
