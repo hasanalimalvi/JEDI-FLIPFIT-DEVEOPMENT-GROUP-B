@@ -18,7 +18,6 @@ public interface FlipFitDirectCustomerService {
     List<FlipFitGym> viewGyms();
     boolean makePayment(int customerId);
     boolean login(String customerName, String password);
-
     //FlipFitBookings
     FlipFitBooking makeFlipFitBooking(int customerID, int gymID, int slotId);
     boolean cancelFlipFitBooking(int bookingId);

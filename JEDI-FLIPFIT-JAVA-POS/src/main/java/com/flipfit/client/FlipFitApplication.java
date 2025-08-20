@@ -2,12 +2,15 @@ package com.flipfit.client;
 
 import com.flipfit.bean.FlipFitDirectCustomer;
 import com.flipfit.bean.FlipFitGymOwner;
+import com.flipfit.business.FlipFitDirectCustomerService;
+import com.flipfit.business.FlipFitDirectCustomerServiceImpl;
 import com.flipfit.constant.ColorConstants;
 
 import java.util.Scanner;
 
 public class FlipFitApplication {
     public static void main(String[] args) {
+        FlipFitDirectCustomerService flipFitDirectCustomerService = new FlipFitDirectCustomerServiceImpl();
         Scanner input = new Scanner(System.in);
         int flipfitMenuChoice;
 
@@ -103,6 +106,7 @@ public class FlipFitApplication {
                     gymCustomer.setPassword(password);
                     gymCustomer.setRoleId(0);
 
+                    flipFitDirectCustomerService.registerCustomer(gymCustomer);
                     System.out.println(ColorConstants.GREEN + "\n✅ Registration Successful! Here's your info:" + ColorConstants.RESET);
                     System.out.println(gymCustomer);
                 }
