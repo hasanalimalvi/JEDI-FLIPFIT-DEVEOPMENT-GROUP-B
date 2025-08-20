@@ -54,7 +54,8 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
 
     @Override
     public List<FlipFitGym> viewGyms() {
-        return List.of();
+
+        return new ArrayList<>(FlipFitGymOwnerServiceImpl.flipFitGymMap.values());
     }
 
     @Override

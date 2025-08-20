@@ -1,9 +1,11 @@
 package com.flipfit.client;
 
+import com.flipfit.bean.FlipFitGym;
 import com.flipfit.business.FlipFitDirectCustomerService;
 import com.flipfit.business.FlipFitDirectCustomerServiceImpl;
 import com.flipfit.constant.ColorConstants;
 
+import java.util.List;
 import java.util.Scanner;
 
 public class FlipFitDirectCustomerMenu {
@@ -34,7 +36,8 @@ public class FlipFitDirectCustomerMenu {
             switch (choice) {
                 case 1 -> {
                     System.out.println("🏋️ Viewing gyms by location...");
-                    // Call method to view gyms by location
+                    List<FlipFitGym> flipFitGyms = flipFitDirectCustomerService.viewGyms();
+
                 }
                 case 2 -> {
                     System.out.print("Enter Gym ID:> ");
