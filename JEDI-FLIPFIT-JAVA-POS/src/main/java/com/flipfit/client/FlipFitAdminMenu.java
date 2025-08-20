@@ -19,14 +19,17 @@ public class FlipFitAdminMenu {
         ╔════════════════════════════════════════════╗
         ║           🧑‍💼 ADMIN DASHBOARD               ║
         ╠════════════════════════════════════════════╣
-        ║  1 → 📨 View Pending Requests              ║
+        ║  1 → 📨 View Pending Gym Owner Requests    ║
         ║  2 → 🏢 View All Gym Owners                ║
         ║  3 → 🧍 View All Gym Customers             ║
         ║  4 → 🏋️  View All Gyms                     ║
-        ║  5 → 👁️  View Profile                      ║
-        ║  6 → ✏️  Edit Profile                      ║
-        ║  7 → 💳 View Payments                      ║
-        ║  8 → 🔓 Logout                             ║
+        ║  5 → 💳 View Payments                      ║
+        ║  6 -> Approve Gym Owner                    ║
+        ║  7 -> Approve Gym                          ║ 
+        ║  8 -> View Approved Gym Owner Requests     ║
+        ║  9 -> View Pending Gym Requests            ║
+        ║  10 -> View Approved Gym Requests          ║
+        ║  11 → 🔓 Logout                            ║
         ╚════════════════════════════════════════════╝
         """ + ColorConstants.RESET);
 
@@ -35,8 +38,8 @@ public class FlipFitAdminMenu {
 
             switch (choice) {
                 case 1 -> {
-                    System.out.println("📨 Viewing pending requests...");
-                    // Call method to view pending requests
+                    System.out.println("📨 Viewing pending Gym Owner requests...");
+                    System.out.println(flipFitAdminService.getPendingGymOwnerList());
                 }
                 case 2 -> {
                     System.out.println("🏢 Viewing all gym owners...");
@@ -48,21 +51,43 @@ public class FlipFitAdminMenu {
                 }
                 case 4 -> {
                     System.out.println("🏋️ Viewing all gyms...");
-                    // Call method to view gyms
+                    System.out.println(flipFitAdminService.getGyms());
                 }
                 case 5 -> {
-                    System.out.println("👁️ Viewing admin profile...");
-                    // Call method to view profile
-                }
-                case 6 -> {
-                    System.out.println("✏️ Editing admin profile...");
-                    // Call method to edit profile
-                }
-                case 7 -> {
                     System.out.println("💳 Viewing payments...");
                     // Call method to view payments
                 }
+                case 6 -> {
+                    System.out.println("Approve Gym Owner ...");
+
+                    System.out.println("Enter Gym Owner Id : ");
+                    int id = input.nextInt();
+
+                    flipFitAdminService.validateGymOwner(id);
+                    System.out.println("Gym Owner Approved...");
+                }
+                case 7 -> {
+                    System.out.println("Approve Gym ...");
+
+                    System.out.println("Enter Gym Id : ");
+                    int id = input.nextInt();
+
+                    flipFitAdminService.validateGym(id);
+                    System.out.println("Gym Approved");
+                }
                 case 8 -> {
+                    System.out.println("View Approved Gym Owners Request List ...");
+                    System.out.println(flipFitAdminService.getApprovedGymOwnerList());
+                }
+                case 9 -> {
+                    System.out.println("View Pending Gym Request List ...");
+                    System.out.println(flipFitAdminService.getPendingGymList());
+                }
+                case 10 -> {
+                    System.out.println("View Approved Gym Request List ...");
+                    System.out.println(flipFitAdminService.getApprovedGymList());
+                }
+                case 11 -> {
                     System.out.println(ColorConstants.YELLOW + "🔓 Logging out... See you next time!" + ColorConstants.RESET);
                 }
                 default -> {
@@ -70,7 +95,7 @@ public class FlipFitAdminMenu {
                 }
             }
 
-        } while (choice != 8);
+        } while (choice != 11);
 
     }
 }

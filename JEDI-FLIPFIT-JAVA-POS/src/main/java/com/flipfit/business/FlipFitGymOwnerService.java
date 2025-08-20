@@ -10,6 +10,8 @@ import java.util.List;
 public interface FlipFitGymOwnerService {
     FlipFitGymOwner registerGymOwner(FlipFitGymOwner gymOwner);
     FlipFitGym addGym(FlipFitGym gym);
+    FlipFitGym updateGym(FlipFitGym gym);
+    FlipFitGym viewGym(int gymId);
     List<FlipFitGym> viewGyms(int gymOwnerId);
     List<FlipFitTransaction> viewTransactions();
     FlipFitGymOwner editDetails(FlipFitGymOwner gymOwner);

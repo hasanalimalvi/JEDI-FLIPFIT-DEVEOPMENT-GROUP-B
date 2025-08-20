@@ -10,25 +10,65 @@ import java.util.List;
 public class FlipFitAdminServiceImpl implements FlipFitAdminService{
 
     FlipFitDirectCustomerServiceImpl flipFitDirectCustomerService = new FlipFitDirectCustomerServiceImpl();
+    FlipFitGymOwnerServiceImpl flipFitGymOwnerService = new FlipFitGymOwnerServiceImpl();
 
     @Override
     public List<FlipFitGymOwner> getPendingGymOwnerList() {
-        return List.of();
+
+        List<FlipFitGymOwner> gymOwners = new ArrayList<>(FlipFitGymOwnerServiceImpl.flipFitGymOwnerMap.values());
+
+        List<FlipFitGymOwner> filteredGymOwners = new ArrayList<FlipFitGymOwner>();
+
+        for(FlipFitGymOwner flipFitGymOwner : gymOwners){
+            if(!flipFitGymOwner.getIsApproved())
+                filteredGymOwners.add(flipFitGymOwner);
+        }
+
+        return filteredGymOwners;
     }
 
     @Override
     public List<FlipFitGymOwner> getApprovedGymOwnerList() {
-        return List.of();
+
+        List<FlipFitGymOwner> gymOwners = new ArrayList<>(FlipFitGymOwnerServiceImpl.flipFitGymOwnerMap.values());
+
+        List<FlipFitGymOwner> filteredGymOwners = new ArrayList<FlipFitGymOwner>();
+
+        for(FlipFitGymOwner flipFitGymOwner : gymOwners){
+            if(flipFitGymOwner.getIsApproved())
+                filteredGymOwners.add(flipFitGymOwner);
+        }
+
+        return filteredGymOwners;
     }
 
     @Override
     public List<FlipFitGym> getPendingGymList() {
-        return List.of();
+
+        List<FlipFitGym> gyms = new ArrayList<>(FlipFitGymOwnerServiceImpl.flipFitGymMap.values());
+
+        List<FlipFitGym> filteredGyms = new ArrayList<FlipFitGym>();
+
+        for(FlipFitGym flipFitGym : gyms){
+            if(!flipFitGym.isApproved())
+                filteredGyms.add(flipFitGym);
+        }
+
+        return filteredGyms;
     }
 
     @Override
     public List<FlipFitGym> getApprovedGymList() {
-        return List.of();
+        List<FlipFitGym> gyms = new ArrayList<>(FlipFitGymOwnerServiceImpl.flipFitGymMap.values());
+
+        List<FlipFitGym> filteredGyms = new ArrayList<FlipFitGym>();
+
+        for(FlipFitGym flipFitGym : gyms){
+            if(flipFitGym.isApproved())
+                filteredGyms.add(flipFitGym);
+        }
+
+        return filteredGyms;
     }
 
     @Override
@@ -43,17 +83,23 @@ public class FlipFitAdminServiceImpl implements FlipFitAdminService{
 
     @Override
     public List<FlipFitGym> getGyms() {
-        return List.of();
+        return new ArrayList<>(FlipFitGymOwnerServiceImpl.flipFitGymMap.values());
     }
 
     @Override
     public boolean validateGymOwner(int gymOwnerId) {
-        return false;
+        FlipFitGymOwner gymOwner = flipFitGymOwnerService.viewDetails(gymOwnerId);
+        gymOwner.setIsApproved(true);
+        flipFitGymOwnerService.editDetails(gymOwner);
+        return true;
     }
 
     @Override
     public boolean validateGym(int gymId) {
-        return false;
+        FlipFitGym flipFitGym = flipFitGymOwnerService.viewGym(gymId);
+        flipFitGym.setApproved(true);
+        flipFitGymOwnerService.updateGym(flipFitGym);
+        return true;
     }
 
     @Override

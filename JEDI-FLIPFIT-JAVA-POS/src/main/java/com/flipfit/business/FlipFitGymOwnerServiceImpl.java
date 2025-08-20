@@ -37,6 +37,17 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
     }
 
     @Override
+    public FlipFitGym updateGym(FlipFitGym gym) {
+        flipFitGymMap.put(gym.getGymID(), gym);
+        return gym;
+    }
+
+    @Override
+    public FlipFitGym viewGym(int gymId) {
+        return flipFitGymMap.get(gymId);
+    }
+
+    @Override
     public List<FlipFitGym> viewGyms(int gymOwnerId) {
         List<FlipFitGym> filteredGyms = new ArrayList<>();
 
