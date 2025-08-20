@@ -1,5 +1,7 @@
 package com.flipfit.bean;
 
+import com.flipfit.constant.ColorConstants;
+
 public class FlipFitNotification {
     private int notificationId;
     private int userId;
@@ -28,4 +30,18 @@ public class FlipFitNotification {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    @Override
+    public String toString() {
+        return "\n" + ColorConstants.PURPLE +
+                "╔════════════════════════════════════════════════╗\n" +
+                "║           🔔 FLIPFIT NOTIFICATION DETAILS      ║\n" +
+                "╠════════════════════════════════════════════════╣\n" +
+                String.format("║ 🆔 Notification ID : %-25s ║\n", notificationId) +
+                String.format("║ 👤 User ID         : %-25s ║\n", userId) +
+                String.format("║ 💬 Message         : %-25s ║\n", message) +
+                "╚════════════════════════════════════════════════╝" +
+                ColorConstants.RESET;
+    }
+
 }

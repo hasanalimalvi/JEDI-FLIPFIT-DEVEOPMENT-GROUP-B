@@ -1,5 +1,7 @@
 package com.flipfit.bean;
 
+import com.flipfit.constant.ColorConstants;
+
 public class FlipFitBooking {
     private int bookingId;
     public int userId;
@@ -37,4 +39,19 @@ public class FlipFitBooking {
     public void setUserId(int userId) {
         this.userId = userId;
     }
+
+    @Override
+    public String toString() {
+        return "\n" + ColorConstants.YELLOW +
+                "╔════════════════════════════════════════════════╗\n" +
+                "║             📅 FLIPFIT BOOKING DETAILS         ║\n" +
+                "╠════════════════════════════════════════════════╣\n" +
+                String.format("║ 🆔 Booking ID    : %-27s ║\n", bookingId) +
+                String.format("║ 👤 User ID       : %-27s ║\n", userId) +
+                String.format("║ ⏰ Slot ID       : %-27s ║\n", slotId) +
+                String.format("║ ❌ Cancelled     : %-27s ║\n", isCancelled ? "Yes" : "No") +
+                "╚════════════════════════════════════════════════╝" +
+                ColorConstants.RESET;
+    }
+
 }

@@ -3,6 +3,7 @@ package com.flipfit.business;
 import com.flipfit.bean.*;
 import com.flipfit.constant.ColorConstants;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,9 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
 
 
     static Map<Integer, FlipFitGymOwner> flipFitDirectCustomerMap = new HashMap<Integer,FlipFitGymOwner>();
+    static Map<Integer, FlipFitGym> flipFitGymMap = new HashMap<Integer,FlipFitGym>();
     static int gymOwnerIdCounter = 1;
+    static int gymIdCounter = 1;
 
     @Override
     public FlipFitGymOwner registerGymOwner(FlipFitGymOwner gymOwner) {
@@ -24,12 +27,28 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
 
     @Override
     public FlipFitGym addGym(FlipFitGym gym) {
-        return null;
+        gym.setGymID(gymIdCounter++);
+        flipFitGymMap.put(gym.getGymID(), gym);
+        System.out.println(ColorConstants.GREEN + "✅ Gym  registered successfully with ID: "
+                + gym.getGymID() + ColorConstants.RESET);
+        return gym;
     }
 
     @Override
-    public List<FlipFitGym> viewGyms(FlipFitGymOwner gymOwner) {
-        return List.of();
+    public List<FlipFitGym> viewGyms(int gymOwnerId) {
+        List<FlipFitGym> filteredGyms = new ArrayList<>();
+
+        for (FlipFitGym gym : flipFitGymMap.values()) {
+            if (gym.getGymOwnerID() == gymOwnerId) {
+                filteredGyms.add(gym);
+            }
+        }
+
+        if (filteredGyms.isEmpty()) {
+            System.out.println(ColorConstants.RED + "❗ No gyms found for Gym Owner ID: " + gymOwnerId + ColorConstants.RESET);
+        }
+
+        return filteredGyms;
     }
 
     @Override

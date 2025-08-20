@@ -1,5 +1,7 @@
 package com.flipfit.bean;
 
+import com.flipfit.constant.ColorConstants;
+
 public class FlipFitSlot {
     private int slotId;
     private int gymId;
@@ -46,4 +48,20 @@ public class FlipFitSlot {
     public void setTotalSeats(int totalSeats) {
         this.totalSeats = totalSeats;
     }
+
+    @Override
+    public String toString() {
+        return "\n" + ColorConstants.BLUE +
+                "╔════════════════════════════════════════════════╗\n" +
+                "║               🕒 FLIPFIT SLOT INFO             ║\n" +
+                "╠════════════════════════════════════════════════╣\n" +
+                String.format("║ 🆔 Slot ID       : %-27s ║\n", slotId) +
+                String.format("║ 🏋️ Gym ID        : %-27s ║\n", gymId) +
+                String.format("║ ⏰ Start Time     : %-27s ║\n", startTime) +
+                String.format("║ 💺 Seats Avail.  : %-27s ║\n", seatsAvailable) +
+                String.format("║ 🧮 Total Seats    : %-27s ║\n", totalSeats) +
+                "╚════════════════════════════════════════════════╝" +
+                ColorConstants.RESET;
+    }
+
 }

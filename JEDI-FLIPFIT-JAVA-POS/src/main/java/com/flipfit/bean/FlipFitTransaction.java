@@ -1,5 +1,7 @@
 package com.flipfit.bean;
 
+import com.flipfit.constant.ColorConstants;
+
 public class FlipFitTransaction {
     private int transactionId;
     private int userID;
@@ -37,4 +39,19 @@ public class FlipFitTransaction {
     public void setUserID(int userID) {
         this.userID = userID;
     }
+
+    @Override
+    public String toString() {
+        return "\n" + ColorConstants.CYAN +
+                "╔════════════════════════════════════════════════╗\n" +
+                "║           💳 FLIPFIT TRANSACTION INFO          ║\n" +
+                "╠════════════════════════════════════════════════╣\n" +
+                String.format("║ 🆔 Transaction ID : %-26s ║\n", transactionId) +
+                String.format("║ 👤 User ID        : %-26s ║\n", userID) +
+                String.format("║ 💰 Payment Type   : %-26s ║\n", paymentType) +
+                String.format("║ 🧾 Payment Info    : %-26s ║\n", paymentInfo) +
+                "╚════════════════════════════════════════════════╝" +
+                ColorConstants.RESET;
+    }
+
 }
