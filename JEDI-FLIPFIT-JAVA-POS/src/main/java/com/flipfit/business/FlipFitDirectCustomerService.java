@@ -23,5 +23,5 @@ public interface FlipFitDirectCustomerService {
     boolean cancelFlipFitBooking(int bookingId);
 
     //Slot
-    FlipFitSlot getSlotDetails(int gymId);
+    List<FlipFitSlot> getSlotsDetails(int gymId);
 }

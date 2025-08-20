@@ -43,7 +43,7 @@ public class FlipFitDirectCustomerMenu {
                     System.out.print("Enter Gym ID:> ");
                     int gymId = input.nextInt();
                     System.out.println("📅 Viewing slots for Gym ID " + gymId + "...");
-                    // Call method to view slots by gymId
+                    System.out.println(flipFitDirectCustomerService.getSlotsDetails(gymId));
                 }
                 case 3 -> {
                     System.out.println("📖 Viewing your bookings...");

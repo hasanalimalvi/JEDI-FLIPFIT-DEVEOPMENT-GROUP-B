@@ -79,9 +79,19 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
     }
 
     @Override
-    public FlipFitSlot getSlotDetails(int gymId) {
-        return null;
+    public List<FlipFitSlot> getSlotsDetails(int gymId) {
+        List<FlipFitSlot> filteredSlots = new ArrayList<>();
+
+        for (FlipFitSlot slot : FlipFitGymOwnerServiceImpl.flipFitSlotMap.values()) {
+            if (slot.getGymId() == gymId) {
+                filteredSlots.add(slot);
+            }
+        }
+
+        if (filteredSlots.isEmpty()) {
+            System.out.println(ColorConstants.RED + "❗ No slots found for Gym ID: " + gymId + ColorConstants.RESET);
+        }
+
+        return filteredSlots;
     }
-
-
 }

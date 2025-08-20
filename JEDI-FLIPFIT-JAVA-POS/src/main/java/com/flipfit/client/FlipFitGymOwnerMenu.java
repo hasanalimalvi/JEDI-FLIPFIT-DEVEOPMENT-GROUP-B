@@ -1,6 +1,7 @@
 package com.flipfit.client;
 
 import com.flipfit.bean.FlipFitGym;
+import com.flipfit.bean.FlipFitSlot;
 import com.flipfit.business.FlipFitGymOwnerService;
 import com.flipfit.business.FlipFitGymOwnerServiceImpl;
 import com.flipfit.constant.ColorConstants;
@@ -73,10 +74,47 @@ public class FlipFitGymOwnerMenu {
                 }
                 case 3 -> {
                     System.out.println("➕ Adding a new slot...");
+                    Scanner scanner = new Scanner(System.in);
+
+                    System.out.print("🏋️ Enter Gym ID: ");
+                    int gymId = scanner.nextInt();
+
+                    System.out.print("⏰ Enter Start Time (e.g., 900 for 9:00 AM): ");
+                    int startTime = scanner.nextInt();
+
+                    System.out.print("💺 Enter Total Seats: ");
+                    int totalSeats = scanner.nextInt();
+
+                    System.out.print("🪑 Enter Seats Available: ");
+                    int seatsAvailable = scanner.nextInt();
+
+
+                    FlipFitSlot newSlot = new FlipFitSlot();
+                    newSlot.setGymId(gymId);
+                    newSlot.setStartTime(startTime);
+                    newSlot.setTotalSeats(totalSeats);
+                    newSlot.setSeatsAvailable(seatsAvailable);
+
+
+                    flipFitGymOwnerService.addSlot(newSlot);
+                    System.out.println("✅ Slot added successfully!");
+                    System.out.println(newSlot);
 
                 }
                 case 4 -> {
                     System.out.println("🗑️ Deleting a slot...");
+                    Scanner scanner = new Scanner(System.in);
+
+                    System.out.print("⏰ Enter Slot ID: ");
+                    int slotId = scanner.nextInt();
+
+                    boolean deleted = flipFitGymOwnerService.deleteSlot(slotId); // Call your deletion logic
+
+                    if (deleted) {
+                        System.out.println(ColorConstants.GREEN + "✅ Slot deleted successfully!" + ColorConstants.RESET);
+                    } else {
+                        System.out.println(ColorConstants.RED + "❌ Slot not found or could not be deleted." + ColorConstants.RESET);
+                    }
 
                 }
                 case 5 -> {

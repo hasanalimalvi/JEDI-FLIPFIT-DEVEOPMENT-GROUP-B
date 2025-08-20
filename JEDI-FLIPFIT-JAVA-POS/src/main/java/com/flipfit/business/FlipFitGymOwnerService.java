@@ -22,4 +22,5 @@ public interface FlipFitGymOwnerService {
 
     //Slot
     FlipFitSlot addSlot(FlipFitSlot slot);
+    boolean deleteSlot(int slotId);
 }
