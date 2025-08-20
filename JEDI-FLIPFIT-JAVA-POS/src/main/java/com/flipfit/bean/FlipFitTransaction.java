@@ -1,6 +1,6 @@
 package com.flipfit.bean;
 
-public class Transaction {
+public class FlipFitTransaction {
     private int transactionId;
     private int userID;
     private int paymentType;

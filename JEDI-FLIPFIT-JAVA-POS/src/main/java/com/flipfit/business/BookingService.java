@@ -1,8 +1,8 @@
 package com.flipfit.business;
 
-import com.flipfit.bean.Booking;
+import com.flipfit.bean.FlipFitBooking;
 
 public interface BookingService {
-    Booking makeBooking(int customerID, int gymID, int slotId);
+    FlipFitBooking makeBooking(int customerID, int gymID, int slotId);
     boolean cancelBooking(int bookingId);
 }

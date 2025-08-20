@@ -1,11 +1,11 @@
 package com.flipfit.bean;
 
-public class Gym {
+public class FlipFitGym {
     private int gymID;
     private int gymOwnerID;
     private String address;
     private String pincode;
-    private boolean approved;
+    private boolean isApproved;
     private String description;
 
     public String getAddress() {
@@ -17,11 +17,11 @@ public class Gym {
     }
 
     public boolean isApproved() {
-        return approved;
+        return isApproved;
     }
 
     public void setApproved(boolean approved) {
-        this.approved = approved;
+        isApproved = approved;
     }
 
     public String getDescription() {

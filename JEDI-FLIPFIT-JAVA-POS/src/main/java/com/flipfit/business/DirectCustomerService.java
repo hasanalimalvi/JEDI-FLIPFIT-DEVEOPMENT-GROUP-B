@@ -1,17 +1,17 @@
 package com.flipfit.business;
 
-import com.flipfit.bean.Booking;
-import com.flipfit.bean.DirectCustomer;
-import com.flipfit.bean.Gym;
+import com.flipfit.bean.FlipFitBooking;
+import com.flipfit.bean.FlipFitDirectCustomer;
+import com.flipfit.bean.FlipFitGym;
 
 import java.util.List;
 
 public interface DirectCustomerService {
-    List<Booking> viewBookedSlots(int userId);
-    Booking checkBookingConflicts(int userId, int slotTime);
-    DirectCustomer viewDetails(int customerId);
-    DirectCustomer registerCustomer(DirectCustomer directCustomer);
-    DirectCustomer editDetails(DirectCustomer directCustomer);
-    List<Gym> viewGyms();
+    List<FlipFitBooking> viewBookedSlots(int userId);
+    FlipFitBooking checkBookingConflicts(int userId, int slotTime);
+    FlipFitDirectCustomer viewDetails(int customerId);
+    FlipFitDirectCustomer registerCustomer(FlipFitDirectCustomer directCustomer);
+    FlipFitDirectCustomer editDetails(FlipFitDirectCustomer directCustomer);
+    List<FlipFitGym> viewGyms();
     boolean makePayment(int customerId);
 }

@@ -1,17 +1,16 @@
 package com.flipfit.business;
 
-import com.flipfit.bean.Gym;
-import com.flipfit.bean.GymOwner;
-import com.flipfit.bean.Slot;
-import com.flipfit.bean.Transaction;
+import com.flipfit.bean.FlipFitGym;
+import com.flipfit.bean.FlipFitGymOwner;
+import com.flipfit.bean.FlipFitTransaction;
 
 import java.util.List;
 
 public interface GymOwnerService {
-    GymOwner registerGymOwner(GymOwner gymOwner);
-    Gym addGym(Gym gym);
-    List<Gym> viewGyms(GymOwner gymOwner);
-    List<Transaction> viewTransactions();
-    GymOwner editDetails(GymOwner gymOwner);
+    FlipFitGymOwner registerGymOwner(FlipFitGymOwner gymOwner);
+    FlipFitGym addGym(FlipFitGym gym);
+    List<FlipFitGym> viewGyms(FlipFitGymOwner gymOwner);
+    List<FlipFitTransaction> viewTransactions();
+    FlipFitGymOwner editDetails(FlipFitGymOwner gymOwner);
 
 }

@@ -1,19 +1,10 @@
 package com.flipfit.bean;
 
-public class DirectCustomer extends User{
+public class FlipFitDirectCustomer extends FlipFitUser {
 
-    private int customerId;
     private String phoneNumber;
     private String city;
     private String pinCode;
-
-    public int getCustomerId() {
-        return customerId;
-    }
-
-    public void setCustomerId(int customerId) {
-        this.customerId = customerId;
-    }
 
     public String getPhoneNumber() {
         return phoneNumber;
