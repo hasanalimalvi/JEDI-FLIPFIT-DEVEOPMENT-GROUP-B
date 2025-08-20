@@ -11,7 +11,7 @@ import java.util.Map;
 public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
 
 
-    static Map<Integer, FlipFitGymOwner> flipFitDirectCustomerMap = new HashMap<Integer,FlipFitGymOwner>();
+    static Map<Integer, FlipFitGymOwner> flipFitGymOwnerMap = new HashMap<Integer,FlipFitGymOwner>();
     static Map<Integer, FlipFitGym> flipFitGymMap = new HashMap<Integer,FlipFitGym>();
     static Map<Integer, FlipFitSlot> flipFitSlotMap = new HashMap<Integer,FlipFitSlot>();
     static int gymOwnerIdCounter = 1;
@@ -21,7 +21,7 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
     @Override
     public FlipFitGymOwner registerGymOwner(FlipFitGymOwner gymOwner) {
         gymOwner.setUserId(gymOwnerIdCounter++);
-        flipFitDirectCustomerMap.put(gymOwner.getUserId(), gymOwner);
+        flipFitGymOwnerMap.put(gymOwner.getUserId(), gymOwner);
         System.out.println(ColorConstants.GREEN + "✅ Gym Owner registered successfully with ID: "
                 + gymOwner.getUserId() + ColorConstants.RESET);
         return gymOwner;
@@ -60,11 +60,25 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
 
     @Override
     public FlipFitGymOwner editDetails(FlipFitGymOwner gymOwner) {
-        return null;
+        flipFitGymOwnerMap.put(gymOwner.getUserId(), gymOwner);
+        return gymOwner;
+    }
+
+    @Override
+    public FlipFitGymOwner viewDetails(int gymOwnerId) {
+        FlipFitGymOwner gymOwner = flipFitGymOwnerMap.get(gymOwnerId);
+        if (gymOwner == null) {
+            System.out.println(ColorConstants.RED + "❗ Customer ID " + gymOwnerId + " not found." + ColorConstants.RESET);
+        }
+        return gymOwner;
     }
 
     @Override
     public boolean deleteGym(int gymId) {
+        if(flipFitGymMap.containsKey(gymId)){
+            flipFitGymMap.remove(gymId);
+            return true;
+        }
         return false;
     }
 
@@ -83,12 +97,6 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
         }
 
         return filteredSlots;
-    }
-
-
-    @Override
-    public FlipFitGym updateGym(FlipFitGym gym) {
-        return null;
     }
 
     @Override

@@ -10,13 +10,13 @@ import java.util.List;
 public interface FlipFitGymOwnerService {
     FlipFitGymOwner registerGymOwner(FlipFitGymOwner gymOwner);
     FlipFitGym addGym(FlipFitGym gym);
-    List<FlipFitGym> viewGyms(int gymId);
+    List<FlipFitGym> viewGyms(int gymOwnerId);
     List<FlipFitTransaction> viewTransactions();
     FlipFitGymOwner editDetails(FlipFitGymOwner gymOwner);
+    FlipFitGymOwner viewDetails(int gymOwnerId);
 
     boolean deleteGym(int gymId);
     List<FlipFitSlot> viewSlots(int gymId);
-    FlipFitGym updateGym(FlipFitGym gym);
 
     boolean login(String gymOwnerName, String password);
 

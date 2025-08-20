@@ -1,6 +1,7 @@
 package com.flipfit.client;
 
 import com.flipfit.bean.FlipFitGym;
+import com.flipfit.bean.FlipFitGymOwner;
 import com.flipfit.bean.FlipFitSlot;
 import com.flipfit.business.FlipFitGymOwnerService;
 import com.flipfit.business.FlipFitGymOwnerServiceImpl;
@@ -28,8 +29,10 @@ public class FlipFitGymOwnerMenu {
             ║  5 → 📖 View Bookings                      ║
             ║  6 → 👁️  View Profile                      ║
             ║  7 → ✏️  Edit Profile                      ║
-            ║  8 → 💳 View Payments                      ║
-            ║  9 → 🔓 Logout                             ║
+            ║  8 → 💳 View Payments                      ║ 
+            ║  9 ->  🗑️ Delete Gym                       ║
+            ║  10 → 📖 View Slots by GymId               ║
+            ║  11 → 🔓 Logout                            ║
             ╚════════════════════════════════════════════╝
             """ + ColorConstants.RESET);
 
@@ -108,7 +111,7 @@ public class FlipFitGymOwnerMenu {
                     System.out.print("⏰ Enter Slot ID: ");
                     int slotId = scanner.nextInt();
 
-                    boolean deleted = flipFitGymOwnerService.deleteSlot(slotId); // Call your deletion logic
+                    boolean deleted = flipFitGymOwnerService.deleteSlot(slotId);
 
                     if (deleted) {
                         System.out.println(ColorConstants.GREEN + "✅ Slot deleted successfully!" + ColorConstants.RESET);
@@ -122,18 +125,81 @@ public class FlipFitGymOwnerMenu {
 
                 }
                 case 6 -> {
+
+                    System.out.println("Enter Gym Owner Id : ");
+                    int id = input.nextInt();
+
                     System.out.println("👁️ Viewing your profile...");
+                    System.out.println(flipFitGymOwnerService.viewDetails(id));
 
                 }
                 case 7 -> {
-                    System.out.println("✏️ Editing your profile...");
+                    System.out.println("✏️ Editing GymOwner profile...");
+                    Scanner scanner = new Scanner(System.in);
 
+                    System.out.print("🆔 Enter your GymOwner ID: ");
+                    int ownerId = scanner.nextInt();
+                    scanner.nextLine(); // consume newline
+
+                    FlipFitGymOwner gymOwner = flipFitGymOwnerService.viewDetails(ownerId);
+
+                    if (gymOwner == null) {
+                        System.out.println(ColorConstants.RED + "❌ No GymOwner found with ID: " + ownerId + ColorConstants.RESET);
+                        break;
+                    }
+
+                    System.out.println(ColorConstants.YELLOW + "📝 Leave field blank to keep current value." + ColorConstants.RESET);
+
+                    System.out.print("👤 New Name (" + gymOwner.getUsername() + "): ");
+                    String name = scanner.nextLine();
+                    if (!name.isBlank()) gymOwner.setUsername(name);
+
+                    System.out.print("📧 New Email (" + gymOwner.getEmail() + "): ");
+                    String email = scanner.nextLine();
+                    if (!email.isBlank()) gymOwner.setEmail(email);
+
+                    System.out.print("📱 New Phone Number (" + gymOwner.getPhoneNumber() + "): ");
+                    String phone = scanner.nextLine();
+                    if (!phone.isBlank()) gymOwner.setPhoneNumber(phone);
+
+
+                    System.out.print("📍 New City (" + gymOwner.getCity() + "): ");
+                    String location = scanner.nextLine();
+                    if (!location.isBlank()) gymOwner.setCity(location);
+
+                    flipFitGymOwnerService.editDetails(gymOwner);
+                    System.out.println(ColorConstants.GREEN + "✅ GymOwner profile updated successfully!" + ColorConstants.RESET);
+                    System.out.println(gymOwner);
                 }
                 case 8 -> {
                     System.out.println("💳 Viewing payments...");
 
                 }
                 case 9 -> {
+                    System.out.println("💳 Deleting Gym...");
+
+                    System.out.println("Enter Gym Id :");
+                    int gymId = input.nextInt();
+
+
+                    boolean deleted = flipFitGymOwnerService.deleteGym(gymId);
+
+                    if (deleted) {
+                        System.out.println(ColorConstants.GREEN + "✅ Gym deleted successfully!" + ColorConstants.RESET);
+                    } else {
+                        System.out.println(ColorConstants.RED + "❌ Gym not found or could not be deleted." + ColorConstants.RESET);
+                    }
+
+                }
+                case 10 -> {
+                    System.out.println(ColorConstants.YELLOW + "📖 Viewing Slots..." + ColorConstants.RESET);
+
+                    System.out.println("Enter Gym Id : ");
+                    int id = input.nextInt();
+
+                    System.out.println(flipFitGymOwnerService.viewSlots(id));
+                }
+                case 11 -> {
                     System.out.println(ColorConstants.YELLOW + "🔓 Logging out... Stay fit!" + ColorConstants.RESET);
                 }
                 default -> {
@@ -141,6 +207,6 @@ public class FlipFitGymOwnerMenu {
                 }
             }
 
-        } while (choice != 9);
+        } while (choice != 11);
     }
 }

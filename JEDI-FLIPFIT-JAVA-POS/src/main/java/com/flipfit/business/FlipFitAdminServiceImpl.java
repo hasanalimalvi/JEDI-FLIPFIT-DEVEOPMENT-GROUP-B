@@ -38,7 +38,7 @@ public class FlipFitAdminServiceImpl implements FlipFitAdminService{
 
     @Override
     public List<FlipFitGymOwner> getGymOwners() {
-        return new ArrayList<>(FlipFitGymOwnerServiceImpl.flipFitDirectCustomerMap.values());
+        return new ArrayList<>(FlipFitGymOwnerServiceImpl.flipFitGymOwnerMap.values());
     }
 
     @Override
