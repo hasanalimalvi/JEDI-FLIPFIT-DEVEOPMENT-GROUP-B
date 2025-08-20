@@ -16,4 +16,5 @@ public interface AdminService {
     List<FlipFitGym> getGyms();
     boolean validateGymOwner(int gymOwnerId);
     boolean validateGym(int gymId);
+    boolean login(String adminName, String password);
 }

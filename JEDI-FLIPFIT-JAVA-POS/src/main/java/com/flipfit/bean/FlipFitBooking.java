@@ -6,7 +6,7 @@ public class FlipFitBooking {
     private int slotId;
     private boolean isCancelled;
 
-    public int getBookingId() {
+    public int getFlipFitBookingId() {
         return bookingId;
     }
 
