@@ -29,4 +29,13 @@ public class FlipFitDirectCustomer extends FlipFitUser {
     public void setPinCode(String pinCode) {
         this.pinCode = pinCode;
     }
+
+    @Override
+    public String toString() {
+        return "FlipFitDirectCustomer{" +
+                "phoneNumber='" + phoneNumber + '\'' +
+                ", city='" + city + '\'' +
+                ", pinCode='" + pinCode + '\'' +
+                '}';
+    }
 }

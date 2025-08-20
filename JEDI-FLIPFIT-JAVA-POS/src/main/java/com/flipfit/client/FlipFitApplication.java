@@ -1,5 +1,8 @@
 package com.flipfit.client;
 
+import com.flipfit.bean.FlipFitDirectCustomer;
+import com.flipfit.constant.ColorConstants;
+
 import java.util.Scanner;
 
 public class FlipFitApplication {
@@ -61,7 +64,36 @@ public class FlipFitApplication {
             }
             case 2 : {
 
+                System.out.println(ColorConstants.BLUE + "=========== Registration of Gym Customer ===========" + ColorConstants.RESET);
 
+                System.out.print(ColorConstants.PURPLE + "Enter username:> " + ColorConstants.RESET);
+                String username = input.next();
+
+                System.out.print(ColorConstants.PURPLE + "Enter your email address:> " + ColorConstants.RESET);
+                String email = input.next();
+
+                System.out.print(ColorConstants.PURPLE + "Enter your phone number:> " + ColorConstants.RESET);
+                String phoneNumber = input.next();
+
+                System.out.print(ColorConstants.PURPLE + "Enter your city:> " + ColorConstants.RESET);
+                String city = input.next();
+
+                System.out.print(ColorConstants.PURPLE + "Enter your pin code:> " + ColorConstants.RESET);
+                String pinCode = input.next();
+
+                System.out.print(ColorConstants.PURPLE + "Enter your password:> " + ColorConstants.RESET);
+                String password = input.next();
+
+                FlipFitDirectCustomer gymCustomer = new FlipFitDirectCustomer();
+                gymCustomer.setUsername(username);
+                gymCustomer.setEmail(email);
+                gymCustomer.setPhoneNumber(phoneNumber);
+                gymCustomer.setCity(city);
+                gymCustomer.setPinCode(pinCode);
+                gymCustomer.setPassword(password);
+                gymCustomer.setRoleId(0);
+
+                System.out.println(gymCustomer);
                 break;
             }
             case 3 : {
