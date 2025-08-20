@@ -1,5 +1,7 @@
 package com.flipfit.bean;
 
+import com.flipfit.constant.ColorConstants;
+
 public class FlipFitDirectCustomer extends FlipFitUser {
 
     private String phoneNumber;
@@ -32,10 +34,19 @@ public class FlipFitDirectCustomer extends FlipFitUser {
 
     @Override
     public String toString() {
-        return "FlipFitDirectCustomer{" +
-                "phoneNumber='" + phoneNumber + '\'' +
-                ", city='" + city + '\'' +
-                ", pinCode='" + pinCode + '\'' +
-                '}';
+        return "\n" + ColorConstants.CYAN +
+                "╔════════════════════════════════════════════════╗\n" +
+                "║           💪 FLIPFIT CUSTOMER PROFILE          ║\n" +
+                "╠════════════════════════════════════════════════╣\n" +
+                String.format("║ 🆔 User ID       : %-27s ║\n", getUserId()) +
+                String.format("║ 👤 Username      : %-27s ║\n", getUsername()) +
+                String.format("║ 📧 Email         : %-27s ║\n", getEmail()) +
+                String.format("║ 🔒 Password      : %-27s ║\n", getPassword()) +
+                String.format("║ 🧬 Role ID       : %-27s ║\n", getRoleId()) +
+                String.format("║ 📱 Phone Number  : %-27s ║\n", phoneNumber) +
+                String.format("║ 🏙️ City          : %-27s ║\n", city) +
+                String.format("║ 📮 Pin Code      : %-27s ║\n", pinCode) +
+                "╚════════════════════════════════════════════════╝" +
+                ColorConstants.RESET;
     }
 }

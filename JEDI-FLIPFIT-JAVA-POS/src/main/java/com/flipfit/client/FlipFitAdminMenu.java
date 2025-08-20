@@ -1,14 +1,19 @@
 package com.flipfit.client;
 
+import com.flipfit.constant.ColorConstants;
+
 public class FlipFitAdminMenu {
-    public void getAdminMenu(){
-        System.out.println("""
-                        Choose an option:
-                         1. View Pending Requests
-                         2. View all Gym Owners
-                         3. View all Gym Customers
-                         4. View all Gyms
-                         5. Logout
-                        """);
+    public void getAdminMenu() {
+        System.out.println(ColorConstants.PURPLE + """
+                ╔════════════════════════════════════════════╗
+                ║           🧑‍💼 ADMIN DASHBOARD               ║
+                ╠════════════════════════════════════════════╣
+                ║  1 → 📨 View Pending Requests              ║
+                ║  2 → 🏢 View All Gym Owners                ║
+                ║  3 → 🧍 View All Gym Customers             ║
+                ║  4 → 🏋️  View All Gyms                     ║
+                ║  5 → 🔓 Logout                             ║
+                ╚════════════════════════════════════════════╝
+                """ + ColorConstants.RESET);
     }
 }
