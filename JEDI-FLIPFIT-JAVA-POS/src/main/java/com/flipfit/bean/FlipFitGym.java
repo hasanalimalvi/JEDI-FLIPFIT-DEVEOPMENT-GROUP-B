@@ -4,7 +4,7 @@ public class FlipFitGym {
     private int gymID;
     private int gymOwnerID;
     private String address;
-    private String pincode;
+    private String pinCode;
     private boolean isApproved;
     private String description;
 
@@ -48,11 +48,11 @@ public class FlipFitGym {
         this.gymOwnerID = gymOwnerID;
     }
 
-    public String getPincode() {
-        return pincode;
+    public String getPinCode() {
+        return pinCode;
     }
 
-    public void setPincode(String pincode) {
-        this.pincode = pincode;
+    public void setPinCode(String pinCode) {
+        this.pinCode = pinCode;
     }
 }

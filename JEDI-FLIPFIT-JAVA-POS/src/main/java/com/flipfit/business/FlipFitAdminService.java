@@ -6,7 +6,7 @@ import com.flipfit.bean.FlipFitGymOwner;
 
 import java.util.List;
 
-public interface AdminService {
+public interface FlipFitAdminService {
     List<FlipFitGymOwner> getPendingGymOwnerList();
     List<FlipFitGymOwner> getApprovedGymOwnerList();
     List<FlipFitGym> getPendingGymList();

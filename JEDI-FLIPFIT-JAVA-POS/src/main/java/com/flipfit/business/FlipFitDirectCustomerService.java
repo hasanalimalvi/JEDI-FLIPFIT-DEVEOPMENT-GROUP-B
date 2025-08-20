@@ -9,7 +9,7 @@ import com.flipfit.bean.FlipFitSlot;
 
 import java.util.List;
 
-public interface DirectCustomerService {
+public interface FlipFitDirectCustomerService {
     List<FlipFitBooking> viewBookedSlots(int userId);
     FlipFitBooking checkFlipFitBookingConflicts(int userId, int slotTime);
     FlipFitDirectCustomer viewDetails(int customerId);
