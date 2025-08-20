@@ -4,13 +4,17 @@ import com.flipfit.bean.FlipFitBooking;
 import com.flipfit.bean.FlipFitDirectCustomer;
 import com.flipfit.bean.FlipFitGym;
 import com.flipfit.bean.FlipFitSlot;
+import com.flipfit.constant.ColorConstants;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerService{
 
-    static List<FlipFitDirectCustomer> flipFitDirectCustomers = new ArrayList<FlipFitDirectCustomer>();
+    static Map<Integer, FlipFitDirectCustomer> flipFitDirectCustomerMap = new HashMap<Integer,FlipFitDirectCustomer>();
+    static int customerIdCounter = 1;
 
 
 
@@ -26,14 +30,22 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
 
     @Override
     public FlipFitDirectCustomer viewDetails(int customerId) {
-        return null;
+        FlipFitDirectCustomer customer = flipFitDirectCustomerMap.get(customerId);
+        if (customer == null) {
+            System.out.println(ColorConstants.RED + "❗ Customer ID " + customerId + " not found." + ColorConstants.RESET);
+        }
+        return customer;
     }
+
 
     @Override
     public FlipFitDirectCustomer registerCustomer(FlipFitDirectCustomer directCustomer) {
-        flipFitDirectCustomers.add(directCustomer);
+        directCustomer.setUserId(customerIdCounter++);
+        flipFitDirectCustomerMap.put(directCustomer.getUserId(), directCustomer);
+        System.out.println(ColorConstants.GREEN + "✅ Customer registered successfully with ID: " + directCustomer.getUserId() + ColorConstants.RESET);
         return directCustomer;
     }
+
 
     @Override
     public FlipFitDirectCustomer editDetails(FlipFitDirectCustomer directCustomer) {

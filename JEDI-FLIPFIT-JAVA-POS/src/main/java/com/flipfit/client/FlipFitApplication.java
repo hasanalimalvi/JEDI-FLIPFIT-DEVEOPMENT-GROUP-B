@@ -4,6 +4,8 @@ import com.flipfit.bean.FlipFitDirectCustomer;
 import com.flipfit.bean.FlipFitGymOwner;
 import com.flipfit.business.FlipFitDirectCustomerService;
 import com.flipfit.business.FlipFitDirectCustomerServiceImpl;
+import com.flipfit.business.FlipFitGymOwnerService;
+import com.flipfit.business.FlipFitGymOwnerServiceImpl;
 import com.flipfit.constant.ColorConstants;
 
 import java.util.Scanner;
@@ -11,6 +13,7 @@ import java.util.Scanner;
 public class FlipFitApplication {
     public static void main(String[] args) {
         FlipFitDirectCustomerService flipFitDirectCustomerService = new FlipFitDirectCustomerServiceImpl();
+        FlipFitGymOwnerService flipFitGymOwnerService = new FlipFitGymOwnerServiceImpl();
         Scanner input = new Scanner(System.in);
         int flipfitMenuChoice;
 
@@ -154,6 +157,8 @@ public class FlipFitApplication {
                     gymOwner.setPanCard(panCard);
                     gymOwner.setIsApproved(false);
 
+                    flipFitGymOwnerService.registerGymOwner(gymOwner);
+                    System.out.println(ColorConstants.GREEN + "\n✅ Registration Successful! Here's your info:" + ColorConstants.RESET);
                     System.out.println(gymOwner);
 
                 }

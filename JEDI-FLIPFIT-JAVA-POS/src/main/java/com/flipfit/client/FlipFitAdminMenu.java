@@ -40,7 +40,7 @@ public class FlipFitAdminMenu {
                 }
                 case 2 -> {
                     System.out.println("🏢 Viewing all gym owners...");
-                    // Call method to view gym owners
+                    System.out.println(flipFitAdminService.getGymOwners());
                 }
                 case 3 -> {
                     System.out.println("🧍 Viewing all gym customers...");

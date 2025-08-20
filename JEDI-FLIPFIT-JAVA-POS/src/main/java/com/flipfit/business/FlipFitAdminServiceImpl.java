@@ -4,6 +4,7 @@ import com.flipfit.bean.FlipFitDirectCustomer;
 import com.flipfit.bean.FlipFitGym;
 import com.flipfit.bean.FlipFitGymOwner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class FlipFitAdminServiceImpl implements FlipFitAdminService{
@@ -32,13 +33,12 @@ public class FlipFitAdminServiceImpl implements FlipFitAdminService{
 
     @Override
     public List<FlipFitDirectCustomer> getCustomerList() {
-        List<FlipFitDirectCustomer> flipFitDirectCustomers = FlipFitDirectCustomerServiceImpl.flipFitDirectCustomers;
-        return flipFitDirectCustomers;
+        return new ArrayList<>(FlipFitDirectCustomerServiceImpl.flipFitDirectCustomerMap.values());
     }
 
     @Override
     public List<FlipFitGymOwner> getGymOwners() {
-        return List.of();
+        return new ArrayList<>(FlipFitGymOwnerServiceImpl.flipFitDirectCustomerMap.values());
     }
 
     @Override

@@ -1,5 +1,7 @@
 package com.flipfit.client;
 
+import com.flipfit.business.FlipFitDirectCustomerService;
+import com.flipfit.business.FlipFitDirectCustomerServiceImpl;
 import com.flipfit.constant.ColorConstants;
 
 import java.util.Scanner;
@@ -7,6 +9,7 @@ import java.util.Scanner;
 public class FlipFitDirectCustomerMenu {
     public void getDirectCustomerMenu() {
         Scanner input = new Scanner(System.in);
+        FlipFitDirectCustomerService flipFitDirectCustomerService = new FlipFitDirectCustomerServiceImpl();
         int choice;
 
         do {
@@ -52,8 +55,10 @@ public class FlipFitDirectCustomerMenu {
                     // Call method to cancel booking
                 }
                 case 6 -> {
+                    System.out.println("Enter your User Id : ");
+                    int id = input.nextInt();
                     System.out.println("👁️ Viewing your profile...");
-                    // Call method to view profile
+                    System.out.println(flipFitDirectCustomerService.viewDetails(id));
                 }
                 case 7 -> {
                     System.out.println("✏️ Editing your profile...");
