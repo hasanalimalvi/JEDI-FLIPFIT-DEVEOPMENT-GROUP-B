@@ -1,12 +1,15 @@
 package com.flipfit.client;
 
-import com.flipfit.bean.FlipFitGym;
-import com.flipfit.bean.FlipFitGymOwner;
-import com.flipfit.bean.FlipFitSlot;
+import com.flipfit.bean.*;
 import com.flipfit.business.FlipFitGymOwnerService;
 import com.flipfit.business.FlipFitGymOwnerServiceImpl;
 import com.flipfit.constant.ColorConstants;
 
+import java.sql.Time;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.Scanner;
 
 public class FlipFitGymOwnerMenu {
@@ -18,23 +21,24 @@ public class FlipFitGymOwnerMenu {
         int choice;
 
         do {
+
             System.out.println(ColorConstants.CYAN + """
-            ╔════════════════════════════════════════════╗
-            ║           🏢 GYM OWNER DASHBOARD           ║
-            ╠════════════════════════════════════════════╣
-            ║  1 → ➕ Add Gym                            ║
-            ║  2 → 🏋️  View Gyms                         ║
-            ║  3 → ➕ Add Slot                           ║
-            ║  4 → 🗑️  Delete Slot                       ║
-            ║  5 → 📖 View Bookings                      ║
-            ║  6 → 👁️  View Profile                      ║
-            ║  7 → ✏️  Edit Profile                      ║
-            ║  8 → 💳 View Payments                      ║ 
-            ║  9 ->  🗑️ Delete Gym                       ║
-            ║  10 → 📖 View Slots by GymId               ║
-            ║  11 → 🔓 Logout                            ║
-            ╚════════════════════════════════════════════╝
-            """ + ColorConstants.RESET);
+        ╔════════════════════════════════════════════╗
+        ║           🏢 GYM OWNER DASHBOARD           ║
+        ╠════════════════════════════════════════════╣
+        ║  1 → ➕ Add Gym                            ║
+        ║  2 → 🏋️  View Gyms                         ║
+        ║  3 → ➕ Add Slot                           ║
+        ║  4 → 🗑️  Delete Slot                       ║
+        ║  5 → 📖 View Bookings by GymId             ║
+        ║  6 → 👁️  View Profile                      ║
+        ║  7 → ✏️  Edit Profile                      ║
+        ║  8 → 💳 View Payments by GymId             ║ 
+        ║  9 → 🗑️ Delete Gym                         ║
+        ║ 10 → 📖 View Slots by GymId                ║
+        ║ 11 → 🔓 Logout                             ║
+        ╚════════════════════════════════════════════╝
+        """ + ColorConstants.RESET);
 
             System.out.print(ColorConstants.GREEN + "Enter your choice:> " + ColorConstants.RESET);
             choice = input.nextInt();
@@ -82,8 +86,16 @@ public class FlipFitGymOwnerMenu {
                     System.out.print("🏋️ Enter Gym ID: ");
                     int gymId = scanner.nextInt();
 
-                    System.out.print("⏰ Enter Start Time (e.g., 900 for 9:00 AM): ");
-                    int startTime = scanner.nextInt();
+                    System.out.print("⏰ Enter Start Time (HH:mm format, e.g., 09:00 or 14:30): ");
+                    String timeInput = scanner.next();
+                    LocalTime startTime;
+
+                    try {
+                        startTime = LocalTime.parse(timeInput, DateTimeFormatter.ofPattern("HH:mm"));
+                    } catch (DateTimeParseException e) {
+                        System.out.println("❌ Invalid time format. Please use HH:mm (e.g., 09:00).");
+                        return;
+                    }
 
                     System.out.print("💺 Enter Total Seats: ");
                     int totalSeats = scanner.nextInt();
@@ -91,18 +103,15 @@ public class FlipFitGymOwnerMenu {
                     System.out.print("🪑 Enter Seats Available: ");
                     int seatsAvailable = scanner.nextInt();
 
-
                     FlipFitSlot newSlot = new FlipFitSlot();
                     newSlot.setGymId(gymId);
-                    newSlot.setStartTime(startTime);
+                    newSlot.setStartTime(startTime); // assuming FlipFitSlot uses LocalTime
                     newSlot.setTotalSeats(totalSeats);
                     newSlot.setSeatsAvailable(seatsAvailable);
-
 
                     flipFitGymOwnerService.addSlot(newSlot);
                     System.out.println("✅ Slot added successfully!");
                     System.out.println(newSlot);
-
                 }
                 case 4 -> {
                     System.out.println("🗑️ Deleting a slot...");
@@ -121,9 +130,29 @@ public class FlipFitGymOwnerMenu {
 
                 }
                 case 5 -> {
-                    System.out.println("📖 Viewing bookings...");
+                    Scanner scanner = new Scanner(System.in);
+                    System.out.print("🏋️ Enter Gym ID to view bookings: ");
+                    int gymId = scanner.nextInt();
+
+                    List<FlipFitBooking> bookings = flipFitGymOwnerService.viewBookings(gymId);
+
+                    if (bookings.isEmpty()) {
+                        System.out.println(ColorConstants.RED + "⚠️ No active bookings found for Gym ID: " + gymId + ColorConstants.RESET);
+                    } else {
+                        System.out.println(ColorConstants.CYAN + "\n📖 Active Bookings for Gym ID: " + gymId + ColorConstants.RESET);
+                        for (FlipFitBooking booking : bookings) {
+                            System.out.println(ColorConstants.GREEN +
+                                    "╔══════════════════════════════════════╗\n" +
+                                    String.format("║ 📌 Booking ID : %-22d ║\n", booking.getBookingId()) +
+                                    String.format("║ 👤 User ID    : %-22d ║\n", booking.getUserId()) +
+                                    String.format("║ 🕒 Slot ID    : %-22d ║\n", booking.getSlotId()) +
+                                    "╚══════════════════════════════════════╝" +
+                                    ColorConstants.RESET);
+                        }
+                    }
 
                 }
+
                 case 6 -> {
 
                     System.out.println("Enter Gym Owner Id : ");
@@ -172,9 +201,33 @@ public class FlipFitGymOwnerMenu {
                     System.out.println(gymOwner);
                 }
                 case 8 -> {
-                    System.out.println("💳 Viewing payments...");
+                    Scanner scanner = new Scanner(System.in);
+                    System.out.print("🏋️ Enter Gym ID to view payments: ");
+                    int gymId = scanner.nextInt();
+
+                    System.out.println(ColorConstants.YELLOW + "💳 Fetching payments for Gym ID: " + gymId + "..." + ColorConstants.RESET);
+
+                    List<FlipFitTransaction> transactions = flipFitGymOwnerService.viewTransactions(gymId);
+
+                    if (transactions.isEmpty()) {
+                        System.out.println(ColorConstants.RED + "⚠️ No payments found for Gym ID: " + gymId + ColorConstants.RESET);
+                    } else {
+                        for (FlipFitTransaction txn : transactions) {
+                            System.out.println(ColorConstants.CYAN +
+                                    "╔════════════════════════════════════════════════╗\n" +
+                                    String.format("║ 🆔 Transaction ID : %-26d ║\n", txn.getTransactionId()) +
+                                    String.format("║ 👤 User ID        : %-26d ║\n", txn.getUserId()) +
+                                    String.format("║ 📌 Booking ID     : %-26d ║\n", txn.getBookingId()) +
+                                    String.format("║ 💰 Payment Type   : %-26d ║\n", txn.getPaymentType()) +
+                                    String.format("║ 💵 Amount         : ₹%-25.2f ║\n", txn.getAmount()) +
+                                    "╚════════════════════════════════════════════════╝" +
+                                    ColorConstants.RESET);
+                        }
+                    }
+
 
                 }
+
                 case 9 -> {
                     System.out.println("💳 Deleting Gym...");
 

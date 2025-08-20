@@ -62,7 +62,7 @@ public class FlipFitGym {
     public String toString() {
         return "\n" + ColorConstants.GREEN +
                 "╔════════════════════════════════════════════════╗\n" +
-                "║              🏋️ FLIPFIT GYM PROFILE           ║\n" +
+                "║              🏋️ FLIPFIT GYM PROFILE            ║\n" +
                 "╠════════════════════════════════════════════════╣\n" +
                 String.format("║ 🆔 Gym ID        : %-27s ║\n", gymID) +
                 String.format("║ 👤 Owner ID      : %-27s ║\n", gymOwnerID) +

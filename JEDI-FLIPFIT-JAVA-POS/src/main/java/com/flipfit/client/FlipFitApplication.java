@@ -48,6 +48,10 @@ public class FlipFitApplication {
                     System.out.print("🔑 Password:> ");
                     String password = input.next();
 
+
+
+
+
                     System.out.println(ColorConstants.YELLOW + """
                             ╔════════════════════════════════════════════╗
                             ║              SELECT YOUR ROLE              ║

@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.flipfit.business.FlipFitDirectCustomerServiceImpl.bookingMap;
+
 public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
 
 
@@ -65,8 +67,24 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
     }
 
     @Override
-    public List<FlipFitTransaction> viewTransactions() {
-        return List.of();
+    public List<FlipFitTransaction> viewTransactions(int gymId) {
+        List<FlipFitTransaction> result = new ArrayList<>();
+
+        for (FlipFitTransaction transaction : FlipFitDirectCustomerServiceImpl.transactionMap.values()) {
+            int bookingId = transaction.getBookingId();
+            FlipFitBooking booking = bookingMap.get(bookingId);
+
+            if (booking != null) {
+                int slotId = booking.getSlotId();
+                FlipFitSlot slot = flipFitSlotMap.get(slotId);
+
+                if (slot != null && slot.getGymId() == gymId) {
+                    result.add(transaction);
+                }
+            }
+        }
+
+        return result;
     }
 
     @Override
@@ -132,4 +150,24 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
         }
         return false;
     }
+
+    @Override
+    public List<FlipFitBooking> viewBookings(int gymId) {
+        List<FlipFitBooking> result = new ArrayList<>();
+
+        for (FlipFitSlot slot : flipFitSlotMap.values()) {
+            if (slot.getGymId() == gymId) {
+                int slotId = slot.getSlotId();
+
+                for (FlipFitBooking booking : FlipFitDirectCustomerServiceImpl.bookingMap.values()) {
+                    if (booking.getSlotId() == slotId && !booking.isCancelled()) {
+                        result.add(booking);
+                    }
+                }
+            }
+        }
+
+        return result;
+    }
+
 }

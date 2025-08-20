@@ -4,17 +4,28 @@ import com.flipfit.constant.ColorConstants;
 
 public class FlipFitTransaction {
     private int transactionId;
-    private int userID;
+    private int userId;
+    private int bookingId;
     private int paymentType;
-    private String paymentInfo;
+    private double amount;
 
-    public String getPaymentInfo() {
-        return paymentInfo;
+    public int getBookingId() {
+        return bookingId;
     }
 
-    public void setPaymentInfo(String paymentInfo) {
-        this.paymentInfo = paymentInfo;
+    public void setBookingId(int bookingId) {
+        this.bookingId = bookingId;
     }
+
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+
 
     public int getPaymentType() {
         return paymentType;
@@ -32,12 +43,13 @@ public class FlipFitTransaction {
         this.transactionId = transactionId;
     }
 
-    public int getUserID() {
-        return userID;
+
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     @Override
@@ -47,11 +59,13 @@ public class FlipFitTransaction {
                 "║           💳 FLIPFIT TRANSACTION INFO          ║\n" +
                 "╠════════════════════════════════════════════════╣\n" +
                 String.format("║ 🆔 Transaction ID : %-26s ║\n", transactionId) +
-                String.format("║ 👤 User ID        : %-26s ║\n", userID) +
+                String.format("║ 👤 User ID        : %-26s ║\n", userId) +
+                String.format("║ 📌 Booking ID     : %-26s ║\n", bookingId) +
                 String.format("║ 💰 Payment Type   : %-26s ║\n", paymentType) +
-                String.format("║ 🧾 Payment Info    : %-26s ║\n", paymentInfo) +
+                String.format("║ 💵 Amount         : ₹%-25.2f ║\n", amount) +
                 "╚════════════════════════════════════════════════╝" +
                 ColorConstants.RESET;
     }
+
 
 }

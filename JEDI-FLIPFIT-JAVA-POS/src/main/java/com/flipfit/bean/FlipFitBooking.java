@@ -2,11 +2,17 @@ package com.flipfit.bean;
 
 import com.flipfit.constant.ColorConstants;
 
+import java.time.LocalDate;
+
 public class FlipFitBooking {
     private int bookingId;
     public int userId;
     private int slotId;
     private boolean isCancelled;
+
+    public int getBookingId() {
+        return bookingId;
+    }
 
     public int getFlipFitBookingId() {
         return bookingId;

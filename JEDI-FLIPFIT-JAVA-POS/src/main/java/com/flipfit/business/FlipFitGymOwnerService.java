@@ -1,9 +1,6 @@
 package com.flipfit.business;
 
-import com.flipfit.bean.FlipFitGym;
-import com.flipfit.bean.FlipFitGymOwner;
-import com.flipfit.bean.FlipFitSlot;
-import com.flipfit.bean.FlipFitTransaction;
+import com.flipfit.bean.*;
 
 import java.util.List;
 
@@ -13,7 +10,7 @@ public interface FlipFitGymOwnerService {
     FlipFitGym updateGym(FlipFitGym gym);
     FlipFitGym viewGym(int gymId);
     List<FlipFitGym> viewGyms(int gymOwnerId);
-    List<FlipFitTransaction> viewTransactions();
+    List<FlipFitTransaction> viewTransactions(int gymId);
     FlipFitGymOwner editDetails(FlipFitGymOwner gymOwner);
     FlipFitGymOwner viewDetails(int gymOwnerId);
 
@@ -25,4 +22,5 @@ public interface FlipFitGymOwnerService {
     //Slot
     FlipFitSlot addSlot(FlipFitSlot slot);
     boolean deleteSlot(int slotId);
+    List<FlipFitBooking> viewBookings(int gymId);
 }

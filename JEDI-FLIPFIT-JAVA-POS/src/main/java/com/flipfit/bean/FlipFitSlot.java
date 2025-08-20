@@ -2,10 +2,13 @@ package com.flipfit.bean;
 
 import com.flipfit.constant.ColorConstants;
 
+import java.sql.Time;
+import java.time.LocalTime;
+
 public class FlipFitSlot {
     private int slotId;
     private int gymId;
-    private int startTime;
+    private LocalTime startTime;
     private int seatsAvailable;
     private int totalSeats;
 
@@ -33,11 +36,11 @@ public class FlipFitSlot {
         this.slotId = slotId;
     }
 
-    public int getStartTime() {
+    public LocalTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(int startTime) {
+    public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
 
