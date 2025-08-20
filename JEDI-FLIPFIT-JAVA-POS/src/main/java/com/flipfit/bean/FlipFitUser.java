@@ -46,17 +46,4 @@ public class FlipFitUser {
     public void setRoleId(int roleId) {
         this.roleId = roleId;
     }
-
-    @Override
-    public String toString() {
-        return "FlipFitUser{" +
-                "userId=" + userId +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", roleId=" + roleId +
-                '}';
-    }
-
-
 }

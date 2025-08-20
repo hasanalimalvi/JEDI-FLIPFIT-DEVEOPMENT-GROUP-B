@@ -1,6 +1,7 @@
 package com.flipfit.client;
 
 import com.flipfit.bean.FlipFitDirectCustomer;
+import com.flipfit.bean.FlipFitGymOwner;
 import com.flipfit.constant.ColorConstants;
 
 import java.util.Scanner;
@@ -12,7 +13,7 @@ public class FlipFitApplication {
 
         System.out.println(ColorConstants.CYAN + """
                 ╔════════════════════════════════════════════╗
-                ║        WELCOME TO THE FLIPFIT APP 💪        ║
+                ║        WELCOME TO THE FLIPFIT APP 💪       ║
                 ╚════════════════════════════════════════════╝
                 """ + ColorConstants.RESET);
 
@@ -107,8 +108,50 @@ public class FlipFitApplication {
                 }
 
                 case 3 -> {
-                    System.out.println(ColorConstants.BLUE + "\n🏢 REGISTRATION - GYM OWNER 🏢" + ColorConstants.RESET);
-                    // You can add similar prompts and formatting here for Gym Owner registration
+                    System.out.println(ColorConstants.BLUE + "=========== Registration of Gym Owner ===========" + ColorConstants.RESET);
+
+                    System.out.print(ColorConstants.PURPLE + "Enter username:> " + ColorConstants.RESET);
+                    String username = input.next();
+
+                    System.out.print(ColorConstants.PURPLE + "Enter your password:> " + ColorConstants.RESET);
+                    String password = input.next();
+
+                    System.out.print(ColorConstants.PURPLE + "Enter your email address:> " + ColorConstants.RESET);
+                    String email = input.next();
+
+                    System.out.print(ColorConstants.PURPLE + "Enter your phone number:> " + ColorConstants.RESET);
+                    String phoneNumber = input.next();
+
+                    System.out.print(ColorConstants.PURPLE + "Enter your city:> " + ColorConstants.RESET);
+                    String city = input.next();
+
+                    System.out.print(ColorConstants.PURPLE + "Enter your pin code:> " + ColorConstants.RESET);
+                    String pinCode = input.next();
+
+                    System.out.print(ColorConstants.PURPLE + "Enter your panCard:> " + ColorConstants.RESET);
+                    String panCard = input.next();
+
+                    System.out.print(ColorConstants.PURPLE + "Enter your gstin:> " + ColorConstants.RESET);
+                    String gstin = input.next();
+
+                    System.out.print(ColorConstants.PURPLE + "Enter your aadharNumber:> " + ColorConstants.RESET);
+                    String aadharNumber = input.next();
+
+                    FlipFitGymOwner gymOwner = new FlipFitGymOwner();
+                    gymOwner.setEmail(email);
+                    gymOwner.setPassword(password);
+                    gymOwner.setPhoneNumber(phoneNumber);
+                    gymOwner.setCity(city);
+                    gymOwner.setPinCode(pinCode);
+                    gymOwner.setUsername(username);
+                    gymOwner.setRoleId(1);
+                    gymOwner.setGstin(gstin);
+                    gymOwner.setAadharNumber(aadharNumber);
+                    gymOwner.setPanCard(panCard);
+                    gymOwner.setIsApproved(false);
+
+                    System.out.println(gymOwner);
+
                 }
 
                 case 4 -> {
