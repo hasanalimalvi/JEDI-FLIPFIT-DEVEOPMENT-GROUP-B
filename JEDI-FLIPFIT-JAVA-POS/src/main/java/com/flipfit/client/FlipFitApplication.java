@@ -16,13 +16,6 @@ public class FlipFitApplication {
         Scanner input = new Scanner(System.in);
         int flipfitMenuChoice;
 
-        FlipFitAdmin admin = new FlipFitAdmin();
-        admin.setUsername("admin");
-        admin.setPassword("admin");
-        admin.setUserId(1);
-
-        FlipFitAdminServiceImpl.flipFitAdminMap.put(1, admin);
-
         System.out.println(ColorConstants.CYAN + """
                 ╔════════════════════════════════════════════╗
                 ║        WELCOME TO THE FLIPFIT APP 💪       ║

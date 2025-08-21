@@ -67,7 +67,7 @@ public class FlipFitGymOwnerMenu {
                     newGym.setDescription(description);
                     newGym.setApproved(false);
 
-                    flipFitGymOwnerService.addGym(newGym);
+                    System.out.println(flipFitGymOwnerService.addGym(newGym));
 
                 }
                 case 2 -> {

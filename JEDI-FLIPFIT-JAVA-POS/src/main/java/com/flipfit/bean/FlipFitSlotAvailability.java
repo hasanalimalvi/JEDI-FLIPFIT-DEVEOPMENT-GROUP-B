@@ -30,12 +30,12 @@ public class FlipFitSlotAvailability extends FlipFitSlot {
                 "╔════════════════════════════════════════════════════════════╗\n" +
                 "║                  🕒 FLIPFIT SLOT AVAILABILITY              ║\n" +
                 "╠════════════════════════════════════════════════════════════╣\n" +
-                String.format("║ 🆔 Slot ID         : %-40s ║\n", getSlotId()) +
-                String.format("║ 🏋️ Gym ID          : %-40s ║\n", getGymId()) +
-                String.format("║ ⏰ Start Time       : %-40s ║\n", getStartTime()) +
-                String.format("║ 🧮 Total Seats      : %-40s ║\n", getTotalSeats()) +
-                String.format("║ ✅ Seats Available  : %-40s ║\n", seatsAvailable) +
-                String.format("║ 📅 Date             : %-40s ║\n", date) +
+                String.format("║ 🆔 Slot ID         : %-36s  ║\n", getSlotId()) +
+                String.format("║ 🏋️ Gym ID          : %-36s  ║\n", getGymId()) +
+                String.format("║ ⏰ Start Time       : %-36s ║\n", getStartTime()) +
+                String.format("║ 🧮 Total Seats      : %-36s ║\n", getTotalSeats()) +
+                String.format("║ ✅ Seats Available  : %-36s ║\n", seatsAvailable) +
+                String.format("║ 📅 Date             : %-36s ║\n", date) +
                 "╚════════════════════════════════════════════════════════════╝" +
                 ColorConstants.RESET;
     }

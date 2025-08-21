@@ -20,7 +20,7 @@ public class FlipFitDirectCustomerMenu {
     ╔════════════════════════════════════════════╗
     ║         🧍 GYM CUSTOMER DASHBOARD          ║
     ╠════════════════════════════════════════════╣
-    ║  1 → 🏋️  View Gyms by Location             ║
+    ║  1 → 🏋️  View Gyms                         ║
     ║  2 → 📅 View Slots by Gym ID               ║
     ║  3 → 📖 View Bookings                      ║
     ║  4 → 🛎️  Book a Slot                       ║

@@ -8,31 +8,15 @@ import com.flipfit.dao.FlipFitDirectCustomerDAO;
 import com.flipfit.dao.FlipFitDirectCustomerDAOImpl;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerService{
 
-    static Map<Integer, FlipFitDirectCustomer> flipFitDirectCustomerMap = new HashMap<Integer,FlipFitDirectCustomer>();
-    static int customerIdCounter = 1;
-    static Map<Integer, FlipFitBooking> bookingMap = new HashMap<Integer, FlipFitBooking>();
-    static int bookingIdCounter = 1;
-    static Map<Integer, FlipFitTransaction> transactionMap = new HashMap<Integer, FlipFitTransaction>();
-    static int transactionIdCounter = 1;
-
     public static FlipFitDirectCustomer loggedInDirectCustomer = null;
-
-    static Map<Integer, FlipFitUser> userMap = new HashMap<Integer, FlipFitUser>();
-    static int userIdCounter = 1;
-
 
     FlipFitDirectCustomerDAO flipFitDirectCustomerDAO = new FlipFitDirectCustomerDAOImpl();
     FlipFitPaymentService flipFitPaymentService = new FlipFitPaymentServiceImpl();
     FlipFitAdminDAO flipFitAdminDAO = new FlipFitAdminDAOImpl();
-
-
 
     FlipFitGymOwnerService flipFitGymOwnerService = new FlipFitGymOwnerServiceImpl();
 

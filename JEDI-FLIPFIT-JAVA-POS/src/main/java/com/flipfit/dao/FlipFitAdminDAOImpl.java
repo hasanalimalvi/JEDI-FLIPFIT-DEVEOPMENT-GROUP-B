@@ -201,8 +201,7 @@ public class FlipFitAdminDAOImpl implements FlipFitAdminDAO{
         String sql = "SELECT u.userId, u.username, u.email, u.password, u.roleId, " +
                 "go.phoneNumber, go.city, go.pinCode, go.panCard, go.gstin, go.aadharNumber, go.isApproved " +
                 "FROM FlipFitUser u " +
-                "JOIN FlipFitGymOwner go ON u.userId = go.gymOwnerId " +
-                "WHERE u.roleId = (SELECT roleId FROM FlipFitRole WHERE roleName = 'GymOwner')"; // Filters by GymOwner role
+                "JOIN FlipFitGymOwner go ON u.userId = go.gymOwnerId";
 
         try (Connection conn = DBConnection.getConnection(); // Get connection from your DBConnection utility
              PreparedStatement stmt = conn.prepareStatement(sql);
@@ -254,7 +253,7 @@ public class FlipFitAdminDAOImpl implements FlipFitAdminDAO{
     @Override
     public List<FlipFitGym> getGyms() {
         List<FlipFitGym> gymList = new ArrayList<>();
-        String sql = "SELECT * FROM FlipFitGym";
+        String sql = "SELECT * FROM FlipFitGym AS ffg WHERE ffg.isApproved = true";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);

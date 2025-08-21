@@ -1,22 +1,15 @@
 package com.flipfit.business;
 
 import com.flipfit.bean.*;
-import com.flipfit.bean.FlipFitAdmin;
-import com.flipfit.bean.FlipFitDirectCustomer;
-import com.flipfit.bean.FlipFitGym;
-import com.flipfit.bean.FlipFitGymOwner;
 import com.flipfit.dao.FlipFitAdminDAO;
 import com.flipfit.dao.FlipFitAdminDAOImpl;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class FlipFitAdminServiceImpl implements FlipFitAdminService{
 
-    public static Map<Integer, FlipFitAdmin> flipFitAdminMap = new HashMap<Integer,FlipFitAdmin>();
-    FlipFitDirectCustomerServiceImpl flipFitDirectCustomerService = new FlipFitDirectCustomerServiceImpl();
+
+
     FlipFitGymOwnerServiceImpl flipFitGymOwnerService = new FlipFitGymOwnerServiceImpl();
     private final FlipFitAdminDAO flipFitAdminDAO = new FlipFitAdminDAOImpl();
     public static FlipFitAdmin loggedInAdmin = null;
@@ -75,10 +68,7 @@ public class FlipFitAdminServiceImpl implements FlipFitAdminService{
 
     @Override
     public List<FlipFitGymOwner> getGymOwners() {
-        // You need to instantiate the DAO or have it injected
-        // For simplicity, let's assume you're instantiating it here.
-        FlipFitAdminDAO adminDAO = new FlipFitAdminDAOImpl();
-        return adminDAO.getGymOwners();
+        return flipFitAdminDAO.getGymOwners();
     }
 
     @Override
