@@ -63,6 +63,7 @@ CREATE TABLE FlipFitBooking (
     userId INT,
     slotId INT,
     isCancelled BOOLEAN,
+    date DATE,
     FOREIGN KEY (userId) REFERENCES FlipFitUser(userId),
     FOREIGN KEY (slotId) REFERENCES FlipFitSlot(slotId)
 );
@@ -85,6 +86,8 @@ CREATE TABLE FlipFitSlotAvailability (
   FOREIGN KEY (slotId) REFERENCES FlipFitSlot(slotId) 
 );
 
-SET SQL_SAFE_UPDATES = 0;
-DELETE FROM FlipFitRole;
-SET SQL_SAFE_UPDATES = 1;
+INSERT INTO FlipFit_Schema.FlipFitRole (roleId, roleName)
+VALUES 
+  (1, 'Direct Customer'),
+  (2, 'Gyn Owner'),
+  (3, 'Admin');
