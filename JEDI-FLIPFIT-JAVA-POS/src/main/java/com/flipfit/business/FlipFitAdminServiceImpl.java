@@ -96,10 +96,7 @@ public class FlipFitAdminServiceImpl implements FlipFitAdminService{
 
     @Override
     public boolean validateGymOwner(int gymOwnerId) {
-        FlipFitGymOwner gymOwner = flipFitGymOwnerService.viewDetails(gymOwnerId);
-        gymOwner.setIsApproved(true);
-        flipFitGymOwnerService.editDetails(gymOwner);
-        return true;
+        return flipFitAdminDAO.validateGymOwner(gymOwnerId);
     }
 
     @Override

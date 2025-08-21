@@ -47,12 +47,40 @@ public class FlipFitAdminDAOImpl implements FlipFitAdminDAO{
 
     @Override
     public boolean validateGymOwner(int gymOwnerId) {
-        return false;
+        String updateSQL = "UPDATE FlipFitGymOwner SET isApproved = ? WHERE gymOwnerId = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
+
+            stmt.setBoolean(1, true);
+            stmt.setInt(2, gymOwnerId);
+
+            int affectedRows = stmt.executeUpdate();
+            return affectedRows > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
     public boolean validateGym(int gymId) {
-        return false;
+        String updateSQL = "UPDATE FlipFitGym SET status = ? WHERE gymId = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
+
+            stmt.setString(1, "approved");
+            stmt.setInt(2, gymId);
+
+            int affectedRows = stmt.executeUpdate();
+            return affectedRows > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
