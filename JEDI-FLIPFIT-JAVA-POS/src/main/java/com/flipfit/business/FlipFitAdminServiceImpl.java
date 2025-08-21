@@ -20,6 +20,7 @@ public class FlipFitAdminServiceImpl implements FlipFitAdminService{
     FlipFitGymOwnerServiceImpl flipFitGymOwnerService = new FlipFitGymOwnerServiceImpl();
     private final FlipFitAdminDAO flipFitAdminDAO = new FlipFitAdminDAOImpl();
     public static FlipFitAdmin loggedInAdmin = null;
+
     @Override
     public List<FlipFitGymOwner> getPendingGymOwnerList() {
         List<FlipFitGymOwner> pendingOwners = flipFitAdminDAO.getPendingGymOwnerList();
@@ -87,7 +88,8 @@ public class FlipFitAdminServiceImpl implements FlipFitAdminService{
 
     @Override
     public List<FlipFitGym> getGyms() {
-        return new ArrayList<>(FlipFitGymOwnerServiceImpl.flipFitGymMap.values());
+        return flipFitAdminDAO.getGyms();
+        // return new ArrayList<>(FlipFitGymOwnerServiceImpl.flipFitGymMap.values());
     }
 
     @Override

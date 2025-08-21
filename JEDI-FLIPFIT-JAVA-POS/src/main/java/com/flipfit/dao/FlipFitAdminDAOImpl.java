@@ -169,7 +169,28 @@ public class FlipFitAdminDAOImpl implements FlipFitAdminDAO{
     }
     @Override
     public List<FlipFitGym> getGyms() {
-        return List.of();
+        List<FlipFitGym> gymList = new ArrayList<>();
+        String sql = "SELECT * FROM FlipFitGym";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                FlipFitGym gym = new FlipFitGym();
+                gym.setGymID(rs.getInt("gymId"));
+                gym.setGymOwnerID(rs.getInt("gymOwnerID"));
+                gym.setAddress(rs.getString("address"));
+                gym.setPinCode(rs.getString("pinCode"));
+                gym.setApproved(rs.getBoolean("isApproved"));
+                gym.setDescription(rs.getString("description"));
+
+                gymList.add(gym);
+            }
+        } catch (SQLException e) {
+            System.err.println("Error retrieving gym list: " + e.getMessage());
+        }
+        return gymList;
     }
 
     @Override
