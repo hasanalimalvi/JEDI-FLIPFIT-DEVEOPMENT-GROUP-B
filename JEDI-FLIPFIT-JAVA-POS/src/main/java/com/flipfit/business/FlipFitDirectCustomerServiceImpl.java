@@ -64,10 +64,17 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
             return null;
         }
 
-        int customerId = directCustomer.getUserId(); // Make sure this getter exists
+        int customerId = directCustomer.getUserId();
 
-       flipFitDirectCustomerMap.put(customerId, directCustomer);
-        System.out.println("✅ Customer details updated for ID: " + customerId);
+        // Check if the user exists in the map
+        if (!flipFitDirectCustomerMap.containsKey(customerId)) {
+            System.out.println("❌ Customer with ID " + customerId + " not found. Cannot update profile.");
+            return null;
+        }
+
+        // If the customer exists, proceed with the update
+        flipFitDirectCustomerMap.put(customerId, directCustomer);
+        System.out.println("✅ Customer details updated successfully for ID: " + customerId);
 
         return directCustomer;
     }

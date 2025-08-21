@@ -167,7 +167,7 @@ public class FlipFitDirectCustomerMenu {
                     // Call the editDetails method
                     FlipFitDirectCustomer updatedCustomer = flipFitDirectCustomerService.editDetails(customer);
 
-                    System.out.println("✅ Profile updated successfully!");
+
                 }
 
                 case 8 -> {
