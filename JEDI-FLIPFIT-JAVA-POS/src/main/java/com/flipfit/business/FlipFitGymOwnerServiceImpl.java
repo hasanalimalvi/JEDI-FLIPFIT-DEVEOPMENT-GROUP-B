@@ -47,7 +47,13 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
 
     @Override
     public List<FlipFitGym> viewGyms(int gymOwnerId) {
-        return flipFitGymOwnerDAO.viewGyms(gymOwnerId);
+        List<FlipFitGym> filteredGyms = new ArrayList<>();
+        filteredGyms = flipFitGymOwnerDAO.viewGyms(gymOwnerId);
+
+        if (filteredGyms.isEmpty()) {
+            System.out.println(ColorConstants.RED + "❗ No gyms found for Gym Owner ID: " + gymOwnerId + ColorConstants.RESET);
+        }
+        return filteredGyms;
     }
 
     @Override
