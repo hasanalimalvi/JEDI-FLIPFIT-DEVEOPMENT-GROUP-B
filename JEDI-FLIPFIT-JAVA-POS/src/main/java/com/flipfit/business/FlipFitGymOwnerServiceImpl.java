@@ -6,6 +6,7 @@ import com.flipfit.dao.FlipFitDirectCustomerDAOImpl;
 import com.flipfit.dao.FlipFitGymOwnerDAO;
 import com.flipfit.dao.FlipFitGymOwnerDAOImpl;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -94,8 +95,8 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
     }
 
     @Override
-    public List<FlipFitSlot> viewSlots(int gymId) {
-        return flipFitGymOwnerDAO.viewSlots(gymId);
+    public List<FlipFitSlotAvailability> viewSlots(int gymId, LocalDate date) {
+        return flipFitGymOwnerDAO.viewSlots(gymId, date);
     }
 
     @Override

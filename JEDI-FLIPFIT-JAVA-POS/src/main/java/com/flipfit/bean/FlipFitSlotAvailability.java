@@ -1,19 +1,12 @@
 package com.flipfit.bean;
 
+import com.flipfit.constant.ColorConstants;
+
 import java.time.LocalDate;
 
-public class FlipFitSlotAvailability {
-    private int slotId;
+public class FlipFitSlotAvailability extends FlipFitSlot {
     private int seatsAvailable;
     private LocalDate date;
-
-    public int getSlotId() {
-        return slotId;
-    }
-
-    public void setSlotId(int slotId) {
-        this.slotId = slotId;
-    }
 
     public int getSeatsAvailable() {
         return seatsAvailable;
@@ -30,4 +23,21 @@ public class FlipFitSlotAvailability {
     public void setDate(LocalDate date) {
         this.date = date;
     }
+
+    @Override
+    public String toString() {
+        return "\n" + ColorConstants.BLUE +
+                "╔════════════════════════════════════════════════════════════╗\n" +
+                "║                  🕒 FLIPFIT SLOT AVAILABILITY              ║\n" +
+                "╠════════════════════════════════════════════════════════════╣\n" +
+                String.format("║ 🆔 Slot ID         : %-40s ║\n", getSlotId()) +
+                String.format("║ 🏋️ Gym ID          : %-40s ║\n", getGymId()) +
+                String.format("║ ⏰ Start Time       : %-40s ║\n", getStartTime()) +
+                String.format("║ 🧮 Total Seats      : %-40s ║\n", getTotalSeats()) +
+                String.format("║ ✅ Seats Available  : %-40s ║\n", seatsAvailable) +
+                String.format("║ 📅 Date             : %-40s ║\n", date) +
+                "╚════════════════════════════════════════════════════════════╝" +
+                ColorConstants.RESET;
+    }
+
 }

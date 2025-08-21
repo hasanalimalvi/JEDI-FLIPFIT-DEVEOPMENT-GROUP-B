@@ -4,11 +4,12 @@ import com.flipfit.bean.*;
 import com.flipfit.utils.DBConnection;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.List;
 
 public class FlipFitDirectCustomerDAOImpl implements FlipFitDirectCustomerDAO{
     @Override
-    public List<FlipFitSlot> viewSlots(int gymId) {
+    public List<FlipFitSlot> viewSlots(int gymId, LocalDate date) {
         return List.of();
     }
 

@@ -5,6 +5,7 @@ import com.flipfit.business.FlipFitDirectCustomerService;
 import com.flipfit.business.FlipFitDirectCustomerServiceImpl;
 import com.flipfit.constant.ColorConstants;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
@@ -43,8 +44,13 @@ public class FlipFitDirectCustomerMenu {
                 case 2 -> {
                     System.out.print("Enter Gym ID:> ");
                     int gymId = input.nextInt();
+
+                    System.out.println("Enter Date : ");
+                    String date = input.next();
+                    LocalDate dateObj = LocalDate.parse(date);
+
                     System.out.println("📅 Viewing slots for Gym ID " + gymId + "...");
-                    List<FlipFitSlot> flipFitSlots = flipFitDirectCustomerService.viewSlots(gymId);
+                    List<FlipFitSlotAvailability> flipFitSlots = flipFitDirectCustomerService.viewSlots(gymId, dateObj);
                     System.out.println(flipFitSlots);
                     // Call method to view slots by gymId
                 }

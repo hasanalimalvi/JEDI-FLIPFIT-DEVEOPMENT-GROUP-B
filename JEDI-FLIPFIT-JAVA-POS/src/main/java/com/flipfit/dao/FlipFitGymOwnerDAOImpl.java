@@ -4,6 +4,7 @@ import com.flipfit.bean.*;
 import com.flipfit.utils.DBConnection;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -304,23 +305,47 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
     }
 
     @Override
-    public List<FlipFitSlot> viewSlots(int gymId) {
-        String selectSlotsSQL = "SELECT slotId, gymId, startTime, seatsAvailable, totalSeats FROM FlipFitSlot WHERE gymId = ?";
-        List<FlipFitSlot> slots = new ArrayList<>();
+    public List<FlipFitSlotAvailability> viewSlots(int gymId, LocalDate date) {
+        String selectSlotsSQL = "SELECT s.slotId, s.gymId, s.startTime, s.totalSeats, a.seatsAvailable, a.date " +
+                "FROM FlipFitSlot s " +
+                "LEFT JOIN FlipFitSlotAvailability a ON s.slotId = a.slotId AND a.date = ? " +
+                "WHERE s.gymId = ?";
+
+        String insertAvailabilitySQL = "INSERT INTO FlipFitSlotAvailability (slotId, date, seatsAvailable) VALUES (?, ?, ?)";
+
+        List<FlipFitSlotAvailability> slots = new ArrayList<>();
 
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(selectSlotsSQL)) {
+             PreparedStatement selectStmt = conn.prepareStatement(selectSlotsSQL);
+             PreparedStatement insertStmt = conn.prepareStatement(insertAvailabilitySQL)) {
 
-            stmt.setInt(1, gymId);
-            ResultSet rs = stmt.executeQuery();
+            selectStmt.setDate(1, java.sql.Date.valueOf(date)); // for LEFT JOIN condition
+            selectStmt.setInt(2, gymId);
+
+            ResultSet rs = selectStmt.executeQuery();
 
             while (rs.next()) {
-                FlipFitSlot slot = new FlipFitSlot();
+                FlipFitSlotAvailability slot = new FlipFitSlotAvailability();
                 slot.setSlotId(rs.getInt("slotId"));
                 slot.setGymId(rs.getInt("gymId"));
                 slot.setStartTime(rs.getTime("startTime").toLocalTime());
-                slot.setSeatsAvailable(rs.getInt("seatsAvailable"));
                 slot.setTotalSeats(rs.getInt("totalSeats"));
+
+                int seatsAvailable = rs.getInt("seatsAvailable");
+                boolean availabilityExists = !rs.wasNull();
+
+                if (!availabilityExists) {
+                    insertStmt.setInt(1, slot.getSlotId());
+                    insertStmt.setDate(2, java.sql.Date.valueOf(date));
+                    insertStmt.setInt(3, slot.getTotalSeats());
+                    insertStmt.executeUpdate();
+
+                    slot.setSeatsAvailable(slot.getTotalSeats());
+                    slot.setDate(date); // manually set since it wasn't in result set
+                } else {
+                    slot.setSeatsAvailable(seatsAvailable);
+                    slot.setDate(rs.getDate("date").toLocalDate());
+                }
 
                 slots.add(slot);
             }
@@ -387,7 +412,7 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
 
     @Override
     public FlipFitSlot addSlot(FlipFitSlot slot) {
-        String insertSlotSQL = "INSERT INTO FlipFitSlot (gymId, startTime, seatsAvailable, totalSeats) VALUES (?, ?, ?, ?)";
+        String insertSlotSQL = "INSERT INTO FlipFitSlot (gymId, startTime, totalSeats) VALUES (?, ?, ?)";
 
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement slotStmt = conn.prepareStatement(insertSlotSQL, Statement.RETURN_GENERATED_KEYS)) {
@@ -395,8 +420,7 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
             // Set parameters
             slotStmt.setInt(1, slot.getGymId());
             slotStmt.setTime(2, Time.valueOf(slot.getStartTime()));
-            slotStmt.setInt(3, slot.getSeatsAvailable());
-            slotStmt.setInt(4, slot.getTotalSeats());
+            slotStmt.setInt(3, slot.getTotalSeats());
 
             // Execute insert
             slotStmt.executeUpdate();
@@ -419,15 +443,31 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
 
     @Override
     public boolean deleteSlot(int slotId) {
+        String deleteAvailabilitySQL = "DELETE FROM FlipFitSlotAvailability WHERE slotId = ?";
         String deleteSlotSQL = "DELETE FROM FlipFitSlot WHERE slotId = ?";
 
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(deleteSlotSQL)) {
+        try (Connection conn = DBConnection.getConnection()) {
+            conn.setAutoCommit(false); // Start transaction
 
-            stmt.setInt(1, slotId);
-            int affectedRows = stmt.executeUpdate();
+            try (PreparedStatement availabilityStmt = conn.prepareStatement(deleteAvailabilitySQL);
+                 PreparedStatement slotStmt = conn.prepareStatement(deleteSlotSQL)) {
 
-            return affectedRows > 0; // true if a row was deleted
+                // Delete from FlipFitSlotAvailability
+                availabilityStmt.setInt(1, slotId);
+                availabilityStmt.executeUpdate();
+
+                // Delete from FlipFitSlot
+                slotStmt.setInt(1, slotId);
+                int affectedRows = slotStmt.executeUpdate();
+
+                conn.commit(); // Commit transaction
+                return affectedRows > 0;
+
+            } catch (SQLException e) {
+                conn.rollback(); // Rollback on error
+                e.printStackTrace();
+                return false;
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();

@@ -33,8 +33,8 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
     FlipFitGymOwnerService flipFitGymOwnerService = new FlipFitGymOwnerServiceImpl();
 
     @Override
-    public List<FlipFitSlot> viewSlots(int gymId) {
-        return flipFitGymOwnerService.viewSlots(gymId);
+    public List<FlipFitSlotAvailability> viewSlots(int gymId, LocalDate date) {
+        return flipFitGymOwnerService.viewSlots(gymId, date);
     }
 
     @Override
@@ -106,11 +106,11 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
         }
 
         // Step 3: Check seat availability
-        if (newSlot.getSeatsAvailable() <= 0) {
-            System.out.println("⚠️ Booking failed: No seats available for Slot ID " + slotId +
-                    " at Gym ID " + newSlot.getGymId() + " starting at " + newSlot.getStartTime() + ".");
-            return null;
-        }
+//        if (newSlot.getSeatsAvailable() <= 0) {
+//            System.out.println("⚠️ Booking failed: No seats available for Slot ID " + slotId +
+//                    " at Gym ID " + newSlot.getGymId() + " starting at " + newSlot.getStartTime() + ".");
+//            return null;
+//        }
 
         // 🔍 Check for conflicting booking
         for (FlipFitBooking existingBooking : bookingMap.values()) {
@@ -119,7 +119,7 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
                 if (bookedSlot != null && bookedSlot.getStartTime().equals(newSlot.getStartTime())) {
                     // 🛑 Cancel the conflicting booking
                     existingBooking.setCancelled(true);
-                    bookedSlot.setSeatsAvailable(bookedSlot.getSeatsAvailable() + 1);
+                    // bookedSlot.setSeatsAvailable(bookedSlot.getSeatsAvailable() + 1);
                     System.out.println("⚠️ Existing booking ID " + existingBooking.getBookingId() +
                             " at the same time was cancelled to avoid conflict.");
                     FlipFitGymOwnerServiceImpl.flipFitSlotMap.put(bookedSlot.getSlotId(), bookedSlot);
@@ -128,7 +128,7 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
         }
 
         // Step 5: Decrease available seats
-        newSlot.setSeatsAvailable(newSlot.getSeatsAvailable() - 1);
+        // newSlot.setSeatsAvailable(newSlot.getSeatsAvailable() - 1);
 
         // Step 6: Create new booking
         FlipFitBooking booking = new FlipFitBooking();
@@ -165,7 +165,7 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
         FlipFitSlot slot = FlipFitGymOwnerServiceImpl.flipFitSlotMap.get(booking.getSlotId());
 
         if (slot != null) {
-            slot.setSeatsAvailable(slot.getSeatsAvailable() + 1);
+            // slot.setSeatsAvailable(slot.getSeatsAvailable() + 1);
             System.out.println("✅ Booking ID " + bookingId + " cancelled successfully. Seat released for Slot ID " + slot.getSlotId() + ".");
             FlipFitGymOwnerServiceImpl.flipFitSlotMap.put(slot.getSlotId(),slot);
         } else {

@@ -5,9 +5,11 @@ import com.flipfit.business.FlipFitGymOwnerService;
 import com.flipfit.business.FlipFitGymOwnerServiceImpl;
 import com.flipfit.constant.ColorConstants;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -97,14 +99,11 @@ public class FlipFitGymOwnerMenu {
                     System.out.print("💺 Enter Total Seats: ");
                     int totalSeats = scanner.nextInt();
 
-                    System.out.print("🪑 Enter Seats Available: ");
-                    int seatsAvailable = scanner.nextInt();
 
                     FlipFitSlot newSlot = new FlipFitSlot();
                     newSlot.setGymId(gymId);
                     newSlot.setStartTime(startTime);
                     newSlot.setTotalSeats(totalSeats);
-                    newSlot.setSeatsAvailable(seatsAvailable);
 
                     flipFitGymOwnerService.addSlot(newSlot);
                     System.out.println("✅ Slot added successfully!");
@@ -245,7 +244,12 @@ public class FlipFitGymOwnerMenu {
                     System.out.println("Enter Gym Id : ");
                     int id = input.nextInt();
 
-                    System.out.println(flipFitGymOwnerService.viewSlots(id));
+                    System.out.println("Enter Date in specific format : ");
+                    String date = input.next();
+                    LocalDate dateObj = LocalDate.parse(date);
+
+
+                    System.out.println(flipFitGymOwnerService.viewSlots(id, dateObj));
                 }
                 case 11 -> {
                     System.out.println(ColorConstants.YELLOW + "🔓 Logging out... Stay fit!" + ColorConstants.RESET);

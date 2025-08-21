@@ -2,6 +2,7 @@ package com.flipfit.business;
 
 import com.flipfit.bean.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface FlipFitGymOwnerService {
@@ -15,7 +16,7 @@ public interface FlipFitGymOwnerService {
     FlipFitGymOwner viewDetails(int gymOwnerId);
 
     boolean deleteGym(int gymId);
-    List<FlipFitSlot> viewSlots(int gymId);
+    List<FlipFitSlotAvailability> viewSlots(int gymId, LocalDate date);
 
     FlipFitGymOwner login(String username, String password);
 

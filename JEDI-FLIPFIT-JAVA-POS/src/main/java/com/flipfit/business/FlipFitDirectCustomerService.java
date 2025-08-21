@@ -8,7 +8,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface FlipFitDirectCustomerService {
-    List<FlipFitSlot> viewSlots(int gymId);
+    List<FlipFitSlotAvailability> viewSlots(int gymId, LocalDate date);
     List<FlipFitBooking> viewBookedSlots(int userId);
     FlipFitDirectCustomer viewDetails(int customerId);
     FlipFitDirectCustomer registerCustomer(FlipFitDirectCustomer directCustomer);

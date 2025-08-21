@@ -51,7 +51,6 @@ public class FlipFitSlot {
                 String.format("║ 🆔 Slot ID       : %-27s ║\n", slotId) +
                 String.format("║ 🏋️ Gym ID        : %-27s ║\n", gymId) +
                 String.format("║ ⏰ Start Time     : %-27s ║\n", startTime) +
-                String.format("║ 💺 Seats Avail.  : %-27s ║\n", seatsAvailable) +
                 String.format("║ 🧮 Total Seats    : %-27s ║\n", totalSeats) +
                 "╚════════════════════════════════════════════════╝" +
                 ColorConstants.RESET;

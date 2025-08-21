@@ -2,6 +2,7 @@ package com.flipfit.dao;
 
 import com.flipfit.bean.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface FlipFitGymOwnerDAO {
@@ -15,7 +16,7 @@ public interface FlipFitGymOwnerDAO {
     FlipFitGymOwner viewDetails(int gymOwnerId);
 
     boolean deleteGym(int gymId);
-    List<FlipFitSlot> viewSlots(int gymId);
+    List<FlipFitSlotAvailability> viewSlots(int gymId, LocalDate date);
 
     FlipFitGymOwner login(String gymOwnerName, String password);
 

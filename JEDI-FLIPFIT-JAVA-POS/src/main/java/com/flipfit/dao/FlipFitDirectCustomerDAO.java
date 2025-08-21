@@ -2,10 +2,11 @@ package com.flipfit.dao;
 
 import com.flipfit.bean.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface FlipFitDirectCustomerDAO {
-    List<FlipFitSlot> viewSlots(int gymId);
+    List<FlipFitSlot> viewSlots(int gymId, LocalDate date);
     List<FlipFitBooking> viewBookedSlots(int userId);
     FlipFitDirectCustomer viewDetails(int customerId);
     FlipFitDirectCustomer registerCustomer(FlipFitDirectCustomer directCustomer);
