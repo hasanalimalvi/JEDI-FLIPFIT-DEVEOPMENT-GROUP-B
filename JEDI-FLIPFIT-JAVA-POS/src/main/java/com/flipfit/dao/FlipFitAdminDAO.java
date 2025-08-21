@@ -17,7 +17,6 @@ public interface FlipFitAdminDAO {
     List<FlipFitGymOwner> getGymOwners();
     List<FlipFitGym> getGyms();
     boolean validateGymOwner(int gymOwnerId);
-    boolean validateGym(int gymId);
     FlipFitAdmin login(String adminName, String password);
     List<FlipFitTransaction> viewPayments();
 }

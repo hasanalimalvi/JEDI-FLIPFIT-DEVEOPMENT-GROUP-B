@@ -8,10 +8,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class FlipFitDirectCustomerDAOImpl implements FlipFitDirectCustomerDAO{
-    @Override
-    public List<FlipFitSlot> viewSlots(int gymId, LocalDate date) {
-        return List.of();
-    }
+
 
     @Override
     public List<FlipFitBooking> viewBookedSlots(int userId) {
@@ -163,12 +160,6 @@ customer.setPinCode(pinCode);
         }
     }
 
-
-
-    @Override
-    public List<FlipFitGym> viewGyms() {
-        return List.of();
-    }
 
     @Override
     public FlipFitTransaction makePayment(FlipFitTransaction flipFitTransaction) {

@@ -2,6 +2,8 @@ package com.flipfit.business;
 
 import com.flipfit.bean.*;
 import com.flipfit.constant.ColorConstants;
+import com.flipfit.dao.FlipFitAdminDAO;
+import com.flipfit.dao.FlipFitAdminDAOImpl;
 import com.flipfit.dao.FlipFitDirectCustomerDAO;
 import com.flipfit.dao.FlipFitDirectCustomerDAOImpl;
 
@@ -27,6 +29,7 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
 
 
     FlipFitDirectCustomerDAO flipFitDirectCustomerDAO = new FlipFitDirectCustomerDAOImpl();
+    FlipFitAdminDAO flipFitAdminDAO = new FlipFitAdminDAOImpl();
 
 
 
@@ -75,7 +78,7 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
 
     @Override
     public List<FlipFitGym> viewGyms() {
-        return new ArrayList<>(FlipFitGymOwnerServiceImpl.flipFitGymMap.values());
+        return flipFitAdminDAO.getGyms();
     }
 
     @Override
