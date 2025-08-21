@@ -18,6 +18,11 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
     static Map<Integer, FlipFitTransaction> transactionMap = new HashMap<Integer, FlipFitTransaction>();
     static int transactionIdCounter = 1;
 
+    static Map<Integer, FlipFitUser> userMap = new HashMap<Integer, FlipFitUser>();
+    static int userIdCounter = 1;
+
+
+
     FlipFitGymOwnerService flipFitGymOwnerService = new FlipFitGymOwnerServiceImpl();
 
     @Override
@@ -50,9 +55,15 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
 
     @Override
     public FlipFitDirectCustomer registerCustomer(FlipFitDirectCustomer directCustomer) {
+        // Assign customer ID
         directCustomer.setUserId(customerIdCounter++);
         flipFitDirectCustomerMap.put(directCustomer.getUserId(), directCustomer);
+
+
+
+
         System.out.println(ColorConstants.GREEN + "✅ Customer registered successfully with ID: " + directCustomer.getUserId() + ColorConstants.RESET);
+
         return directCustomer;
     }
 

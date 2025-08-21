@@ -12,6 +12,7 @@ public class FlipFitApplication {
     public static void main(String[] args) {
         FlipFitDirectCustomerService flipFitDirectCustomerService = new FlipFitDirectCustomerServiceImpl();
         FlipFitGymOwnerService flipFitGymOwnerService = new FlipFitGymOwnerServiceImpl();
+        FlipFitAdminService flipFitAdminService = new FlipFitAdminServiceImpl();
         Scanner input = new Scanner(System.in);
         int flipfitMenuChoice;
 
@@ -72,16 +73,42 @@ public class FlipFitApplication {
 
                     switch (roleChoice) {
                         case 1 -> {
-                            FlipFitDirectCustomerMenu customerMenu = new FlipFitDirectCustomerMenu();
-                            customerMenu.getDirectCustomerMenu();
+
+                            FlipFitDirectCustomer loggedInCustomer = flipFitDirectCustomerService.login(username, password);
+
+                            if (loggedInCustomer != null) {
+                                System.out.println(ColorConstants.GREEN + "✅ Welcome, " + loggedInCustomer.getUsername() + "! You have successfully logged in." + ColorConstants.RESET);
+
+                                FlipFitDirectCustomerMenu customerMenu = new FlipFitDirectCustomerMenu();
+                                customerMenu.getDirectCustomerMenu();
+                            } else {
+                                System.out.println(ColorConstants.RED + "❌ Login failed. Returning to main menu..." + ColorConstants.RESET);
+                                // Optionally, call main menu again or just let control return
+                            }
                         }
                         case 2 -> {
-                            FlipFitGymOwnerMenu gymOwnerMenu = new FlipFitGymOwnerMenu();
-                            gymOwnerMenu.getGymOwnerMenu();
+                            FlipFitGymOwner loggedInOwner = flipFitGymOwnerService.login(username, password);
+
+                            if (loggedInOwner != null) {
+                                System.out.println(ColorConstants.GREEN + "✅ Welcome, " + loggedInOwner.getUsername() + "! You have successfully logged in." + ColorConstants.RESET);
+
+                                FlipFitGymOwnerMenu gymOwnerMenu = new FlipFitGymOwnerMenu();
+                                gymOwnerMenu.getGymOwnerMenu();
+                            } else {
+                                System.out.println(ColorConstants.RED + "❌ Login failed. Returning to main menu..." + ColorConstants.RESET);
+                            }
                         }
                         case 3 -> {
-                            FlipFitAdminMenu adminMenu = new FlipFitAdminMenu();
-                            adminMenu.getAdminMenu();
+                            FlipFitAdmin loggedInAdmin = flipFitAdminService.login(username, password);
+
+                            if (loggedInAdmin != null) {
+                                System.out.println(ColorConstants.GREEN + "✅ Welcome, " + loggedInAdmin.getUsername() + "! You have successfully logged in." + ColorConstants.RESET);
+
+                                FlipFitAdminMenu adminMenu = new FlipFitAdminMenu();
+                                adminMenu.getAdminMenu();
+                            } else {
+                                System.out.println(ColorConstants.RED + "❌ Login failed. Returning to main menu..." + ColorConstants.RESET);
+                            }
                         }
                         default ->
                                 System.out.println(ColorConstants.RED + "❗ Invalid role number. Please select 1, 2, or 3." + ColorConstants.RESET);

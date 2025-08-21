@@ -104,8 +104,13 @@ public class FlipFitAdminServiceImpl implements FlipFitAdminService{
     }
 
     @Override
-    public boolean login(String adminName, String password) {
-        return false;
+    public FlipFitAdmin login(String adminName, String password) {
+        for (FlipFitAdmin admin : flipFitAdminMap.values()) {
+            if (admin.getUsername().equals(adminName) && admin.getPassword().equals(password)) {
+                return admin;
+            }
+        }
+        return null;
     }
 
     @Override

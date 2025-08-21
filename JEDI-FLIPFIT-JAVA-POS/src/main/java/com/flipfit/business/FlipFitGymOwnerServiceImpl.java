@@ -129,8 +129,13 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
     }
 
     @Override
-    public boolean login(String gymOwnerName, String password) {
-        return false;
+    public FlipFitGymOwner login(String gymOwnerName, String password) {
+        for (FlipFitGymOwner owner : flipFitGymOwnerMap.values()) {
+            if (owner.getUsername().equals(gymOwnerName) && owner.getPassword().equals(password)) {
+                return owner;
+            }
+        }
+        return null;
     }
 
     @Override
