@@ -212,24 +212,6 @@ public class FlipFitAdminDAOImpl implements FlipFitAdminDAO{
         }
     }
 
-    @Override
-    public boolean validateGym(int gymId) {
-        String updateSQL = "UPDATE FlipFitGym SET status = ? WHERE gymId = ?";
-
-        try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
-
-            stmt.setString(1, "approved");
-            stmt.setInt(2, gymId);
-
-            int affectedRows = stmt.executeUpdate();
-            return affectedRows > 0;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return false;
-        }
-    }
 
     @Override
     public FlipFitAdmin login(String adminName, String password) {
