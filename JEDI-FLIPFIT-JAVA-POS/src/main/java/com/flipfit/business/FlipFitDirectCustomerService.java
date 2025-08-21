@@ -19,7 +19,4 @@ public interface FlipFitDirectCustomerService {
     //FlipFitBookings
     FlipFitBooking makeFlipFitBooking(int customerID, int slotId, LocalDate date);
     boolean cancelFlipFitBooking(int bookingId);
-
-    //Slot
-    List<FlipFitSlot> getSlotsDetails(int gymId);
 }

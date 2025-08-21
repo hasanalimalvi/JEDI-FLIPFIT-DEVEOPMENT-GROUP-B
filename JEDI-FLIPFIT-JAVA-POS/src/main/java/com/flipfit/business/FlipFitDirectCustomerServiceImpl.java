@@ -97,22 +97,4 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
     public boolean cancelFlipFitBooking(int bookingId) {
         return flipFitDirectCustomerDAO.cancelFlipFitBooking(bookingId);
     }
-
-
-    @Override
-    public List<FlipFitSlot> getSlotsDetails(int gymId) {
-        List<FlipFitSlot> filteredSlots = new ArrayList<>();
-
-        for (FlipFitSlot slot : FlipFitGymOwnerServiceImpl.flipFitSlotMap.values()) {
-            if (slot.getGymId() == gymId) {
-                filteredSlots.add(slot);
-            }
-        }
-
-        if (filteredSlots.isEmpty()) {
-            System.out.println(ColorConstants.RED + "❗ No slots found for Gym ID: " + gymId + ColorConstants.RESET);
-        }
-
-        return filteredSlots;
-    }
 }
