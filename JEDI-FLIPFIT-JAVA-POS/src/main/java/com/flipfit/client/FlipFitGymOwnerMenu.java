@@ -47,9 +47,7 @@ public class FlipFitGymOwnerMenu {
                     System.out.println("➕ Adding a new gym...");
                     Scanner scanner = new Scanner(System.in);
 
-                    System.out.print("Enter Gym Owner ID: ");
-                    int gymOwnerID = scanner.nextInt();
-                    scanner.nextLine(); // consume newline
+                    int gymOwnerID = FlipFitGymOwnerServiceImpl.loggedInGymOwner.getUserId() ;
 
                     System.out.print("Enter Gym Address: ");
                     String address = scanner.nextLine();
