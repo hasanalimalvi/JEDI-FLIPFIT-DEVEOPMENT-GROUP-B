@@ -130,8 +130,8 @@ public class FlipFitDirectCustomerMenu {
 
                     Scanner scanner = new Scanner(System.in);
 
-                    System.out.print("Enter User ID: ");
-                    int userId = Integer.parseInt(scanner.nextLine());
+
+                    int userId = FlipFitDirectCustomerServiceImpl.loggedInDirectCustomer.getUserId();
 
                     System.out.print("Enter Username: ");
                     String username = scanner.nextLine();
@@ -157,7 +157,7 @@ public class FlipFitDirectCustomerMenu {
                     customer.setUsername(username);
                     customer.setEmail(email);
                     customer.setPassword(password);
-                    customer.setRoleId(0);
+                    customer.setRoleId(1);
                     customer.setPhoneNumber(phoneNumber);
                     customer.setCity(city);
                     customer.setPinCode(pinCode);

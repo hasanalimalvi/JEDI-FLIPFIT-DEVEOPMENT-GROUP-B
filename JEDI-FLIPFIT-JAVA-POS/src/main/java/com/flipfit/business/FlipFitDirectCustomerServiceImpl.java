@@ -68,24 +68,9 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
 
     @Override
     public FlipFitDirectCustomer editDetails(FlipFitDirectCustomer directCustomer) {
-        if (directCustomer == null) {
-            System.out.println("❌ Cannot update: Customer details are null.");
-            return null;
-        }
 
-        int customerId = directCustomer.getUserId();
-
-        // Check if the user exists in the map
-        if (!flipFitDirectCustomerMap.containsKey(customerId)) {
-            System.out.println("❌ Customer with ID " + customerId + " not found. Cannot update profile.");
-            return null;
-        }
-
-        // If the customer exists, proceed with the update
-        flipFitDirectCustomerMap.put(customerId, directCustomer);
-        System.out.println("✅ Customer details updated successfully for ID: " + customerId);
-
-        return directCustomer;
+        FlipFitDirectCustomer flipFitDirectCustomer = flipFitDirectCustomerDAO.editDetails(directCustomer);
+        return flipFitDirectCustomer;
     }
 
     @Override

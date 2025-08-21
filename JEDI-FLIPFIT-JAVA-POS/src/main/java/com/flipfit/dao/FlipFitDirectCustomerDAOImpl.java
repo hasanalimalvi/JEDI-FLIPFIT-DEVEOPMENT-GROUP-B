@@ -114,8 +114,55 @@ customer.setPinCode(pinCode);
 
     @Override
     public FlipFitDirectCustomer editDetails(FlipFitDirectCustomer directCustomer) {
-        return null;
+        Connection conn = null;
+        PreparedStatement userStmt = null;
+        PreparedStatement customerStmt = null;
+
+        try {
+            conn = DBConnection.getConnection();
+
+            // Step 1: Update FlipFitUser table
+            String updateUserQuery = "UPDATE FlipFitUser SET username = ?, email = ?, password = ?, roleId = ? WHERE userId = ?";
+            userStmt = conn.prepareStatement(updateUserQuery);
+            userStmt.setString(1, directCustomer.getUsername());
+            userStmt.setString(2, directCustomer.getEmail());
+            userStmt.setString(3, directCustomer.getPassword());
+            userStmt.setInt(4, directCustomer.getRoleId());
+            userStmt.setInt(5, directCustomer.getUserId());
+            int userRows = userStmt.executeUpdate();
+
+            // Step 2: Update FlipFitDirectCustomer table
+            String updateCustomerQuery = "UPDATE FlipFitDirectCustomer SET phoneNumber = ?, city = ?, pinCode = ? WHERE customerId = ?";
+            customerStmt = conn.prepareStatement(updateCustomerQuery);
+            customerStmt.setString(1, directCustomer.getPhoneNumber());
+            customerStmt.setString(2, directCustomer.getCity());
+            customerStmt.setString(3, directCustomer.getPinCode());
+            customerStmt.setInt(4, directCustomer.getUserId());
+            int customerRows = customerStmt.executeUpdate();
+
+            if (userRows > 0 && customerRows > 0) {
+                System.out.println("✅ User details updated successfully for userId: " + directCustomer.getUserId());
+            } else {
+                System.out.println("⚠️ Update failed: No matching records found for userId: " + directCustomer.getUserId());
+            }
+
+            return directCustomer;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("❌ Failed to update user details.");
+        } finally {
+            try {
+                if (userStmt != null) userStmt.close();
+                if (customerStmt != null) customerStmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
+
+
 
     @Override
     public List<FlipFitGym> viewGyms() {
