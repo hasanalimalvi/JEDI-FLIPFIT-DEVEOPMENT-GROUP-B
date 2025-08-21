@@ -17,7 +17,7 @@ public interface FlipFitGymOwnerService {
     boolean deleteGym(int gymId);
     List<FlipFitSlot> viewSlots(int gymId);
 
-    FlipFitGymOwner login(String gymOwnerName, String password);
+    FlipFitGymOwner login(String username, String password);
 
     //Slot
     FlipFitSlot addSlot(FlipFitSlot slot);

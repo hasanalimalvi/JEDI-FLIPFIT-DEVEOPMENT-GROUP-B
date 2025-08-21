@@ -20,6 +20,8 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
     static Map<Integer, FlipFitTransaction> transactionMap = new HashMap<Integer, FlipFitTransaction>();
     static int transactionIdCounter = 1;
 
+    static FlipFitDirectCustomer loggedInDirectCustomer = null;
+
     static Map<Integer, FlipFitUser> userMap = new HashMap<Integer, FlipFitUser>();
     static int userIdCounter = 1;
 
@@ -102,14 +104,11 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
     }
 
     @Override
-    public FlipFitDirectCustomer login(String customerName, String password) {
-        for (FlipFitDirectCustomer customer : flipFitDirectCustomerMap.values()) {
-            if (customer.getUsername().equals(customerName) &&
-                    customer.getPassword().equals(password)) {
-                return customer;
-            }
-        }
-        return null;
+    public FlipFitDirectCustomer login(String username, String password) {
+
+        loggedInDirectCustomer = flipFitDirectCustomerDAO.login(username, password);
+        return loggedInDirectCustomer;
+
     }
 
     @Override

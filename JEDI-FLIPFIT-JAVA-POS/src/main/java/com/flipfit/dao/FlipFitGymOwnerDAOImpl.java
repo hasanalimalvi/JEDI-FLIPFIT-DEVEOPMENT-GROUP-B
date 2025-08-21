@@ -93,7 +93,32 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
 
     @Override
     public FlipFitGymOwner viewDetails(int gymOwnerId) {
-        return null;
+        String sql = "SELECT * FROM FlipFitGymOwner WHERE gymOwnerId = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, gymOwnerId);
+
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                FlipFitGymOwner gymOwner = new FlipFitGymOwner();
+                gymOwner.setUserId(rs.getInt("gymOwnerId"));
+                gymOwner.setPhoneNumber(rs.getString("phoneNumber"));
+                gymOwner.setCity(rs.getString("city"));
+                gymOwner.setPinCode(rs.getString("pinCode"));
+                gymOwner.setPanCard(rs.getString("panCard"));
+                gymOwner.setGstin(rs.getString("gstin"));
+                gymOwner.setAadharNumber(rs.getString("aadharNumber"));
+                gymOwner.setIsApproved(rs.getBoolean("isApproved"));
+
+                return gymOwner;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null; // if not found or error occurs
     }
 
     @Override
@@ -108,8 +133,56 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
 
     @Override
     public FlipFitGymOwner login(String gymOwnerName, String password) {
-        return null;
+        String userQuery = "SELECT * FROM FlipFitUser WHERE username = ? AND password = ?";
+        String ownerQuery = "SELECT * FROM FlipFitGymOwner WHERE gymOwnerId = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement userStmt = conn.prepareStatement(userQuery)) {
+
+            // Step 1: Validate user credentials
+            userStmt.setString(1, gymOwnerName);
+            userStmt.setString(2, password);
+
+            ResultSet userRs = userStmt.executeQuery();
+            if (userRs.next()) {
+                int userId = userRs.getInt("userId");
+
+                // Step 2: Fetch gym owner details
+                try (PreparedStatement ownerStmt = conn.prepareStatement(ownerQuery)) {
+                    ownerStmt.setInt(1, userId);
+                    ResultSet ownerRs = ownerStmt.executeQuery();
+
+                    if (ownerRs.next()) {
+                        FlipFitGymOwner gymOwner = new FlipFitGymOwner();
+
+                        // From FlipFitUser
+                        gymOwner.setUserId(userId);
+                        gymOwner.setUsername(userRs.getString("username"));
+                        gymOwner.setEmail(userRs.getString("email"));
+                        gymOwner.setPassword(userRs.getString("password"));
+                        gymOwner.setRoleId(userRs.getInt("roleId"));
+
+                        // From FlipFitGymOwner
+                        gymOwner.setPhoneNumber(ownerRs.getString("phoneNumber"));
+                        gymOwner.setCity(ownerRs.getString("city"));
+                        gymOwner.setPinCode(ownerRs.getString("pinCode"));
+                        gymOwner.setPanCard(ownerRs.getString("panCard"));
+                        gymOwner.setGstin(ownerRs.getString("gstin"));
+                        gymOwner.setAadharNumber(ownerRs.getString("aadharNumber"));
+                        gymOwner.setIsApproved(ownerRs.getBoolean("isApproved"));
+
+                        return gymOwner;
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null; // login failed
     }
+
 
     @Override
     public FlipFitSlot addSlot(FlipFitSlot slot) {

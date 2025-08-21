@@ -5,6 +5,8 @@ import com.flipfit.bean.FlipFitAdmin;
 import com.flipfit.bean.FlipFitDirectCustomer;
 import com.flipfit.bean.FlipFitGym;
 import com.flipfit.bean.FlipFitGymOwner;
+import com.flipfit.dao.FlipFitAdminDAO;
+import com.flipfit.dao.FlipFitAdminDAOImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +18,8 @@ public class FlipFitAdminServiceImpl implements FlipFitAdminService{
     public static Map<Integer, FlipFitAdmin> flipFitAdminMap = new HashMap<Integer,FlipFitAdmin>();
     FlipFitDirectCustomerServiceImpl flipFitDirectCustomerService = new FlipFitDirectCustomerServiceImpl();
     FlipFitGymOwnerServiceImpl flipFitGymOwnerService = new FlipFitGymOwnerServiceImpl();
-
+    private final FlipFitAdminDAO flipFitAdminDAO = new FlipFitAdminDAOImpl();
+    static FlipFitAdmin loggedInAdmin = null;
     @Override
     public List<FlipFitGymOwner> getPendingGymOwnerList() {
 
@@ -108,13 +111,9 @@ public class FlipFitAdminServiceImpl implements FlipFitAdminService{
     }
 
     @Override
-    public FlipFitAdmin login(String adminName, String password) {
-        for (FlipFitAdmin admin : flipFitAdminMap.values()) {
-            if (admin.getUsername().equals(adminName) && admin.getPassword().equals(password)) {
-                return admin;
-            }
-        }
-        return null;
+    public FlipFitAdmin login(String username, String password) {
+        loggedInAdmin = flipFitAdminDAO.login(username, password);
+        return loggedInAdmin;
     }
 
     @Override

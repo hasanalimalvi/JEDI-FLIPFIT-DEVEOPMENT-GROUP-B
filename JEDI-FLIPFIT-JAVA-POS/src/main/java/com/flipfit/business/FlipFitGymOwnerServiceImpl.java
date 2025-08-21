@@ -23,13 +23,10 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
     static int gymIdCounter = 1;
     static int slotIdCounter = 1;
 
+    static FlipFitGymOwner loggedInGymOwner = null;
+
     @Override
     public FlipFitGymOwner registerGymOwner(FlipFitGymOwner gymOwner) {
-//        gymOwner.setUserId(gymOwnerIdCounter++);
-//        flipFitGymOwnerMap.put(gymOwner.getUserId(), gymOwner);
-//        System.out.println(ColorConstants.GREEN + "✅ Gym Owner registered successfully with ID: "
-//                + gymOwner.getUserId() + ColorConstants.RESET);
-//        return gymOwner;
         return flipFitGymOwnerDAO.registerGymOwner(gymOwner);
     }
 
@@ -99,11 +96,7 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
 
     @Override
     public FlipFitGymOwner viewDetails(int gymOwnerId) {
-        FlipFitGymOwner gymOwner = flipFitGymOwnerMap.get(gymOwnerId);
-        if (gymOwner == null) {
-            System.out.println(ColorConstants.RED + "❗ Customer ID " + gymOwnerId + " not found." + ColorConstants.RESET);
-        }
-        return gymOwner;
+        return flipFitGymOwnerDAO.viewDetails(gymOwnerId);
     }
 
     @Override
@@ -133,13 +126,9 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
     }
 
     @Override
-    public FlipFitGymOwner login(String gymOwnerName, String password) {
-        for (FlipFitGymOwner owner : flipFitGymOwnerMap.values()) {
-            if (owner.getUsername().equals(gymOwnerName) && owner.getPassword().equals(password)) {
-                return owner;
-            }
-        }
-        return null;
+    public FlipFitGymOwner login(String username, String password) {
+        loggedInGymOwner = flipFitGymOwnerDAO.login(username, password);
+        return loggedInGymOwner;
     }
 
     @Override

@@ -79,8 +79,52 @@ public class FlipFitDirectCustomerDAOImpl implements FlipFitDirectCustomerDAO{
 
     @Override
     public FlipFitDirectCustomer login(String customerName, String password) {
-        return null;
+        String userQuery = "SELECT * FROM FlipFitUser WHERE username = ? AND password = ?";
+        String customerQuery = "SELECT * FROM FlipFitDirectCustomer WHERE customerId = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement userStmt = conn.prepareStatement(userQuery)) {
+
+            // Step 1: Validate credentials from FlipFitUser
+            userStmt.setString(1, customerName);
+            userStmt.setString(2, password);
+
+            ResultSet userRs = userStmt.executeQuery();
+            if (userRs.next()) {
+                int userId = userRs.getInt("userId");
+
+                // Step 2: Fetch customer-specific details
+                try (PreparedStatement customerStmt = conn.prepareStatement(customerQuery)) {
+                    customerStmt.setInt(1, userId);
+                    ResultSet customerRs = customerStmt.executeQuery();
+
+                    if (customerRs.next()) {
+                        FlipFitDirectCustomer customer = new FlipFitDirectCustomer();
+
+                        // Populate FlipFitUser fields
+                        customer.setUserId(userId);
+                        customer.setUsername(userRs.getString("username"));
+                        customer.setEmail(userRs.getString("email"));
+                        customer.setPassword(userRs.getString("password"));
+                        customer.setRoleId(userRs.getInt("roleId"));
+
+                        // Populate FlipFitDirectCustomer fields
+                        customer.setPhoneNumber(customerRs.getString("phoneNumber"));
+                        customer.setCity(customerRs.getString("city"));
+                        customer.setPinCode(customerRs.getString("pinCode"));
+
+                        return customer;
+                    }
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace(); // Consider logging this properly in production
+        }
+
+        return null; // Login failed
     }
+
 
     @Override
     public FlipFitBooking makeFlipFitBooking(int customerID, int slotId) {
