@@ -127,8 +127,9 @@ public class FlipFitGymOwnerMenu {
                 }
                 case 5 -> {
                     Scanner scanner = new Scanner(System.in);
-                    System.out.print("🏋️ Enter Gym ID to view bookings: ");
-                    int gymId = scanner.nextInt();
+
+                    System.out.print("Enter your Gym ID: ");
+                    int gymId = scanner.nextInt();1
 
                     List<FlipFitBooking> bookings = flipFitGymOwnerService.viewBookings(gymId);
 
@@ -137,13 +138,7 @@ public class FlipFitGymOwnerMenu {
                     } else {
                         System.out.println(ColorConstants.CYAN + "\n📖 Active Bookings for Gym ID: " + gymId + ColorConstants.RESET);
                         for (FlipFitBooking booking : bookings) {
-                            System.out.println(ColorConstants.GREEN +
-                                    "╔══════════════════════════════════════╗\n" +
-                                    String.format("║ 📌 Booking ID : %-22d ║\n", booking.getBookingId()) +
-                                    String.format("║ 👤 User ID    : %-22d ║\n", booking.getUserId()) +
-                                    String.format("║ 🕒 Slot ID    : %-22d ║\n", booking.getSlotId()) +
-                                    "╚══════════════════════════════════════╝" +
-                                    ColorConstants.RESET);
+                            System.out.println(booking);
                         }
                     }
 

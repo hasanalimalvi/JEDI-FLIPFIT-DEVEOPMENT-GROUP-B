@@ -103,21 +103,7 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
 
     @Override
     public List<FlipFitBooking> viewBookings(int gymId) {
-        List<FlipFitBooking> result = new ArrayList<>();
-
-        for (FlipFitSlot slot : flipFitSlotMap.values()) {
-            if (slot.getGymId() == gymId) {
-                int slotId = slot.getSlotId();
-
-                for (FlipFitBooking booking : FlipFitDirectCustomerServiceImpl.bookingMap.values()) {
-                    if (booking.getSlotId() == slotId && !booking.isCancelled()) {
-                        result.add(booking);
-                    }
-                }
-            }
-        }
-
-        return result;
+        return flipFitGymOwnerDAO.viewBookings(gymId);
     }
 
 }

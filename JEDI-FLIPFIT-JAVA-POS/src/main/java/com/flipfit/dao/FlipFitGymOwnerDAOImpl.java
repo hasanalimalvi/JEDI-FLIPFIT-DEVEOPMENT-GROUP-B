@@ -509,6 +509,49 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
 
     @Override
     public List<FlipFitBooking> viewBookings(int gymId) {
-        return List.of();
+        List<FlipFitBooking> bookings = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String sql = """
+        SELECT b.bookingId, b.userId, b.slotId, b.isCancelled, b.date
+        FROM FlipFitBooking b
+        JOIN FlipFitSlot s ON b.slotId = s.slotId
+        WHERE b.isCancelled = false AND s.gymId = ?
+    """;
+
+        try {
+            conn = DBConnection.getConnection();
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, gymId);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                FlipFitBooking booking = new FlipFitBooking();
+                booking.setBookingId(rs.getInt("bookingId"));
+                booking.setUserId(rs.getInt("userId"));
+                booking.setSlotId(rs.getInt("slotId"));
+                booking.setCancelled(rs.getBoolean("isCancelled"));
+                booking.setDate(rs.getDate("date").toLocalDate());
+
+                bookings.add(booking);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to fetch bookings for gymId: " + gymId, e);
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return bookings;
     }
+
 }
