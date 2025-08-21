@@ -71,7 +71,7 @@ public class FlipFitGymOwnerMenu {
                 case 2 -> {
 
                     System.out.println("Enter your Gym Owner Id : ");
-                    int id = input.nextInt();
+                    int id = FlipFitGymOwnerServiceImpl.loggedInGymOwner.getUserId() ;
 
                     System.out.println("🏋️ Viewing your gyms...");
                     System.out.println(flipFitGymOwnerService.viewGyms(id));
