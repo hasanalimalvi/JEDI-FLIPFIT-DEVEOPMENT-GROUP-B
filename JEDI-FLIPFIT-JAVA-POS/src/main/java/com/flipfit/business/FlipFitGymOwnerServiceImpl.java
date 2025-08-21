@@ -37,8 +37,7 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
 
     @Override
     public FlipFitGym updateGym(FlipFitGym gym) {
-        flipFitGymMap.put(gym.getGymID(), gym);
-        return gym;
+        return flipFitGymOwnerDAO.updateGym(gym);
     }
 
     @Override
@@ -48,19 +47,7 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
 
     @Override
     public List<FlipFitGym> viewGyms(int gymOwnerId) {
-        List<FlipFitGym> filteredGyms = new ArrayList<>();
-
-        for (FlipFitGym gym : flipFitGymMap.values()) {
-            if (gym.getGymOwnerID() == gymOwnerId) {
-                filteredGyms.add(gym);
-            }
-        }
-
-        if (filteredGyms.isEmpty()) {
-            System.out.println(ColorConstants.RED + "❗ No gyms found for Gym Owner ID: " + gymOwnerId + ColorConstants.RESET);
-        }
-
-        return filteredGyms;
+        return flipFitGymOwnerDAO.viewGyms(gymOwnerId);
     }
 
     @Override
@@ -97,11 +84,7 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
 
     @Override
     public boolean deleteGym(int gymId) {
-        if(flipFitGymMap.containsKey(gymId)){
-            flipFitGymMap.remove(gymId);
-            return true;
-        }
-        return false;
+        return flipFitGymOwnerDAO.deleteGym(gymId);
     }
 
     @Override

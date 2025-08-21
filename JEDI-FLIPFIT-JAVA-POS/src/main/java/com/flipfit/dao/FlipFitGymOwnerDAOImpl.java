@@ -4,6 +4,7 @@ import com.flipfit.bean.*;
 import com.flipfit.utils.DBConnection;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
@@ -96,7 +97,29 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
 
     @Override
     public FlipFitGym updateGym(FlipFitGym gym) {
-        return null;
+        String updateSQL = "UPDATE FlipFitGym SET address = ?, pinCode = ?, isApproved = ?, description = ? WHERE gymID = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(updateSQL)) {
+
+            stmt.setString(1, gym.getAddress());
+            stmt.setString(2, gym.getPinCode());
+            stmt.setBoolean(3, gym.isApproved());
+            stmt.setString(4, gym.getDescription());
+            stmt.setInt(5, gym.getGymID());
+
+            int affectedRows = stmt.executeUpdate();
+
+            if (affectedRows > 0) {
+                return gym; // Return the updated gym object
+            } else {
+                return null; // No rows updated, possibly invalid gymID
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
@@ -106,7 +129,32 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
 
     @Override
     public List<FlipFitGym> viewGyms(int gymOwnerId) {
-        return List.of();
+        List<FlipFitGym> gyms = new ArrayList<>();
+        String query = "SELECT * FROM FlipFitGym WHERE gymOwnerID = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setInt(1, gymOwnerId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                FlipFitGym gym = new FlipFitGym();
+                gym.setGymID(rs.getInt("gymID"));
+                gym.setGymOwnerID(rs.getInt("gymOwnerID"));
+                gym.setAddress(rs.getString("address"));
+                gym.setPinCode(rs.getString("pinCode"));
+                gym.setApproved(rs.getBoolean("isApproved"));
+                gym.setDescription(rs.getString("description"));
+
+                gyms.add(gym);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return gyms;
     }
 
     @Override
@@ -151,7 +199,20 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
 
     @Override
     public boolean deleteGym(int gymId) {
-        return false;
+        String deleteGymSQL = "DELETE FROM FlipFitGym WHERE gymID = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(deleteGymSQL)) {
+
+            stmt.setInt(1, gymId);
+            int affectedRows = stmt.executeUpdate();
+
+            return affectedRows > 0;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     @Override
