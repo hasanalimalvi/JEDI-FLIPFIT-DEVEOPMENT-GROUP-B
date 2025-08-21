@@ -14,6 +14,6 @@ public interface FlipFitDirectCustomerDAO {
     FlipFitTransaction makePayment(FlipFitTransaction flipFitTransaction);
     FlipFitDirectCustomer login(String customerName, String password);
     //FlipFitBookings
-    FlipFitBooking makeFlipFitBooking(int customerID, int slotId);
+    FlipFitBooking makeFlipFitBooking(int customerID, int slotId, LocalDate date);
     boolean cancelFlipFitBooking(int bookingId);
 }

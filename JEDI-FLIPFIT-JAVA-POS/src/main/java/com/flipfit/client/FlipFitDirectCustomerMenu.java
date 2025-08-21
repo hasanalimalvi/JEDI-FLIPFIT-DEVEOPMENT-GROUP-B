@@ -86,31 +86,24 @@ public class FlipFitDirectCustomerMenu {
                 case 4 -> {
                     System.out.println("🛎️ Booking a slot...");
 
-                    System.out.print("👤 Enter your User ID:> ");
-                    int userId = input.nextInt();
+
+                    int userId = FlipFitDirectCustomerServiceImpl.loggedInDirectCustomer.getUserId();
 
                     System.out.print("🏋️ Enter the Slot ID you want to book:> ");
                     int slotId = input.nextInt();
 
+                    System.out.println("Enter Date in specific format : ");
+                    String date = input.next();
+                    LocalDate dateObj = LocalDate.parse(date);
 
 
 
 
-                    FlipFitBooking booking = flipFitDirectCustomerService.makeFlipFitBooking(userId, slotId);
+
+                    FlipFitBooking booking = flipFitDirectCustomerService.makeFlipFitBooking(userId, slotId, dateObj);
 
                     if (booking != null) {
-                        System.out.println("""
-                        ✅ Booking Confirmed!
-                        📌 Booking ID : %d
-                        👤 User ID    : %d
-                        🏋️ Slot ID    : %d
-                        ❌ Cancelled  : %s
-                        """.formatted(
-                                booking.getBookingId(),
-                                booking.getUserId(),
-                                booking.getSlotId(),
-                                booking.isCancelled() ? "Yes" : "No"
-                        ));
+                        System.out.println(booking);
                     } else {
                         System.out.println("⚠️ Booking failed. Please check the slot availability or try again later.");
                     }
@@ -123,7 +116,15 @@ public class FlipFitDirectCustomerMenu {
                     Scanner scanner = new Scanner(System.in);
                     int bookingId = scanner.nextInt();
 
-                    flipFitDirectCustomerService.cancelFlipFitBooking(bookingId);
+                    boolean bo = flipFitDirectCustomerService.cancelFlipFitBooking(bookingId);
+                    if (bo){
+                        System.out.println("Booking Cancelled Successfully!!");
+                    }
+
+                    else{
+                        System.out.println("Booking Cancelled Failed!!");
+                    }
+
                 }
                 case 6 -> {
 

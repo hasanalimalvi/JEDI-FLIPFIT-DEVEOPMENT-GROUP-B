@@ -216,12 +216,183 @@ customer.setPinCode(pinCode);
 
 
     @Override
-    public FlipFitBooking makeFlipFitBooking(int customerID, int slotId) {
-        return null;
+    public FlipFitBooking makeFlipFitBooking(int customerID, int slotId, LocalDate date) {
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBConnection.getConnection();
+            conn.setAutoCommit(false); // Begin transaction
+
+            // Step 1: Check availability
+            String checkAvailabilitySQL = "SELECT seatsAvailable FROM FlipFitSlotAvailability WHERE slotId = ? AND date = ?";
+            ps = conn.prepareStatement(checkAvailabilitySQL);
+            ps.setInt(1, slotId);
+            ps.setDate(2, java.sql.Date.valueOf(date));
+            rs = ps.executeQuery();
+
+            int seatsAvailable = -1;
+            boolean availabilityExists = false;
+
+            if (rs.next()) {
+                seatsAvailable = rs.getInt("seatsAvailable");
+                availabilityExists = true;
+            }
+
+            rs.close();
+            ps.close();
+
+            // Step 2: If no availability row, insert one using totalSeats
+            if (!availabilityExists) {
+                String getTotalSeatsSQL = "SELECT totalSeats FROM FlipFitSlot WHERE slotId = ?";
+                ps = conn.prepareStatement(getTotalSeatsSQL);
+                ps.setInt(1, slotId);
+                rs = ps.executeQuery();
+
+                if (!rs.next()) {
+                    conn.rollback();
+                    throw new RuntimeException("Slot not found");
+                }
+
+                seatsAvailable = rs.getInt("totalSeats");
+                rs.close();
+                ps.close();
+
+                String insertAvailabilitySQL = "INSERT INTO FlipFitSlotAvailability (slotId, date, seatsAvailable) VALUES (?, ?, ?)";
+                ps = conn.prepareStatement(insertAvailabilitySQL);
+                ps.setInt(1, slotId);
+                ps.setDate(2, java.sql.Date.valueOf(date));
+                ps.setInt(3, seatsAvailable);
+                ps.executeUpdate();
+                ps.close();
+            }
+
+            // Step 3: Check if seats are available
+            if (seatsAvailable <= 0) {
+                conn.rollback();
+                throw new RuntimeException("No seats available");
+            }
+
+            // Step 4: Decrease seat count
+            String updateSeatsSQL = "UPDATE FlipFitSlotAvailability SET seatsAvailable = seatsAvailable - 1 WHERE slotId = ? AND date = ?";
+            ps = conn.prepareStatement(updateSeatsSQL);
+            ps.setInt(1, slotId);
+            ps.setDate(2, java.sql.Date.valueOf(date));
+            ps.executeUpdate();
+            ps.close();
+
+            // Step 5: Insert booking
+            String insertBookingSQL = "INSERT INTO FlipFitBooking (userId, slotId, isCancelled, date) VALUES (?, ?, false, ?)";
+            ps = conn.prepareStatement(insertBookingSQL, Statement.RETURN_GENERATED_KEYS);
+            ps.setInt(1, customerID);
+            ps.setInt(2, slotId);
+            ps.setDate(3, java.sql.Date.valueOf(date)); // <-- new line
+            ps.executeUpdate();
+
+            rs = ps.getGeneratedKeys();
+            int bookingId = -1;
+            if (rs.next()) {
+                bookingId = rs.getInt(1);
+            }
+
+            conn.commit(); // End transaction
+
+            FlipFitBooking booking = new FlipFitBooking();
+            booking.setBookingId(bookingId);
+            booking.setUserId(customerID);
+            booking.setSlotId(slotId);
+            booking.setCancelled(false);
+            booking.setDate(date);
+
+            return booking;
+
+        } catch (Exception e) {
+            try {
+                if (conn != null) conn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            throw new RuntimeException("Booking failed: " + e.getMessage(), e);
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
+
 
     @Override
     public boolean cancelFlipFitBooking(int bookingId) {
-        return false;
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBConnection.getConnection();
+            conn.setAutoCommit(false); // Begin transaction
+
+            // Step 1: Get booking details
+            String getBookingSQL = "SELECT slotId, date, isCancelled FROM FlipFitBooking WHERE bookingId = ?";
+            ps = conn.prepareStatement(getBookingSQL);
+            ps.setInt(1, bookingId);
+            rs = ps.executeQuery();
+
+            if (!rs.next()) {
+                conn.rollback();
+                return false; // Booking not found
+            }
+
+            int slotId = rs.getInt("slotId");
+            LocalDate date = rs.getDate("date").toLocalDate();
+            boolean alreadyCancelled = rs.getBoolean("isCancelled");
+
+            rs.close();
+            ps.close();
+
+            if (alreadyCancelled) {
+                conn.rollback();
+                return false; // Already cancelled
+            }
+
+            // Step 2: Update booking to cancelled (set isCancelled = true)
+            String cancelBookingSQL = "UPDATE FlipFitBooking SET isCancelled = true WHERE bookingId = ?";
+            ps = conn.prepareStatement(cancelBookingSQL);
+            ps.setInt(1, bookingId);
+            ps.executeUpdate();
+            ps.close();
+
+            // Step 3: Increment seat availability
+            String updateSeatsSQL = "UPDATE FlipFitSlotAvailability SET seatsAvailable = seatsAvailable + 1 WHERE slotId = ? AND date = ?";
+            ps = conn.prepareStatement(updateSeatsSQL);
+            ps.setInt(1, slotId);
+            ps.setDate(2, java.sql.Date.valueOf(date));
+            ps.executeUpdate();
+
+            conn.commit(); // End transaction
+            return true;
+
+        } catch (Exception e) {
+            try {
+                if (conn != null) conn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+            e.printStackTrace();
+            return false;
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
+
 }
