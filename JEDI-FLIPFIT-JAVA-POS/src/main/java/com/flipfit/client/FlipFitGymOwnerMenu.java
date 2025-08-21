@@ -129,7 +129,7 @@ public class FlipFitGymOwnerMenu {
                     Scanner scanner = new Scanner(System.in);
 
                     System.out.print("Enter your Gym ID: ");
-                    int gymId = scanner.nextInt();1
+                    int gymId = scanner.nextInt();
 
                     List<FlipFitBooking> bookings = flipFitGymOwnerService.viewBookings(gymId);
 
