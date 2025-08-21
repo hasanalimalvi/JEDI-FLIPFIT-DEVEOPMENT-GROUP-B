@@ -1,6 +1,10 @@
 package com.flipfit.business;
 
 import com.flipfit.bean.*;
+import com.flipfit.bean.FlipFitAdmin;
+import com.flipfit.bean.FlipFitDirectCustomer;
+import com.flipfit.bean.FlipFitGym;
+import com.flipfit.bean.FlipFitGymOwner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
