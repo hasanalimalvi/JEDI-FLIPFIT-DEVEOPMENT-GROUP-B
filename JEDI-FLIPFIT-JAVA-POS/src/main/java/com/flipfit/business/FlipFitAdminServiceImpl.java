@@ -47,30 +47,25 @@ public class FlipFitAdminServiceImpl implements FlipFitAdminService{
     @Override
     public List<FlipFitGym> getPendingGymList() {
 
-        List<FlipFitGym> gyms = new ArrayList<>(FlipFitGymOwnerServiceImpl.flipFitGymMap.values());
+        List<FlipFitGym> pendingGyms = flipFitAdminDAO.getPendingGymList();
 
-        List<FlipFitGym> filteredGyms = new ArrayList<FlipFitGym>();
-
-        for(FlipFitGym flipFitGym : gyms){
-            if(!flipFitGym.isApproved())
-                filteredGyms.add(flipFitGym);
+        if(pendingGyms.isEmpty()){
+            System.out.println("✅ No Pending gym found.");
         }
 
-        return filteredGyms;
+        return pendingGyms;
     }
 
     @Override
     public List<FlipFitGym> getApprovedGymList() {
-        List<FlipFitGym> gyms = new ArrayList<>(FlipFitGymOwnerServiceImpl.flipFitGymMap.values());
 
-        List<FlipFitGym> filteredGyms = new ArrayList<FlipFitGym>();
+        List<FlipFitGym> approvedGyms = flipFitAdminDAO.getApprovedGymList();
 
-        for(FlipFitGym flipFitGym : gyms){
-            if(flipFitGym.isApproved())
-                filteredGyms.add(flipFitGym);
+        if(approvedGyms.isEmpty()){
+            System.out.println("No Approved gym found.");
         }
 
-        return filteredGyms;
+        return approvedGyms;
     }
 
     @Override

@@ -97,12 +97,58 @@ public class FlipFitAdminDAOImpl implements FlipFitAdminDAO{
 
     @Override
     public List<FlipFitGym> getPendingGymList() {
-        return List.of();
+        List<FlipFitGym> pendingGyms = new ArrayList<>();
+        String query = "SELECT * FROM FlipFitGym WHERE isApproved = false";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                FlipFitGym gym = new FlipFitGym();
+                gym.setGymID(rs.getInt("gymID"));
+                gym.setGymOwnerID(rs.getInt("gymOwnerID"));
+                gym.setAddress(rs.getString("address"));
+                gym.setPinCode(rs.getString("pinCode"));
+                gym.setApproved(rs.getBoolean("isApproved"));
+                gym.setDescription(rs.getString("description"));
+
+                pendingGyms.add(gym);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return pendingGyms;
     }
 
     @Override
     public List<FlipFitGym> getApprovedGymList() {
-        return List.of();
+        List<FlipFitGym> approvedGyms = new ArrayList<>();
+        String query = "SELECT * FROM FlipFitGym WHERE isApproved = true";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                FlipFitGym gym = new FlipFitGym();
+                gym.setGymID(rs.getInt("gymID"));
+                gym.setGymOwnerID(rs.getInt("gymOwnerID"));
+                gym.setAddress(rs.getString("address"));
+                gym.setPinCode(rs.getString("pinCode"));
+                gym.setApproved(rs.getBoolean("isApproved"));
+                gym.setDescription(rs.getString("description"));
+
+                approvedGyms.add(gym);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return approvedGyms;
     }
 
     @Override
