@@ -70,7 +70,7 @@ public class FlipFitAdminServiceImpl implements FlipFitAdminService{
 
     @Override
     public List<FlipFitDirectCustomer> getCustomerList() {
-        return new ArrayList<>(FlipFitDirectCustomerServiceImpl.flipFitDirectCustomerMap.values());
+        return flipFitAdminDAO.getCustomerList();
     }
 
     @Override

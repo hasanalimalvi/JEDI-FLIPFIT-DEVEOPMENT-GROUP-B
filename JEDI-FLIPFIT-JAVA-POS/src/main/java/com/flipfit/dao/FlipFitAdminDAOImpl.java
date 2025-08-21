@@ -153,8 +153,46 @@ public class FlipFitAdminDAOImpl implements FlipFitAdminDAO{
 
     @Override
     public List<FlipFitDirectCustomer> getCustomerList() {
-        return List.of();
+        List<FlipFitDirectCustomer> customerList = new ArrayList<>();
+
+        String sql = """
+        SELECT 
+            u.userId, u.username, u.email, u.password, u.roleId,
+            dc.phoneNumber, dc.city, dc.pinCode
+        FROM FlipFitUser u
+        JOIN FlipFitDirectCustomer dc ON u.userId = dc.customerId
+    """;
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                FlipFitDirectCustomer customer = new FlipFitDirectCustomer();
+
+                // Fields from FlipFitUser
+                customer.setUserId(rs.getInt("userId"));
+                customer.setUsername(rs.getString("username"));
+                customer.setEmail(rs.getString("email"));
+                customer.setPassword(rs.getString("password"));
+                customer.setRoleId(rs.getInt("roleId"));
+
+                // Fields from FlipFitDirectCustomer
+                customer.setPhoneNumber(rs.getString("phoneNumber"));
+                customer.setCity(rs.getString("city"));
+                customer.setPinCode(rs.getString("pinCode"));
+
+                customerList.add(customer);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Error retrieving customer list", e);
+        }
+
+        return customerList;
     }
+
 
     @Override
     public List<FlipFitGymOwner> getGymOwners() {
