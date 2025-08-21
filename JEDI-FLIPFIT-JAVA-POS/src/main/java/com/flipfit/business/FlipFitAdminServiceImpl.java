@@ -108,7 +108,6 @@ public class FlipFitAdminServiceImpl implements FlipFitAdminService{
 
     @Override
     public List<FlipFitTransaction> viewPayments() {
-        List<FlipFitTransaction> payments = new ArrayList<>(FlipFitDirectCustomerServiceImpl.transactionMap.values());
-        return payments;
+       return flipFitAdminDAO.viewPayments();
     }
 }

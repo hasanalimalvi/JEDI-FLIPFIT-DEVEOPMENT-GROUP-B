@@ -183,7 +183,38 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
 
     @Override
     public List<FlipFitTransaction> viewTransactions(int gymId) {
-        return List.of();
+        List<FlipFitTransaction> transactions = new ArrayList<>();
+
+        String sql = "SELECT ft.transactionId, ft.userId, ft.bookingId, ft.paymentType, ft.amount " +
+                "FROM FlipFitTransaction ft " +
+                "JOIN FlipFitBooking fb ON ft.bookingId = fb.bookingId " +
+                "JOIN FlipFitSlot fs ON fb.slotId = fs.slotId " +
+                "WHERE fs.gymId = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, gymId);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    FlipFitTransaction transaction = new FlipFitTransaction();
+                    transaction.setTransactionId(rs.getInt("transactionId"));
+                    transaction.setUserId(rs.getInt("userId"));
+                    transaction.setBookingId(rs.getInt("bookingId"));
+                    transaction.setPaymentType(rs.getInt("paymentType"));
+                    transaction.setAmount(rs.getDouble("amount"));
+
+                    transactions.add(transaction);
+                }
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error retrieving transactions for gymId " + gymId + ": " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return transactions;
     }
 
     @Override

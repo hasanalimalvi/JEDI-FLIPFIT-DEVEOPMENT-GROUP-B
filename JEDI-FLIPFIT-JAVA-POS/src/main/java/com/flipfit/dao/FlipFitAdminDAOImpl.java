@@ -343,6 +343,30 @@ public class FlipFitAdminDAOImpl implements FlipFitAdminDAO{
 
     @Override
     public List<FlipFitTransaction> viewPayments() {
-        return List.of();
+        List<FlipFitTransaction> transactions = new ArrayList<>();
+
+        String sql = "SELECT transactionId, userId, bookingId, paymentType, amount FROM FlipFitTransaction";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql);
+             ResultSet rs = pstmt.executeQuery()) {
+
+            while (rs.next()) {
+                FlipFitTransaction transaction = new FlipFitTransaction();
+                transaction.setTransactionId(rs.getInt("transactionId"));
+                transaction.setUserId(rs.getInt("userId"));
+                transaction.setBookingId(rs.getInt("bookingId"));
+                transaction.setPaymentType(rs.getInt("paymentType"));
+                transaction.setAmount(rs.getDouble("amount"));
+
+                transactions.add(transaction);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error retrieving payment transactions: " + e.getMessage());
+            e.printStackTrace();
+        }
+
+        return transactions;
     }
 }
