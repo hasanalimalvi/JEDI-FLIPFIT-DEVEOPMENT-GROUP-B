@@ -19,7 +19,7 @@ public class FlipFitAdminServiceImpl implements FlipFitAdminService{
     FlipFitDirectCustomerServiceImpl flipFitDirectCustomerService = new FlipFitDirectCustomerServiceImpl();
     FlipFitGymOwnerServiceImpl flipFitGymOwnerService = new FlipFitGymOwnerServiceImpl();
     private final FlipFitAdminDAO flipFitAdminDAO = new FlipFitAdminDAOImpl();
-    static FlipFitAdmin loggedInAdmin = null;
+    public static FlipFitAdmin loggedInAdmin = null;
     @Override
     public List<FlipFitGymOwner> getPendingGymOwnerList() {
 

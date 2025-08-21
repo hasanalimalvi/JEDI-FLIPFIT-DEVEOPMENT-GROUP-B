@@ -87,6 +87,7 @@ public class FlipFitAdminMenu {
                 }
                 case 11 -> {
                     System.out.println(ColorConstants.YELLOW + "🔓 Logging out... See you next time!" + ColorConstants.RESET);
+                    FlipFitAdminServiceImpl.loggedInAdmin = null;
                 }
                 default -> {
                     System.out.println(ColorConstants.RED + "❗ Invalid choice. Please select a valid option." + ColorConstants.RESET);

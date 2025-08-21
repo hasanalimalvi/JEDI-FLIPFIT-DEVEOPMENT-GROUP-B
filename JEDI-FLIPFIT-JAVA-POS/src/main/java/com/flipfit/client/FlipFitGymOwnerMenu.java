@@ -251,6 +251,7 @@ public class FlipFitGymOwnerMenu {
                 }
                 case 11 -> {
                     System.out.println(ColorConstants.YELLOW + "🔓 Logging out... Stay fit!" + ColorConstants.RESET);
+                    FlipFitGymOwnerServiceImpl.loggedInGymOwner = null;
                 }
                 default -> {
                     System.out.println(ColorConstants.RED + "❗ Invalid choice. Please select a valid option." + ColorConstants.RESET);

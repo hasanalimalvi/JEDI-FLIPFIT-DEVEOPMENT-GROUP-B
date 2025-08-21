@@ -198,7 +198,9 @@ public class FlipFitDirectCustomerMenu {
                 }
 
                 case 9 -> {
+
                     System.out.println(ColorConstants.YELLOW + "🔓 Logging out... Thank you for using FlipFit!" + ColorConstants.RESET);
+                    FlipFitDirectCustomerServiceImpl.loggedInDirectCustomer = null;
                 }
                 default -> {
                     System.out.println(ColorConstants.RED + "❗ Invalid choice. Please select a valid option." + ColorConstants.RESET);
