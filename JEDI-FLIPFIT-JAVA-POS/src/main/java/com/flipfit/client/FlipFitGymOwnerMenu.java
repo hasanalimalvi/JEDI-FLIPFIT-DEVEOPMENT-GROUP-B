@@ -153,7 +153,7 @@ public class FlipFitGymOwnerMenu {
                 case 6 -> {
 
                     System.out.println("Enter Gym Owner Id : ");
-                    int id = input.nextInt();
+                    int id = FlipFitGymOwnerServiceImpl.loggedInGymOwner.getUserId();
 
                     System.out.println("👁️ Viewing your profile...");
                     System.out.println(flipFitGymOwnerService.viewDetails(id));
@@ -163,9 +163,7 @@ public class FlipFitGymOwnerMenu {
                     System.out.println("✏️ Editing GymOwner profile...");
                     Scanner scanner = new Scanner(System.in);
 
-                    System.out.print("🆔 Enter your GymOwner ID: ");
-                    int ownerId = scanner.nextInt();
-                    scanner.nextLine(); // consume newline
+                    int ownerId = FlipFitGymOwnerServiceImpl.loggedInGymOwner.getUserId();
 
                     FlipFitGymOwner gymOwner = flipFitGymOwnerService.viewDetails(ownerId);
 

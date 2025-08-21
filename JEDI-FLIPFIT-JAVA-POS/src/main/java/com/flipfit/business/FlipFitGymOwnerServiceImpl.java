@@ -79,7 +79,7 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
 
     @Override
     public FlipFitGymOwner editDetails(FlipFitGymOwner gymOwner) {
-        flipFitGymOwnerMap.put(gymOwner.getUserId(), gymOwner);
+        flipFitGymOwnerDAO.editDetails(gymOwner);
         return gymOwner;
     }
 

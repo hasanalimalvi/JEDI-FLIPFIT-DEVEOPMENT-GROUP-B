@@ -164,29 +164,93 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
 
     @Override
     public FlipFitGymOwner editDetails(FlipFitGymOwner gymOwner) {
-        return null;
+        Connection conn = null;
+        PreparedStatement userStmt = null;
+        PreparedStatement ownerStmt = null;
+
+        try {
+            conn = DBConnection.getConnection();
+
+            // Step 1: Update FlipFitUser table
+            String updateUserQuery = "UPDATE FlipFitUser SET username = ?, email = ?, password = ?, roleId = ? WHERE userId = ?";
+            userStmt = conn.prepareStatement(updateUserQuery);
+            userStmt.setString(1, gymOwner.getUsername());
+            userStmt.setString(2, gymOwner.getEmail());
+            userStmt.setString(3, gymOwner.getPassword());
+            userStmt.setInt(4, gymOwner.getRoleId());
+            userStmt.setInt(5, gymOwner.getUserId());
+            int userRows = userStmt.executeUpdate();
+
+            // Step 2: Update FlipFitGymOwner table
+            String updateOwnerQuery = "UPDATE FlipFitGymOwner SET phoneNumber = ?, city = ?, pinCode = ?, panCard = ?, gstin = ?, aadharNumber = ?, isApproved = ? WHERE gymOwnerId = ?";
+            ownerStmt = conn.prepareStatement(updateOwnerQuery);
+            ownerStmt.setString(1, gymOwner.getPhoneNumber());
+            ownerStmt.setString(2, gymOwner.getCity());
+            ownerStmt.setString(3, gymOwner.getPinCode());
+            ownerStmt.setString(4, gymOwner.getPanCard());
+            ownerStmt.setString(5, gymOwner.getGstin());
+            ownerStmt.setString(6, gymOwner.getAadharNumber());
+            ownerStmt.setBoolean(7, gymOwner.getIsApproved());
+            ownerStmt.setInt(8, gymOwner.getUserId());
+            int ownerRows = ownerStmt.executeUpdate();
+
+            if (userRows > 0 && ownerRows > 0) {
+                System.out.println("✅ Gym owner details updated successfully for userId: " + gymOwner.getUserId());
+            } else {
+                System.out.println("⚠️ Update failed: No matching records found for userId: " + gymOwner.getUserId());
+            }
+
+            return gymOwner;
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("❌ Failed to update gym owner details.");
+        } finally {
+            try {
+                if (userStmt != null) userStmt.close();
+                if (ownerStmt != null) ownerStmt.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
+
 
     @Override
     public FlipFitGymOwner viewDetails(int gymOwnerId) {
-        String sql = "SELECT * FROM FlipFitGymOwner WHERE gymOwnerId = ?";
+        String ownerSql = "SELECT * FROM FlipFitGymOwner WHERE gymOwnerId = ?";
+        String userSql = "SELECT * FROM FlipFitUser WHERE userId = ?";
 
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement ownerStmt = conn.prepareStatement(ownerSql);
+             PreparedStatement userStmt = conn.prepareStatement(userSql)) {
 
-            stmt.setInt(1, gymOwnerId);
+            // Step 1: Fetch FlipFitGymOwner details
+            ownerStmt.setInt(1, gymOwnerId);
+            ResultSet ownerRs = ownerStmt.executeQuery();
 
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
+            if (ownerRs.next()) {
                 FlipFitGymOwner gymOwner = new FlipFitGymOwner();
-                gymOwner.setUserId(rs.getInt("gymOwnerId"));
-                gymOwner.setPhoneNumber(rs.getString("phoneNumber"));
-                gymOwner.setCity(rs.getString("city"));
-                gymOwner.setPinCode(rs.getString("pinCode"));
-                gymOwner.setPanCard(rs.getString("panCard"));
-                gymOwner.setGstin(rs.getString("gstin"));
-                gymOwner.setAadharNumber(rs.getString("aadharNumber"));
-                gymOwner.setIsApproved(rs.getBoolean("isApproved"));
+                gymOwner.setUserId(ownerRs.getInt("gymOwnerId"));
+                gymOwner.setPhoneNumber(ownerRs.getString("phoneNumber"));
+                gymOwner.setCity(ownerRs.getString("city"));
+                gymOwner.setPinCode(ownerRs.getString("pinCode"));
+                gymOwner.setPanCard(ownerRs.getString("panCard"));
+                gymOwner.setGstin(ownerRs.getString("gstin"));
+                gymOwner.setAadharNumber(ownerRs.getString("aadharNumber"));
+                gymOwner.setIsApproved(ownerRs.getBoolean("isApproved"));
+
+                // Step 2: Fetch FlipFitUser details
+                userStmt.setInt(1, gymOwnerId);
+                ResultSet userRs = userStmt.executeQuery();
+
+                if (userRs.next()) {
+                    gymOwner.setUsername(userRs.getString("username"));
+                    gymOwner.setEmail(userRs.getString("email"));
+                    gymOwner.setPassword(userRs.getString("password"));
+                    gymOwner.setRoleId(userRs.getInt("roleId"));
+                }
 
                 return gymOwner;
             }
@@ -194,6 +258,7 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return null; // if not found or error occurs
     }
 
