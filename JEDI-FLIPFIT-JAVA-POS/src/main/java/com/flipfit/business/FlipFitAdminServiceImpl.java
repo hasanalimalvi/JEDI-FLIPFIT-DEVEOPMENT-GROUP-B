@@ -86,7 +86,10 @@ public class FlipFitAdminServiceImpl implements FlipFitAdminService{
 
     @Override
     public List<FlipFitGymOwner> getGymOwners() {
-        return new ArrayList<>(FlipFitGymOwnerServiceImpl.flipFitGymOwnerMap.values());
+        // You need to instantiate the DAO or have it injected
+        // For simplicity, let's assume you're instantiating it here.
+        FlipFitAdminDAO adminDAO = new FlipFitAdminDAOImpl();
+        return adminDAO.getGymOwners();
     }
 
     @Override

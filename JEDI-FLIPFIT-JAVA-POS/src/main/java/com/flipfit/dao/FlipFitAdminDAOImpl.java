@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FlipFitAdminDAOImpl implements FlipFitAdminDAO{
@@ -37,9 +38,61 @@ public class FlipFitAdminDAOImpl implements FlipFitAdminDAO{
 
     @Override
     public List<FlipFitGymOwner> getGymOwners() {
-        return List.of();
-    }
+        List<FlipFitGymOwner> gymOwners = new ArrayList<>();
+        // SQL query to join FlipFitUser and FlipFitGymOwner tables
+        String sql = "SELECT u.userId, u.username, u.email, u.password, u.roleId, " +
+                "go.phoneNumber, go.city, go.pinCode, go.panCard, go.gstin, go.aadharNumber, go.isApproved " +
+                "FROM FlipFitUser u " +
+                "JOIN FlipFitGymOwner go ON u.userId = go.gymOwnerId " +
+                "WHERE u.roleId = (SELECT roleId FROM FlipFitRole WHERE roleName = 'GymOwner')"; // Filters by GymOwner role
 
+        try (Connection conn = DBConnection.getConnection(); // Get connection from your DBConnection utility
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) { // Execute query directly since no parameters
+
+            while (rs.next()) {
+                // Extract data from ResultSet for FlipFitUser fields
+                int userId = rs.getInt("userId");
+                String username = rs.getString("username");
+                String email = rs.getString("email");
+                String password = rs.getString("password");
+                int roleId = rs.getInt("roleId");
+
+                // Extract data from ResultSet for FlipFitGymOwner specific fields
+                String phoneNumber = rs.getString("phoneNumber");
+                String city = rs.getString("city");
+                String pinCode = rs.getString("pinCode");
+                String panCard = rs.getString("panCard");
+                String gstin = rs.getString("gstin");
+                String aadharNumber = rs.getString("aadharNumber");
+                boolean isApproved = rs.getBoolean("isApproved");
+
+                // Create and populate FlipFitGymOwner object using setters
+                FlipFitGymOwner gymOwner = new FlipFitGymOwner();
+                gymOwner.setUserId(userId);
+                gymOwner.setUsername(username);
+                gymOwner.setEmail(email);
+                gymOwner.setPassword(password);
+                gymOwner.setRoleId(roleId);
+                gymOwner.setPhoneNumber(phoneNumber);
+                gymOwner.setCity(city);
+                gymOwner.setPinCode(pinCode);
+                gymOwner.setPanCard(panCard);
+                gymOwner.setGstin(gstin);
+                gymOwner.setAadharNumber(aadharNumber);
+                gymOwner.setIsApproved(isApproved);
+
+                gymOwners.add(gymOwner);
+            }
+            System.out.println("✅ Retrieved " + gymOwners.size() + " gym owners from the database.");
+
+        } catch (SQLException e) {
+            System.err.println("❌ Database error during getGymOwners: " + e.getMessage());
+            e.printStackTrace();
+            return new ArrayList<>(); // Return empty list on error
+        }
+        return gymOwners;
+    }
     @Override
     public List<FlipFitGym> getGyms() {
         return List.of();
