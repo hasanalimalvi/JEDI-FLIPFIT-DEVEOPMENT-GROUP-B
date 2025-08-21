@@ -54,7 +54,6 @@ CREATE TABLE FlipFitSlot (
     slotId INT AUTO_INCREMENT PRIMARY KEY,
     gymId INT,
     startTime TIME,
-    seatsAvailable INT,
     totalSeats INT,
     FOREIGN KEY (gymId) REFERENCES FlipFitGym(gymID)
 );
@@ -64,6 +63,7 @@ CREATE TABLE FlipFitBooking (
     userId INT,
     slotId INT,
     isCancelled BOOLEAN,
+    date DATE,
     FOREIGN KEY (userId) REFERENCES FlipFitUser(userId),
     FOREIGN KEY (slotId) REFERENCES FlipFitSlot(slotId)
 );
@@ -77,3 +77,17 @@ CREATE TABLE FlipFitTransaction (
     FOREIGN KEY (userId) REFERENCES FlipFitUser(userId),
     FOREIGN KEY (bookingId) REFERENCES FlipFitBooking(bookingId)
 );
+
+CREATE TABLE FlipFitSlotAvailability (
+  slotId INT NOT NULL,
+  date DATE NOT NULL,
+  seatsAvailable INT NOT NULL,
+  PRIMARY KEY (slotId, date),
+  FOREIGN KEY (slotId) REFERENCES FlipFitSlot(slotId)
+);
+
+INSERT INTO FlipFit_Schema.FlipFitRole (roleId, roleName)
+VALUES
+  (1, 'Direct Customer'),
+  (2, 'Gyn Owner'),
+  (3, 'Admin');
