@@ -2,8 +2,6 @@ package com.flipfit.bean;
 
 import com.flipfit.constant.ColorConstants;
 
-import java.time.LocalDate;
-
 public class FlipFitBooking {
     private int bookingId;
     public int userId;

@@ -5,7 +5,6 @@ import com.flipfit.business.FlipFitGymOwnerService;
 import com.flipfit.business.FlipFitGymOwnerServiceImpl;
 import com.flipfit.constant.ColorConstants;
 
-import java.sql.Time;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;

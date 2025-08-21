@@ -2,8 +2,6 @@ package com.flipfit.client;
 
 import com.flipfit.business.FlipFitAdminService;
 import com.flipfit.business.FlipFitAdminServiceImpl;
-import com.flipfit.business.FlipFitDirectCustomerService;
-import com.flipfit.business.FlipFitDirectCustomerServiceImpl;
 import com.flipfit.constant.ColorConstants;
 
 import java.util.Scanner;

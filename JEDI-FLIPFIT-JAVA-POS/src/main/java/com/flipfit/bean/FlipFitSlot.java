@@ -2,7 +2,6 @@ package com.flipfit.bean;
 
 import com.flipfit.constant.ColorConstants;
 
-import java.sql.Time;
 import java.time.LocalTime;
 
 public class FlipFitSlot {
