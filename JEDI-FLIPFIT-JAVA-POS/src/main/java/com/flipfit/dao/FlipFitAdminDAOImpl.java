@@ -13,12 +13,86 @@ import java.util.List;
 public class FlipFitAdminDAOImpl implements FlipFitAdminDAO{
     @Override
     public List<FlipFitGymOwner> getPendingGymOwnerList() {
-        return List.of();
+        List<FlipFitGymOwner> pendingOwners = new ArrayList<>();
+
+        String query = """
+        SELECT g.*, u.*
+        FROM FlipFitGymOwner g
+        JOIN FlipFitUser u ON g.gymOwnerId = u.userId
+        WHERE g.isApproved = false
+    """;
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query);
+             ResultSet rs = stmt.executeQuery()) {
+
+            while (rs.next()) {
+                FlipFitGymOwner owner = new FlipFitGymOwner();
+                owner.setUserId(rs.getInt("gymOwnerId"));
+                owner.setPhoneNumber(rs.getString("phoneNumber"));
+                owner.setCity(rs.getString("city"));
+                owner.setPinCode(rs.getString("pinCode"));
+                owner.setPanCard(rs.getString("panCard"));
+                owner.setGstin(rs.getString("gstin"));
+                owner.setAadharNumber(rs.getString("aadharNumber"));
+                owner.setIsApproved(rs.getBoolean("isApproved"));
+
+                // Set user details from FlipFitUser
+                owner.setUsername(rs.getString("username"));
+                owner.setEmail(rs.getString("email"));
+                owner.setPassword(rs.getString("password"));
+                owner.setRoleId(rs.getInt("roleId"));
+
+                pendingOwners.add(owner);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return pendingOwners;
     }
 
     @Override
     public List<FlipFitGymOwner> getApprovedGymOwnerList() {
-        return List.of();
+        List<FlipFitGymOwner> approvedOwners = new ArrayList<>();
+
+        String query = """
+            SELECT g.*, u.*
+            FROM FlipFitGymOwner g
+            JOIN FlipFitUser u ON g.gymOwnerId = u.userId
+            WHERE g.isApproved = true
+        """;
+
+            try (Connection conn = DBConnection.getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(query);
+                 ResultSet rs = stmt.executeQuery()) {
+
+                while (rs.next()) {
+                    FlipFitGymOwner owner = new FlipFitGymOwner();
+                    owner.setUserId(rs.getInt("gymOwnerId"));
+                    owner.setPhoneNumber(rs.getString("phoneNumber"));
+                    owner.setCity(rs.getString("city"));
+                    owner.setPinCode(rs.getString("pinCode"));
+                    owner.setPanCard(rs.getString("panCard"));
+                    owner.setGstin(rs.getString("gstin"));
+                    owner.setAadharNumber(rs.getString("aadharNumber"));
+                    owner.setIsApproved(rs.getBoolean("isApproved"));
+
+                    // Set user details from FlipFitUser
+                    owner.setUsername(rs.getString("username"));
+                    owner.setEmail(rs.getString("email"));
+                    owner.setPassword(rs.getString("password"));
+                    owner.setRoleId(rs.getInt("roleId"));
+
+                    approvedOwners.add(owner);
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return approvedOwners;
     }
 
     @Override

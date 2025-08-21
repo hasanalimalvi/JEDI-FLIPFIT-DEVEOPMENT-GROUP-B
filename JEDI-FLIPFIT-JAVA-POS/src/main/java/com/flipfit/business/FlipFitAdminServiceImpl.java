@@ -22,32 +22,25 @@ public class FlipFitAdminServiceImpl implements FlipFitAdminService{
     public static FlipFitAdmin loggedInAdmin = null;
     @Override
     public List<FlipFitGymOwner> getPendingGymOwnerList() {
+        List<FlipFitGymOwner> pendingOwners = flipFitAdminDAO.getPendingGymOwnerList();
 
-        List<FlipFitGymOwner> gymOwners = new ArrayList<>(FlipFitGymOwnerServiceImpl.flipFitGymOwnerMap.values());
-
-        List<FlipFitGymOwner> filteredGymOwners = new ArrayList<FlipFitGymOwner>();
-
-        for(FlipFitGymOwner flipFitGymOwner : gymOwners){
-            if(!flipFitGymOwner.getIsApproved())
-                filteredGymOwners.add(flipFitGymOwner);
+        if (pendingOwners.isEmpty()) {
+            System.out.println("✅ No pending gym owners found.");
         }
 
-        return filteredGymOwners;
+        return pendingOwners;
     }
+
 
     @Override
     public List<FlipFitGymOwner> getApprovedGymOwnerList() {
+        List<FlipFitGymOwner> approvedOwners = flipFitAdminDAO.getApprovedGymOwnerList();
 
-        List<FlipFitGymOwner> gymOwners = new ArrayList<>(FlipFitGymOwnerServiceImpl.flipFitGymOwnerMap.values());
-
-        List<FlipFitGymOwner> filteredGymOwners = new ArrayList<FlipFitGymOwner>();
-
-        for(FlipFitGymOwner flipFitGymOwner : gymOwners){
-            if(flipFitGymOwner.getIsApproved())
-                filteredGymOwners.add(flipFitGymOwner);
+        if (approvedOwners.isEmpty()) {
+            System.out.println("No Approved gym owners found.");
         }
 
-        return filteredGymOwners;
+        return approvedOwners;
     }
 
     @Override
