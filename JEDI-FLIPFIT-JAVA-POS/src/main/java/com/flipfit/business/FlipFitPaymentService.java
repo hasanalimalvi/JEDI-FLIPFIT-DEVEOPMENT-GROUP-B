@@ -1,7 +1,8 @@
 package com.flipfit.business;
 
 import com.flipfit.bean.FlipFitTransaction;
+import com.flipfit.dao.FlipFitPaymentDAO;
 
 public interface FlipFitPaymentService {
-    void processPayment(FlipFitTransaction transaction);
+    FlipFitTransaction processPayment(FlipFitTransaction transaction);
 }

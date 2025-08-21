@@ -29,6 +29,7 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
 
 
     FlipFitDirectCustomerDAO flipFitDirectCustomerDAO = new FlipFitDirectCustomerDAOImpl();
+    FlipFitPaymentService flipFitPaymentService = new FlipFitPaymentServiceImpl();
     FlipFitAdminDAO flipFitAdminDAO = new FlipFitAdminDAOImpl();
 
 
@@ -75,10 +76,7 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
 
     @Override
     public FlipFitTransaction makePayment(FlipFitTransaction flipFitTransaction) {
-        flipFitTransaction.setTransactionId(transactionIdCounter++);
-
-        transactionMap.put(flipFitTransaction.getTransactionId(), flipFitTransaction);
-        return flipFitTransaction;
+        return flipFitPaymentService.processPayment(flipFitTransaction);
     }
 
     @Override

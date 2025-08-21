@@ -201,11 +201,6 @@ customer.setPinCode(pinCode);
 
 
     @Override
-    public FlipFitTransaction makePayment(FlipFitTransaction flipFitTransaction) {
-        return null;
-    }
-
-    @Override
     public FlipFitDirectCustomer login(String customerName, String password) {
         String userQuery = "SELECT * FROM FlipFitUser WHERE username = ? AND password = ?";
         String customerQuery = "SELECT * FROM FlipFitDirectCustomer WHERE customerId = ?";

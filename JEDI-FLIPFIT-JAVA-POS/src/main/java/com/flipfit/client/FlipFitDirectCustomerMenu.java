@@ -167,8 +167,8 @@ public class FlipFitDirectCustomerMenu {
 
                     System.out.println(ColorConstants.YELLOW + "💳 Redirecting to payment gateway... Please wait." + ColorConstants.RESET);
 
-                    System.out.print("👤 Enter User ID: ");
-                    int userId = scanner.nextInt();
+
+                    int userId = FlipFitDirectCustomerServiceImpl.loggedInDirectCustomer.getUserId();
 
                     System.out.print("📌 Enter Booking ID: ");
                     int bookingId = scanner.nextInt();
