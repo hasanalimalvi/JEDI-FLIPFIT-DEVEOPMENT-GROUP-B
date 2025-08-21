@@ -2,6 +2,9 @@ package com.flipfit.business;
 
 import com.flipfit.bean.*;
 import com.flipfit.constant.ColorConstants;
+import com.flipfit.dao.FlipFitDirectCustomerDAOImpl;
+import com.flipfit.dao.FlipFitGymOwnerDAO;
+import com.flipfit.dao.FlipFitGymOwnerDAOImpl;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -12,7 +15,7 @@ import static com.flipfit.business.FlipFitDirectCustomerServiceImpl.bookingMap;
 
 public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
 
-
+    private final FlipFitGymOwnerDAO flipFitGymOwnerDAO = new FlipFitGymOwnerDAOImpl();
     static Map<Integer, FlipFitGymOwner> flipFitGymOwnerMap = new HashMap<Integer,FlipFitGymOwner>();
     static Map<Integer, FlipFitGym> flipFitGymMap = new HashMap<Integer,FlipFitGym>();
     static Map<Integer, FlipFitSlot> flipFitSlotMap = new HashMap<Integer,FlipFitSlot>();
@@ -22,11 +25,12 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
 
     @Override
     public FlipFitGymOwner registerGymOwner(FlipFitGymOwner gymOwner) {
-        gymOwner.setUserId(gymOwnerIdCounter++);
-        flipFitGymOwnerMap.put(gymOwner.getUserId(), gymOwner);
-        System.out.println(ColorConstants.GREEN + "✅ Gym Owner registered successfully with ID: "
-                + gymOwner.getUserId() + ColorConstants.RESET);
-        return gymOwner;
+//        gymOwner.setUserId(gymOwnerIdCounter++);
+//        flipFitGymOwnerMap.put(gymOwner.getUserId(), gymOwner);
+//        System.out.println(ColorConstants.GREEN + "✅ Gym Owner registered successfully with ID: "
+//                + gymOwner.getUserId() + ColorConstants.RESET);
+//        return gymOwner;
+        return flipFitGymOwnerDAO.registerGymOwner(gymOwner);
     }
 
     @Override

@@ -187,7 +187,7 @@ public class FlipFitApplication {
                     gymOwner.setCity(city);
                     gymOwner.setPinCode(pinCode);
                     gymOwner.setUsername(username);
-                    gymOwner.setRoleId(1);
+                    gymOwner.setRoleId(2);
                     gymOwner.setGstin(gstin);
                     gymOwner.setAadharNumber(aadharNumber);
                     gymOwner.setPanCard(panCard);
