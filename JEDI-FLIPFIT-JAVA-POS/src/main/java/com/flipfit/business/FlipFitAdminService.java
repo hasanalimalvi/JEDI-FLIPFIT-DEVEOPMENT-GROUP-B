@@ -3,6 +3,7 @@ package com.flipfit.business;
 import com.flipfit.bean.FlipFitDirectCustomer;
 import com.flipfit.bean.FlipFitGym;
 import com.flipfit.bean.FlipFitGymOwner;
+import com.flipfit.bean.FlipFitTransaction;
 
 import java.util.List;
 
@@ -17,4 +18,5 @@ public interface FlipFitAdminService {
     boolean validateGymOwner(int gymOwnerId);
     boolean validateGym(int gymId);
     boolean login(String adminName, String password);
+    List<FlipFitTransaction> viewPayments();
 }

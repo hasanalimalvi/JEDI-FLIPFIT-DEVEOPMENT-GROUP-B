@@ -3,6 +3,7 @@ package com.flipfit.business;
 import com.flipfit.bean.FlipFitDirectCustomer;
 import com.flipfit.bean.FlipFitGym;
 import com.flipfit.bean.FlipFitGymOwner;
+import com.flipfit.bean.FlipFitTransaction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,5 +106,11 @@ public class FlipFitAdminServiceImpl implements FlipFitAdminService{
     @Override
     public boolean login(String adminName, String password) {
         return false;
+    }
+
+    @Override
+    public List<FlipFitTransaction> viewPayments() {
+        List<FlipFitTransaction> payments = new ArrayList<>(FlipFitDirectCustomerServiceImpl.transactionMap.values());
+        return payments;
     }
 }

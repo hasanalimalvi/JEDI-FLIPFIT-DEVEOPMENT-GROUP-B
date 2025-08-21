@@ -53,7 +53,7 @@ public class FlipFitAdminMenu {
                 }
                 case 5 -> {
                     System.out.println("💳 Viewing payments...");
-                    // Call method to view payments
+                    System.out.println(flipFitAdminService.viewPayments());
                 }
                 case 6 -> {
                     System.out.println("Approve Gym Owner ...");
