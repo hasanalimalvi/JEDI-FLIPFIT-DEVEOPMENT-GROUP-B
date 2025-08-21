@@ -8,7 +8,6 @@ public class FlipFitSlot {
     private int slotId;
     private int gymId;
     private LocalTime startTime;
-    private int seatsAvailable;
     private int totalSeats;
 
     public int getGymId() {
@@ -17,14 +16,6 @@ public class FlipFitSlot {
 
     public void setGymId(int gymId) {
         this.gymId = gymId;
-    }
-
-    public int getSeatsAvailable() {
-        return seatsAvailable;
-    }
-
-    public void setSeatsAvailable(int seatsAvailable) {
-        this.seatsAvailable = seatsAvailable;
     }
 
     public int getSlotId() {
