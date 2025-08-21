@@ -1,11 +1,9 @@
 package com.flipfit.client;
 
+import com.flipfit.bean.FlipFitAdmin;
 import com.flipfit.bean.FlipFitDirectCustomer;
 import com.flipfit.bean.FlipFitGymOwner;
-import com.flipfit.business.FlipFitDirectCustomerService;
-import com.flipfit.business.FlipFitDirectCustomerServiceImpl;
-import com.flipfit.business.FlipFitGymOwnerService;
-import com.flipfit.business.FlipFitGymOwnerServiceImpl;
+import com.flipfit.business.*;
 import com.flipfit.constant.ColorConstants;
 
 import java.util.Scanner;
@@ -16,6 +14,13 @@ public class FlipFitApplication {
         FlipFitGymOwnerService flipFitGymOwnerService = new FlipFitGymOwnerServiceImpl();
         Scanner input = new Scanner(System.in);
         int flipfitMenuChoice;
+
+        FlipFitAdmin admin = new FlipFitAdmin();
+        admin.setUsername("admin");
+        admin.setPassword("admin");
+        admin.setUserId(1);
+
+        FlipFitAdminServiceImpl.flipFitAdminMap.put(1, admin);
 
         System.out.println(ColorConstants.CYAN + """
                 ╔════════════════════════════════════════════╗

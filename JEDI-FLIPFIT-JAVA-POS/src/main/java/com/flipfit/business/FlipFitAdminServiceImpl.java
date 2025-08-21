@@ -1,15 +1,15 @@
 package com.flipfit.business;
 
-import com.flipfit.bean.FlipFitDirectCustomer;
-import com.flipfit.bean.FlipFitGym;
-import com.flipfit.bean.FlipFitGymOwner;
-import com.flipfit.bean.FlipFitTransaction;
+import com.flipfit.bean.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FlipFitAdminServiceImpl implements FlipFitAdminService{
 
+    public static Map<Integer, FlipFitAdmin> flipFitAdminMap = new HashMap<Integer,FlipFitAdmin>();
     FlipFitDirectCustomerServiceImpl flipFitDirectCustomerService = new FlipFitDirectCustomerServiceImpl();
     FlipFitGymOwnerServiceImpl flipFitGymOwnerService = new FlipFitGymOwnerServiceImpl();
 
