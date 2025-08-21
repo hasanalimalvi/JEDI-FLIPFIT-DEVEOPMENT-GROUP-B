@@ -63,7 +63,35 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
 
     @Override
     public FlipFitGym addGym(FlipFitGym gym) {
-        return null;
+        String insertGymSQL = "INSERT INTO FlipFitGym (gymOwnerID, address, pinCode, isApproved, description) VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement gymStmt = conn.prepareStatement(insertGymSQL, Statement.RETURN_GENERATED_KEYS)) {
+
+            // Set parameters
+            gymStmt.setInt(1, gym.getGymOwnerID());
+            gymStmt.setString(2, gym.getAddress());
+            gymStmt.setString(3, gym.getPinCode());
+            gymStmt.setBoolean(4, gym.isApproved());
+            gymStmt.setString(5, gym.getDescription());
+
+            // Execute insert
+            gymStmt.executeUpdate();
+
+            // Retrieve generated gymID
+            ResultSet rs = gymStmt.getGeneratedKeys();
+            if (rs.next()) {
+                int generatedGymID = rs.getInt(1);
+                gym.setGymID(generatedGymID);
+                return gym;
+            } else {
+                throw new SQLException("Failed to retrieve generated gymID.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override

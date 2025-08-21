@@ -23,7 +23,7 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
     static int gymIdCounter = 1;
     static int slotIdCounter = 1;
 
-    static FlipFitGymOwner loggedInGymOwner = null;
+    public static FlipFitGymOwner loggedInGymOwner = null;
 
     @Override
     public FlipFitGymOwner registerGymOwner(FlipFitGymOwner gymOwner) {
@@ -32,11 +32,7 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
 
     @Override
     public FlipFitGym addGym(FlipFitGym gym) {
-        gym.setGymID(gymIdCounter++);
-        flipFitGymMap.put(gym.getGymID(), gym);
-        System.out.println(ColorConstants.GREEN + "✅ Gym  registered successfully with ID: "
-                + gym.getGymID() + ColorConstants.RESET);
-        return gym;
+        return flipFitGymOwnerDAO.addGym(gym);
     }
 
     @Override
