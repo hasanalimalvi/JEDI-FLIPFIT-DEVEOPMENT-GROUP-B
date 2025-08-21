@@ -54,7 +54,6 @@ CREATE TABLE FlipFitSlot (
     slotId INT AUTO_INCREMENT PRIMARY KEY,
     gymId INT,
     startTime TIME,
-    seatsAvailable INT,
     totalSeats INT,
     FOREIGN KEY (gymId) REFERENCES FlipFitGym(gymID)
 );
@@ -76,6 +75,14 @@ CREATE TABLE FlipFitTransaction (
     amount DOUBLE,
     FOREIGN KEY (userId) REFERENCES FlipFitUser(userId),
     FOREIGN KEY (bookingId) REFERENCES FlipFitBooking(bookingId)
+);
+
+CREATE TABLE FlipFitSlotAvailability (
+  slotId INT NOT NULL,
+  date DATE NOT NULL,
+  seatsAvailable INT NOT NULL,
+  PRIMARY KEY (slotId, date),
+  FOREIGN KEY (slotId) REFERENCES FlipFitSlot(slotId) 
 );
 
 SET SQL_SAFE_UPDATES = 0;
