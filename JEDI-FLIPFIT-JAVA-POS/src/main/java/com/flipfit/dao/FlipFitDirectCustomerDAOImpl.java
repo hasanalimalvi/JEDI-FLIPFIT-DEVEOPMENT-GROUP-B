@@ -5,6 +5,7 @@ import com.flipfit.utils.DBConnection;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FlipFitDirectCustomerDAOImpl implements FlipFitDirectCustomerDAO{
@@ -12,8 +13,46 @@ public class FlipFitDirectCustomerDAOImpl implements FlipFitDirectCustomerDAO{
 
     @Override
     public List<FlipFitBooking> viewBookedSlots(int userId) {
-        return List.of();
+        List<FlipFitBooking> bookings = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBConnection.getConnection();
+            String sql = "SELECT bookingId, userId, slotId, isCancelled, date FROM FlipFitBooking WHERE userId = ? AND isCancelled = false";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, userId);
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                FlipFitBooking booking = new FlipFitBooking();
+                booking.setBookingId(rs.getInt("bookingId"));
+                booking.setUserId(rs.getInt("userId"));
+                booking.setSlotId(rs.getInt("slotId"));
+                booking.setCancelled(rs.getBoolean("isCancelled"));
+                booking.setDate(rs.getDate("date").toLocalDate());
+
+                bookings.add(booking);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new RuntimeException("Failed to fetch bookings for userId: " + userId, e);
+        } finally {
+            try {
+                if (rs != null) rs.close();
+                if (ps != null) ps.close();
+                if (conn != null) conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return bookings;
     }
+
+
 
     @Override
     public FlipFitDirectCustomer viewDetails(int customerId) {

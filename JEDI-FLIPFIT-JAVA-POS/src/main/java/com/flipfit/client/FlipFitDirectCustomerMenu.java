@@ -57,8 +57,7 @@ public class FlipFitDirectCustomerMenu {
                 case 3 -> {
                     System.out.println("📖 Viewing your bookings...");
 
-                    System.out.print("👤 Enter your User ID:> ");
-                    int userId = input.nextInt();
+                    int userId = FlipFitDirectCustomerServiceImpl.loggedInDirectCustomer.getUserId();
 
                     List<FlipFitBooking> flipFitBookings = flipFitDirectCustomerService.viewBookedSlots(userId);
 
@@ -67,19 +66,7 @@ public class FlipFitDirectCustomerMenu {
                     } else {
                         System.out.println("📋 Your Bookings:");
                         for (FlipFitBooking booking : flipFitBookings) {
-                            System.out.println("""
-                ----------------------------------------
-                📌 Booking ID : %d
-                🏋️ Slot ID    : %d
-                👤 User ID    : %d
-                ❌ Cancelled  : %s
-                ----------------------------------------
-                """.formatted(
-                                    booking.getFlipFitBookingId(),
-                                    booking.getSlotId(),
-                                    booking.getUserId(),
-                                    booking.isCancelled() ? "Yes" : "No"
-                            ));
+                            System.out.println(booking);
                         }
                     }
                 }

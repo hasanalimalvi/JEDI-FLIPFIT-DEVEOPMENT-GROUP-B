@@ -42,15 +42,7 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
 
     @Override
     public List<FlipFitBooking> viewBookedSlots(int userId) {
-        List<FlipFitBooking> userBookings = new ArrayList<>();
-
-        for (FlipFitBooking booking : bookingMap.values()) {
-            if (booking.getUserId() == userId && !booking.isCancelled()) {
-                userBookings.add(booking);
-            }
-        }
-
-        return userBookings;
+        return flipFitDirectCustomerDAO.viewBookedSlots(userId);
     }
 
     @Override
