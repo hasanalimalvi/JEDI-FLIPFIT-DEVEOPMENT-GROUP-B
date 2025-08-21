@@ -19,7 +19,57 @@ public class FlipFitDirectCustomerDAOImpl implements FlipFitDirectCustomerDAO{
 
     @Override
     public FlipFitDirectCustomer viewDetails(int customerId) {
-        return null;
+        FlipFitDirectCustomer customer = null;
+        // SQL query to retrieve customer details by customerId
+        // Join with FlipFitUser to get common user details like username, email, password, and roleId
+        String sql = "SELECT fc.customerId, fu.username, fu.email, fu.password, fu.roleId, " +
+                "fc.phoneNumber, fc.city, fc.pinCode " +
+                "FROM FlipFitDirectCustomer fc " +
+                "JOIN FlipFitUser fu ON fc.customerId = fu.userId " +
+                "WHERE fc.customerId = ?";
+
+        // Use try-with-resources to ensure Connection, PreparedStatement, and ResultSet are closed.
+        try (Connection conn = DBConnection.getConnection(); // Get database connection from DBConnection utility
+             PreparedStatement pstmt = conn.prepareStatement(sql)) { // Prepare the SQL statement
+
+            // Set the customerId parameter for the prepared statement.
+            // '1' refers to the first '?' in the SQL query.
+            pstmt.setInt(1, customerId);
+
+            try (ResultSet rs = pstmt.executeQuery()) { // Execute the query and get the result set
+                if (rs.next()) { // Check if a record was found
+                    // Retrieve data from the ResultSet using column names
+                    int retrievedCustomerId = rs.getInt("customerId");
+                    String username = rs.getString("username");
+                    String email = rs.getString("email");
+                    String password = rs.getString("password");
+                    int roleId = rs.getInt("roleId");
+                    String phoneNumber = rs.getString("phoneNumber");
+                    String city = rs.getString("city");
+                    String pinCode = rs.getString("pinCode");
+
+                    // Create a new FlipFitDirectCustomer object with the retrieved data
+                    customer = new FlipFitDirectCustomer();
+customer.setUserId(retrievedCustomerId);
+customer.setUsername(username);
+customer.setEmail(email);
+customer.setPassword(password);
+customer.setRoleId(roleId);
+customer.setPhoneNumber(phoneNumber);
+customer.setCity(city);
+customer.setPinCode(pinCode);
+
+
+                }
+            }
+        } catch (SQLException e) {
+            // Handle any SQL exceptions (e.g., connection issues, invalid query, database errors)
+            System.err.println("Database error while retrieving customer details for ID " + customerId + ": " + e.getMessage());
+            e.printStackTrace(); // Log the full stack trace for debugging
+        }
+        return customer;
+
+//        return null;
     }
 
     @Override

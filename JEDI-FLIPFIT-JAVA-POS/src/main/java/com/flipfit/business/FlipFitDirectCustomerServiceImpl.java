@@ -20,7 +20,7 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
     static Map<Integer, FlipFitTransaction> transactionMap = new HashMap<Integer, FlipFitTransaction>();
     static int transactionIdCounter = 1;
 
-    static FlipFitDirectCustomer loggedInDirectCustomer = null;
+    public static FlipFitDirectCustomer loggedInDirectCustomer = null;
 
     static Map<Integer, FlipFitUser> userMap = new HashMap<Integer, FlipFitUser>();
     static int userIdCounter = 1;
@@ -52,11 +52,7 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
 
     @Override
     public FlipFitDirectCustomer viewDetails(int customerId) {
-        FlipFitDirectCustomer customer = flipFitDirectCustomerMap.get(customerId);
-        if (customer == null) {
-            System.out.println(ColorConstants.RED + "❗ Customer ID " + customerId + " not found." + ColorConstants.RESET);
-        }
-        return customer;
+        return flipFitDirectCustomerDAO.viewDetails(customerId);
     }
 
 
@@ -65,6 +61,8 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
         FlipFitDirectCustomer customer = flipFitDirectCustomerDAO.registerCustomer(directCustomer);
         System.out.println(ColorConstants.GREEN + "✅ Customer registered successfully with ID: " + directCustomer.getUserId() + ColorConstants.RESET);
         return customer;
+
+
     }
 
 

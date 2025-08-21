@@ -120,8 +120,8 @@ public class FlipFitDirectCustomerMenu {
                     flipFitDirectCustomerService.cancelFlipFitBooking(bookingId);
                 }
                 case 6 -> {
-                    System.out.println("Enter your User Id : ");
-                    int id = input.nextInt();
+
+                    int id = FlipFitDirectCustomerServiceImpl.loggedInDirectCustomer.getUserId();
                     System.out.println("👁️ Viewing your profile...");
                     System.out.println(flipFitDirectCustomerService.viewDetails(id));
                 }
