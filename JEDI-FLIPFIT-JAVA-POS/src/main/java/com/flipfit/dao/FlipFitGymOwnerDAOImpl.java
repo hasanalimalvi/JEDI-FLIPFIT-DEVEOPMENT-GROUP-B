@@ -4,6 +4,7 @@ import com.flipfit.bean.*;
 import com.flipfit.utils.DBConnection;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
@@ -156,7 +157,31 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
 
     @Override
     public List<FlipFitSlot> viewSlots(int gymId) {
-        return List.of();
+        String selectSlotsSQL = "SELECT slotId, gymId, startTime, seatsAvailable, totalSeats FROM FlipFitSlot WHERE gymId = ?";
+        List<FlipFitSlot> slots = new ArrayList<>();
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(selectSlotsSQL)) {
+
+            stmt.setInt(1, gymId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                FlipFitSlot slot = new FlipFitSlot();
+                slot.setSlotId(rs.getInt("slotId"));
+                slot.setGymId(rs.getInt("gymId"));
+                slot.setStartTime(rs.getTime("startTime").toLocalTime());
+                slot.setSeatsAvailable(rs.getInt("seatsAvailable"));
+                slot.setTotalSeats(rs.getInt("totalSeats"));
+
+                slots.add(slot);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return slots;
     }
 
     @Override
@@ -214,13 +239,54 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
 
     @Override
     public FlipFitSlot addSlot(FlipFitSlot slot) {
-        return null;
+        String insertSlotSQL = "INSERT INTO FlipFitSlot (gymId, startTime, seatsAvailable, totalSeats) VALUES (?, ?, ?, ?)";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement slotStmt = conn.prepareStatement(insertSlotSQL, Statement.RETURN_GENERATED_KEYS)) {
+
+            // Set parameters
+            slotStmt.setInt(1, slot.getGymId());
+            slotStmt.setTime(2, Time.valueOf(slot.getStartTime()));
+            slotStmt.setInt(3, slot.getSeatsAvailable());
+            slotStmt.setInt(4, slot.getTotalSeats());
+
+            // Execute insert
+            slotStmt.executeUpdate();
+
+            // Retrieve generated slotId
+            ResultSet rs = slotStmt.getGeneratedKeys();
+            if (rs.next()) {
+                int generatedSlotId = rs.getInt(1);
+                slot.setSlotId(generatedSlotId);
+                return slot;
+            } else {
+                throw new SQLException("Failed to retrieve generated slotId.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public boolean deleteSlot(int slotId) {
-        return false;
+        String deleteSlotSQL = "DELETE FROM FlipFitSlot WHERE slotId = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(deleteSlotSQL)) {
+
+            stmt.setInt(1, slotId);
+            int affectedRows = stmt.executeUpdate();
+
+            return affectedRows > 0; // true if a row was deleted
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
+
 
     @Override
     public List<FlipFitBooking> viewBookings(int gymId) {

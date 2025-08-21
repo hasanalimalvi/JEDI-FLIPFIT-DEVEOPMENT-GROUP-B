@@ -102,7 +102,7 @@ public class FlipFitGymOwnerMenu {
 
                     FlipFitSlot newSlot = new FlipFitSlot();
                     newSlot.setGymId(gymId);
-                    newSlot.setStartTime(startTime); // assuming FlipFitSlot uses LocalTime
+                    newSlot.setStartTime(startTime);
                     newSlot.setTotalSeats(totalSeats);
                     newSlot.setSeatsAvailable(seatsAvailable);
 

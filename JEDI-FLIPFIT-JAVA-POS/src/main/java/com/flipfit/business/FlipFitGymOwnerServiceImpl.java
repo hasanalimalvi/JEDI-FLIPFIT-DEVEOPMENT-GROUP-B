@@ -106,19 +106,7 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
 
     @Override
     public List<FlipFitSlot> viewSlots(int gymId) {
-        List<FlipFitSlot> filteredSlots = new ArrayList<>();
-
-        for (FlipFitSlot slot : flipFitSlotMap.values()) {
-            if (slot.getGymId() == gymId) {
-                filteredSlots.add(slot);
-            }
-        }
-
-        if (filteredSlots.isEmpty()) {
-            System.out.println(ColorConstants.RED + "❗ No slots found for Gym ID: " + gymId + ColorConstants.RESET);
-        }
-
-        return filteredSlots;
+        return flipFitGymOwnerDAO.viewSlots(gymId);
     }
 
     @Override
@@ -129,20 +117,14 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
 
     @Override
     public FlipFitSlot addSlot(FlipFitSlot slot) {
-        slot.setSlotId(slotIdCounter++);
-        flipFitSlotMap.put(slot.getSlotId(), slot);
         System.out.println(ColorConstants.GREEN + "✅ Slot added successfully with ID: "
                 + slot.getSlotId() + ColorConstants.RESET);
-        return slot;
+        return flipFitGymOwnerDAO.addSlot(slot);
     }
 
     @Override
     public boolean deleteSlot(int slotId) {
-        if (flipFitSlotMap.containsKey(slotId)) {
-            flipFitSlotMap.remove(slotId);
-            return true;
-        }
-        return false;
+        return flipFitGymOwnerDAO.deleteSlot(slotId);
     }
 
     @Override
