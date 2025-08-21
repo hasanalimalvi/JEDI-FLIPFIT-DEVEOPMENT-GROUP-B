@@ -143,7 +143,7 @@ public class FlipFitApplication {
                     gymCustomer.setCity(city);
                     gymCustomer.setPinCode(pinCode);
                     gymCustomer.setPassword(password);
-                    gymCustomer.setRoleId(0);
+                    gymCustomer.setRoleId(1);
 
                     flipFitDirectCustomerService.registerCustomer(gymCustomer);
                     System.out.println(ColorConstants.GREEN + "\n✅ Registration Successful! Here's your info:" + ColorConstants.RESET);

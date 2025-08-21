@@ -2,6 +2,8 @@ package com.flipfit.business;
 
 import com.flipfit.bean.*;
 import com.flipfit.constant.ColorConstants;
+import com.flipfit.dao.FlipFitDirectCustomerDAO;
+import com.flipfit.dao.FlipFitDirectCustomerDAOImpl;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -20,6 +22,9 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
 
     static Map<Integer, FlipFitUser> userMap = new HashMap<Integer, FlipFitUser>();
     static int userIdCounter = 1;
+
+
+    FlipFitDirectCustomerDAO flipFitDirectCustomerDAO = new FlipFitDirectCustomerDAOImpl();
 
 
 
@@ -55,16 +60,9 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
 
     @Override
     public FlipFitDirectCustomer registerCustomer(FlipFitDirectCustomer directCustomer) {
-        // Assign customer ID
-        directCustomer.setUserId(customerIdCounter++);
-        flipFitDirectCustomerMap.put(directCustomer.getUserId(), directCustomer);
-
-
-
-
+        FlipFitDirectCustomer customer = flipFitDirectCustomerDAO.registerCustomer(directCustomer);
         System.out.println(ColorConstants.GREEN + "✅ Customer registered successfully with ID: " + directCustomer.getUserId() + ColorConstants.RESET);
-
-        return directCustomer;
+        return customer;
     }
 
 
