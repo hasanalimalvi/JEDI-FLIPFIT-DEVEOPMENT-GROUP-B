@@ -124,7 +124,30 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
 
     @Override
     public FlipFitGym viewGym(int gymId) {
-        return null;
+        String selectGymSQL = "SELECT gymID, gymOwnerID, address, pinCode, isApproved, description FROM FlipFitGym WHERE gymID = ?";
+
+        try (Connection conn = DBConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(selectGymSQL)) {
+
+            stmt.setInt(1, gymId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                FlipFitGym gym = new FlipFitGym();
+                gym.setGymID(rs.getInt("gymID"));
+                gym.setGymOwnerID(rs.getInt("gymOwnerID"));
+                gym.setAddress(rs.getString("address"));
+                gym.setPinCode(rs.getString("pinCode"));
+                gym.setApproved(rs.getBoolean("isApproved"));
+                gym.setDescription(rs.getString("description"));
+                return gym;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null; // Return null if gym not found or error occurs
     }
 
     @Override

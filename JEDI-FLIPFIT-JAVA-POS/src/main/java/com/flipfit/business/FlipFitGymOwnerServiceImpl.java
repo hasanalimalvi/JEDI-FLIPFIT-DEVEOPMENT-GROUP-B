@@ -42,7 +42,7 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
 
     @Override
     public FlipFitGym viewGym(int gymId) {
-        return flipFitGymMap.get(gymId);
+        return flipFitGymOwnerDAO.viewGym(gymId);
     }
 
     @Override
