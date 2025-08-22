@@ -34,7 +34,7 @@ public class FlipFitGymOwnerMenu {
         ║  5 → 📖 View Bookings by GymId             ║
         ║  6 → 👁️  View Profile                      ║
         ║  7 → ✏️  Edit Profile                      ║
-        ║  8 → 💳 View Payments by GymId             ║ 
+        ║  8 → 💳 View Payments by GymId             ║
         ║  9 → 🗑️ Delete Gym                         ║
         ║ 10 → 📖 View Slots by GymId                ║
         ║ 11 → 🔓 Logout                             ║
