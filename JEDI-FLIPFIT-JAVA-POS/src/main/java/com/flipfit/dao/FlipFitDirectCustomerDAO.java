@@ -2,6 +2,7 @@ package com.flipfit.dao;
 
 import com.flipfit.bean.*;
 import com.flipfit.exception.EntityNotFoundException;
+import com.flipfit.exception.SlotsNotAvailableException;
 import com.flipfit.exception.UsernameExistsException;
 
 import java.time.LocalDate;
@@ -15,6 +16,7 @@ public interface FlipFitDirectCustomerDAO {
 
     FlipFitDirectCustomer login(String customerName, String password);
     //FlipFitBookings
-    FlipFitBooking makeFlipFitBooking(int customerID, int slotId, LocalDate date);
+    FlipFitBooking makeFlipFitBooking(int customerID, int slotId, LocalDate date) throws SlotsNotAvailableException, EntityNotFoundException;
     boolean cancelFlipFitBooking(int bookingId) throws EntityNotFoundException;
+
 }

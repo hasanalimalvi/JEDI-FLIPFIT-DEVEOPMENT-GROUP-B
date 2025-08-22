@@ -72,29 +72,35 @@ public class FlipFitDirectCustomerMenu {
                     }
                 }
                 case 4 -> {
-                    System.out.println("🛎️ Booking a slot...");
+                    try{
+                        System.out.println("🛎️ Booking a slot...");
 
 
-                    int userId = FlipFitDirectCustomerServiceImpl.loggedInDirectCustomer.getUserId();
+                        int userId = FlipFitDirectCustomerServiceImpl.loggedInDirectCustomer.getUserId();
 
-                    System.out.print("🏋️ Enter the Slot ID you want to book:> ");
-                    int slotId = input.nextInt();
+                        System.out.print("🏋️ Enter the Slot ID you want to book:> ");
+                        int slotId = input.nextInt();
 
-                    System.out.println("Enter Date in specific format : ");
-                    String date = input.next();
-                    LocalDate dateObj = LocalDate.parse(date);
-
-
+                        System.out.println("Enter Date in specific format : ");
+                        String date = input.next();
+                        LocalDate dateObj = LocalDate.parse(date);
 
 
 
-                    FlipFitBooking booking = flipFitDirectCustomerService.makeFlipFitBooking(userId, slotId, dateObj);
 
-                    if (booking != null) {
-                        System.out.println(booking);
-                    } else {
-                        System.out.println("⚠️ Booking failed. Please check the slot availability or try again later.");
+
+                        FlipFitBooking booking = flipFitDirectCustomerService.makeFlipFitBooking(userId, slotId, dateObj);
+
+                        if (booking != null) {
+                            System.out.println(booking);
+                        } else {
+                            System.out.println("⚠️ Booking failed. Please check the slot availability or try again later.");
+                        }
                     }
+                    catch (Exception e){
+                        System.out.println(ColorConstants.RED+e.getMessage()+ColorConstants.RESET);
+                    }
+
                 }
 
                 case 5 -> {

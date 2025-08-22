@@ -7,6 +7,8 @@ import com.flipfit.dao.FlipFitAdminDAOImpl;
 import com.flipfit.dao.FlipFitDirectCustomerDAO;
 import com.flipfit.dao.FlipFitDirectCustomerDAOImpl;
 import com.flipfit.exception.EntityNotFoundException;
+import com.flipfit.exception.SlotsNotAvailableException;
+import com.flipfit.exception.EntityNotFoundException;
 import com.flipfit.exception.PaymentFailedException;
 import com.flipfit.exception.UsernameExistsException;
 
@@ -62,7 +64,7 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
     }
 
     @Override
-    public FlipFitTransaction makePayment(FlipFitTransaction flipFitTransaction) throws PaymentFailedException, EntityNotFoundException {
+    public FlipFitTransaction makePayment(FlipFitTransaction flipFitTransaction) throws EntityNotFoundException, PaymentFailedException {
         return flipFitPaymentService.processPayment(flipFitTransaction);
     }
 
@@ -75,7 +77,7 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
     }
 
     @Override
-    public FlipFitBooking makeFlipFitBooking(int customerID, int slotId, LocalDate date) {
+    public FlipFitBooking makeFlipFitBooking(int customerID, int slotId, LocalDate date) throws SlotsNotAvailableException, EntityNotFoundException {
         return flipFitDirectCustomerDAO.makeFlipFitBooking(customerID, slotId, date);
     }
 

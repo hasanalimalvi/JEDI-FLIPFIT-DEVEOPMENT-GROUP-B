@@ -2,6 +2,7 @@ package com.flipfit.dao;
 
 import com.flipfit.bean.*;
 import com.flipfit.exception.EntityNotFoundException;
+import com.flipfit.exception.SlotsNotAvailableException;
 import com.flipfit.exception.UsernameExistsException;
 import com.flipfit.utils.DBConnection;
 
@@ -265,7 +266,8 @@ customer.setPinCode(pinCode);
 
 
     @Override
-    public FlipFitBooking makeFlipFitBooking(int customerID, int slotId, LocalDate date) {
+    public FlipFitBooking makeFlipFitBooking(int customerID, int slotId, LocalDate date)
+            throws SlotsNotAvailableException, EntityNotFoundException { // Throws EntityNotFoundException now
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -274,7 +276,19 @@ customer.setPinCode(pinCode);
             conn = DBConnection.getConnection();
             conn.setAutoCommit(false); // Begin transaction
 
-            // Step 1: Check availability
+            // Step 1: Check if the slotId exists in the FlipFitSlot table
+            String checkSlotExistsSQL = "SELECT 1 FROM FlipFitSlot WHERE slotId = ?";
+            ps = conn.prepareStatement(checkSlotExistsSQL);
+            ps.setInt(1, slotId);
+            rs = ps.executeQuery();
+            if (!rs.next()) {
+                conn.rollback();
+                throw new EntityNotFoundException(slotId, "FlipFitSlot"); // Throws the new exception
+            }
+            rs.close();
+            ps.close();
+
+            // Step 2: Check availability
             String checkAvailabilitySQL = "SELECT seatsAvailable FROM FlipFitSlotAvailability WHERE slotId = ? AND date = ?";
             ps = conn.prepareStatement(checkAvailabilitySQL);
             ps.setInt(1, slotId);
@@ -292,16 +306,17 @@ customer.setPinCode(pinCode);
             rs.close();
             ps.close();
 
-            // Step 2: If no availability row, insert one using totalSeats
+            // Step 3: If no availability row, insert one using totalSeats
             if (!availabilityExists) {
                 String getTotalSeatsSQL = "SELECT totalSeats FROM FlipFitSlot WHERE slotId = ?";
                 ps = conn.prepareStatement(getTotalSeatsSQL);
                 ps.setInt(1, slotId);
                 rs = ps.executeQuery();
 
+                // This check is now partially redundant but good for robustness
                 if (!rs.next()) {
                     conn.rollback();
-                    throw new RuntimeException("Slot not found");
+                    throw new EntityNotFoundException(slotId, "FlipFitSlot");
                 }
 
                 seatsAvailable = rs.getInt("totalSeats");
@@ -317,13 +332,13 @@ customer.setPinCode(pinCode);
                 ps.close();
             }
 
-            // Step 3: Check if seats are available
+            // Step 4: Check if seats are available
             if (seatsAvailable <= 0) {
                 conn.rollback();
-                throw new RuntimeException("No seats available");
+                throw new SlotsNotAvailableException(slotId); // Changed to use the proper exception
             }
 
-            // Step 4: Decrease seat count
+            // Step 5: Decrease seat count
             String updateSeatsSQL = "UPDATE FlipFitSlotAvailability SET seatsAvailable = seatsAvailable - 1 WHERE slotId = ? AND date = ?";
             ps = conn.prepareStatement(updateSeatsSQL);
             ps.setInt(1, slotId);
@@ -331,18 +346,21 @@ customer.setPinCode(pinCode);
             ps.executeUpdate();
             ps.close();
 
-            // Step 5: Insert booking
+            // Step 6: Insert booking
             String insertBookingSQL = "INSERT INTO FlipFitBooking (userId, slotId, isCancelled, date) VALUES (?, ?, false, ?)";
             ps = conn.prepareStatement(insertBookingSQL, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, customerID);
             ps.setInt(2, slotId);
-            ps.setDate(3, java.sql.Date.valueOf(date)); // <-- new line
+            ps.setDate(3, java.sql.Date.valueOf(date));
             ps.executeUpdate();
 
             rs = ps.getGeneratedKeys();
             int bookingId = -1;
             if (rs.next()) {
                 bookingId = rs.getInt(1);
+            } else {
+                conn.rollback();
+                throw new RuntimeException("Failed to retrieve generated booking ID.");
             }
 
             conn.commit(); // End transaction
@@ -356,11 +374,25 @@ customer.setPinCode(pinCode);
 
             return booking;
 
+        } catch (SlotsNotAvailableException | EntityNotFoundException e) {
+            try {
+                if (conn != null) conn.rollback();
+            } catch (SQLException ex) {
+                System.err.println("Rollback failed: " + ex.getMessage());
+            }
+            throw e;
+        } catch (SQLException e) {
+            try {
+                if (conn != null) conn.rollback();
+            } catch (SQLException ex) {
+                System.err.println("Rollback failed: " + ex.getMessage());
+            }
+            throw new RuntimeException("Database error during booking for Slot ID " + slotId + " on " + date + ": " + e.getMessage(), e);
         } catch (Exception e) {
             try {
                 if (conn != null) conn.rollback();
             } catch (SQLException ex) {
-                ex.printStackTrace();
+                System.err.println("Rollback failed: " + ex.getMessage());
             }
             throw new RuntimeException("Booking failed: " + e.getMessage(), e);
         } finally {
@@ -369,12 +401,10 @@ customer.setPinCode(pinCode);
                 if (ps != null) ps.close();
                 if (conn != null) conn.close();
             } catch (SQLException e) {
-                e.printStackTrace();
+                System.err.println("Error closing JDBC resources: " + e.getMessage());
             }
         }
     }
-
-
     @Override
     public boolean cancelFlipFitBooking(int bookingId) throws EntityNotFoundException {
         Connection conn = null;
@@ -393,7 +423,7 @@ customer.setPinCode(pinCode);
 
             if (!rs.next()) {
                 conn.rollback();
-                throw new EntityNotFoundException(bookingId, "Booking");
+                throw new EntityNotFoundException(bookingId, "FlipFitBooking"); // Throw the exception
             }
 
             int slotId = rs.getInt("slotId");
@@ -405,10 +435,11 @@ customer.setPinCode(pinCode);
 
             if (alreadyCancelled) {
                 conn.rollback();
-                return false; // Already cancelled
+                // This case doesn't represent a "not found" scenario, so it can return false or throw a different exception
+                return false;
             }
 
-            // Step 2: Update booking to cancelled
+            // Step 2: Update booking to cancelled (set isCancelled = true)
             String cancelBookingSQL = "UPDATE FlipFitBooking SET isCancelled = true WHERE bookingId = ?";
             ps = conn.prepareStatement(cancelBookingSQL);
             ps.setInt(1, bookingId);
@@ -421,17 +452,23 @@ customer.setPinCode(pinCode);
             ps.setInt(1, slotId);
             ps.setDate(2, java.sql.Date.valueOf(date));
             ps.executeUpdate();
+            ps.close();
 
             conn.commit(); // End transaction
             return true;
 
         } catch (EntityNotFoundException e) {
-            throw e;
+            try {
+                if (conn != null) conn.rollback();
+            } catch (SQLException ex) {
+                System.err.println("Rollback failed: " + ex.getMessage());
+            }
+            throw e; // Re-throw the caught exception
         } catch (Exception e) {
             try {
                 if (conn != null) conn.rollback();
             } catch (SQLException ex) {
-                ex.printStackTrace();
+                System.err.println("Rollback failed: " + ex.getMessage());
             }
             e.printStackTrace();
             return false;
