@@ -17,7 +17,7 @@ public interface FlipFitGymOwnerDAO {
     FlipFitGymOwner editDetails(FlipFitGymOwner gymOwner);
     FlipFitGymOwner viewDetails(int gymOwnerId);
 
-    boolean deleteGym(int gymId);
+    boolean deleteGym(int gymId) throws EntityNotFoundException;
     List<FlipFitSlotAvailability> viewSlots(int gymId, LocalDate date);
 
     FlipFitGymOwner login(String gymOwnerName, String password);

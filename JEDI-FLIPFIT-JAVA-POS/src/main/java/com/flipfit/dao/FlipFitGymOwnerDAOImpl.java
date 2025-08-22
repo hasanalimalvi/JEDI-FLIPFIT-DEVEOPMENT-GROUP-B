@@ -348,7 +348,7 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
     }
 
     @Override
-    public boolean deleteGym(int gymId) {
+    public boolean deleteGym(int gymId) throws EntityNotFoundException {
         String deleteGymSQL = "DELETE FROM FlipFitGym WHERE gymID = ?";
 
         try (Connection conn = DBConnection.getConnection();
@@ -357,13 +357,18 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
             stmt.setInt(1, gymId);
             int affectedRows = stmt.executeUpdate();
 
-            return affectedRows > 0;
+            if (affectedRows == 0) {
+                throw new EntityNotFoundException(gymId, "Gym");
+            }
+
+            return true;
 
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
     }
+
 
     @Override
     public List<FlipFitSlotAvailability> viewSlots(int gymId, LocalDate date) {

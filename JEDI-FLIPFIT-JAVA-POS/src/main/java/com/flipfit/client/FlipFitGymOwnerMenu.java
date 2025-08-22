@@ -217,19 +217,25 @@ public class FlipFitGymOwnerMenu {
                 }
 
                 case 9 -> {
-                    System.out.println("💳 Deleting Gym...");
+                    try {
+                        System.out.println("💳 Deleting Gym...");
 
-                    System.out.println("Enter Gym Id :");
-                    int gymId = input.nextInt();
+                        System.out.println("Enter Gym Id :");
+                        int gymId = input.nextInt();
 
 
-                    boolean deleted = flipFitGymOwnerService.deleteGym(gymId);
+                        boolean deleted = flipFitGymOwnerService.deleteGym(gymId);
 
-                    if (deleted) {
-                        System.out.println(ColorConstants.GREEN + "✅ Gym deleted successfully!" + ColorConstants.RESET);
-                    } else {
-                        System.out.println(ColorConstants.RED + "❌ Gym not found or could not be deleted." + ColorConstants.RESET);
+                        if (deleted) {
+                            System.out.println(ColorConstants.GREEN + "✅ Gym deleted successfully!" + ColorConstants.RESET);
+                        } else {
+                            System.out.println(ColorConstants.RED + "❌ Gym not found or could not be deleted." + ColorConstants.RESET);
+                        }
                     }
+                    catch (Exception e){
+                        System.out.println(ColorConstants.RED + e.getMessage() + ColorConstants.RESET);
+                    }
+
 
                 }
                 case 10 -> {
