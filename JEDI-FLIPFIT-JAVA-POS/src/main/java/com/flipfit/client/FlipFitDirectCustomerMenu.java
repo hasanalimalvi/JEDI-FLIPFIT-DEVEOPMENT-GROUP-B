@@ -50,9 +50,15 @@ public class FlipFitDirectCustomerMenu {
                     String date = input.next();
                     LocalDate dateObj = LocalDate.parse(date);
 
-                    System.out.println("📅 Viewing slots for Gym ID " + gymId + "...");
-                    List<FlipFitSlotAvailability> flipFitSlots = flipFitDirectCustomerService.viewSlots(gymId, dateObj);
-                    System.out.println(flipFitSlots);
+
+                    try {
+                        List<FlipFitSlotAvailability> flipFitSlots = flipFitDirectCustomerService.viewSlots(gymId, dateObj);
+                        System.out.println("📅 Viewing slots for Gym ID " + gymId + "...");
+                        System.out.println(flipFitSlots);
+                    }
+                    catch (Exception e){
+                        System.out.println(ColorConstants.RED + e.getMessage() + ColorConstants.RESET);
+                    }
                     // Call method to view slots by gymId
                 }
                 case 3 -> {

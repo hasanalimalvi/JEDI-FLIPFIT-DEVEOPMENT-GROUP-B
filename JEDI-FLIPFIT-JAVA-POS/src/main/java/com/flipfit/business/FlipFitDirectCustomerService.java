@@ -18,7 +18,7 @@ public interface FlipFitDirectCustomerService {
     FlipFitDirectCustomer registerCustomer(FlipFitDirectCustomer directCustomer) throws UsernameExistsException;
     FlipFitDirectCustomer editDetails(FlipFitDirectCustomer directCustomer);
     List<FlipFitGym> viewGyms();
-    FlipFitTransaction makePayment(FlipFitTransaction flipFitTransaction) throws PaymentFailedException, EntityNotFoundException, PaymentFailedException;
+    FlipFitTransaction makePayment(FlipFitTransaction flipFitTransaction) throws EntityNotFoundException, PaymentFailedException;
     FlipFitDirectCustomer login(String customerName, String password);
     //FlipFitBookings
     FlipFitBooking makeFlipFitBooking(int customerID, int slotId, LocalDate date) throws SlotsNotAvailableException, EntityNotFoundException;
