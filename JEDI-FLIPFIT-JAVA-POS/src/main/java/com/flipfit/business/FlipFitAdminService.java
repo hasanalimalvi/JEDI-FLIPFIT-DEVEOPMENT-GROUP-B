@@ -1,3 +1,15 @@
+/**
+ * @author Bhavya
+ *
+ * @param gymOwnerId A unique number used to identify the gym owner.
+ * @param adminName The username of the admin trying to sign in.
+ * @param password The password for the admin's account.
+ *
+ * @exception EntityNotFoundException The EntityNotFoundException will be thrown if the gym owner ID you're looking for doesn't exist in the system.
+ *
+ * @description This code is an interface that handles administrative tasks for the FlipFit system, including managing gyms, their owners, customers, and financial transactions.
+ */
+
 package com.flipfit.business;
 
 import com.flipfit.bean.FlipFitAdmin;
