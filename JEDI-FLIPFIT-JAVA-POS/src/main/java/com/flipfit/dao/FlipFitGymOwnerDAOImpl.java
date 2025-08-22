@@ -558,7 +558,7 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
 
 
     @Override
-    public List<FlipFitBooking> viewBookings(int gymId) {
+    public List<FlipFitBooking> viewBookings(int gymId) throws EntityNotFoundException {
         List<FlipFitBooking> bookings = new ArrayList<>();
         Connection conn = null;
         PreparedStatement ps = null;
@@ -588,6 +588,10 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
                 bookings.add(booking);
             }
 
+            if (bookings.isEmpty()) {
+                throw new EntityNotFoundException(gymId, "Gym");
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
             throw new RuntimeException("Failed to fetch bookings for gymId: " + gymId, e);
@@ -603,5 +607,6 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
 
         return bookings;
     }
+
 
 }

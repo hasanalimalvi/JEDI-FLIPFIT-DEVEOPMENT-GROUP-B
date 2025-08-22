@@ -133,21 +133,28 @@ public class FlipFitGymOwnerMenu {
 
                 }
                 case 5 -> {
-                    Scanner scanner = new Scanner(System.in);
 
-                    System.out.print("Enter your Gym ID: ");
-                    int gymId = scanner.nextInt();
+                    try{
+                        Scanner scanner = new Scanner(System.in);
 
-                    List<FlipFitBooking> bookings = flipFitGymOwnerService.viewBookings(gymId);
+                        System.out.print("Enter your Gym ID: ");
+                        int gymId = scanner.nextInt();
 
-                    if (bookings.isEmpty()) {
-                        System.out.println(ColorConstants.RED + "⚠️ No active bookings found for Gym ID: " + gymId + ColorConstants.RESET);
-                    } else {
-                        System.out.println(ColorConstants.CYAN + "\n📖 Active Bookings for Gym ID: " + gymId + ColorConstants.RESET);
-                        for (FlipFitBooking booking : bookings) {
-                            System.out.println(booking);
+                        List<FlipFitBooking> bookings = flipFitGymOwnerService.viewBookings(gymId);
+
+                        if (bookings.isEmpty()) {
+                            System.out.println(ColorConstants.RED + "⚠️ No active bookings found for Gym ID: " + gymId + ColorConstants.RESET);
+                        } else {
+                            System.out.println(ColorConstants.CYAN + "\n📖 Active Bookings for Gym ID: " + gymId + ColorConstants.RESET);
+                            for (FlipFitBooking booking : bookings) {
+                                System.out.println(booking);
+                            }
                         }
                     }
+                    catch (Exception e){
+                        System.out.println(ColorConstants.RED + e.getMessage() + ColorConstants.RESET);
+                    }
+
 
                 }
 

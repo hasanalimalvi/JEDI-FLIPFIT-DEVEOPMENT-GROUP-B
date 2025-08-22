@@ -25,5 +25,5 @@ public interface FlipFitGymOwnerDAO {
     //Slot
     FlipFitSlot addSlot(FlipFitSlot slot);
     boolean deleteSlot(int slotId) throws EntityNotFoundException;
-    List<FlipFitBooking> viewBookings(int gymId);
+    List<FlipFitBooking> viewBookings(int gymId) throws EntityNotFoundException;
 }

@@ -93,7 +93,7 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
     }
 
     @Override
-    public List<FlipFitBooking> viewBookings(int gymId) {
+    public List<FlipFitBooking> viewBookings(int gymId) throws EntityNotFoundException {
         return flipFitGymOwnerDAO.viewBookings(gymId);
     }
 
