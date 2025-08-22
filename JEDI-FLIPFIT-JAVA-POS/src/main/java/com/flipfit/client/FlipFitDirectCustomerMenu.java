@@ -167,32 +167,36 @@ public class FlipFitDirectCustomerMenu {
                 }
 
                 case 8 -> {
-                    Scanner scanner = new Scanner(System.in);
+                    try {
+                        Scanner scanner = new Scanner(System.in);
 
-                    System.out.println(ColorConstants.YELLOW + "💳 Redirecting to payment gateway... Please wait." + ColorConstants.RESET);
+                        System.out.println(ColorConstants.YELLOW + "💳 Redirecting to payment gateway... Please wait." + ColorConstants.RESET);
 
 
-                    int userId = FlipFitDirectCustomerServiceImpl.loggedInDirectCustomer.getUserId();
+                        int userId = FlipFitDirectCustomerServiceImpl.loggedInDirectCustomer.getUserId();
 
-                    System.out.print("📌 Enter Booking ID: ");
-                    int bookingId = scanner.nextInt();
+                        System.out.print("📌 Enter Booking ID: ");
+                        int bookingId = scanner.nextInt();
 
-                    System.out.print("💰 Enter Payment Type (e.g., 1 for UPI, 2 for Card, etc.): ");
-                    int paymentType = scanner.nextInt();
+                        System.out.print("💰 Enter Payment Type (e.g., 1 for UPI, 2 for Card, etc.): ");
+                        int paymentType = scanner.nextInt();
 
-                    System.out.print("💵 Enter Amount: ₹");
-                    double amount = scanner.nextDouble();
+                        System.out.print("💵 Enter Amount: ₹");
+                        double amount = scanner.nextDouble();
 
-                    FlipFitTransaction transaction = new FlipFitTransaction();
-                    transaction.setUserId(userId);
-                    transaction.setBookingId(bookingId);
-                    transaction.setPaymentType(paymentType);
-                    transaction.setAmount(amount);
+                        FlipFitTransaction transaction = new FlipFitTransaction();
+                        transaction.setUserId(userId);
+                        transaction.setBookingId(bookingId);
+                        transaction.setPaymentType(paymentType);
+                        transaction.setAmount(amount);
 
-                    transaction = flipFitDirectCustomerService.makePayment(transaction);
-                    System.out.println(ColorConstants.GREEN + "✅ Payment details captured successfully!" + ColorConstants.RESET);
-                    System.out.println(transaction); // Assuming toString() is properly overridden
-                    break;
+                        transaction = flipFitDirectCustomerService.makePayment(transaction);
+                        System.out.println(ColorConstants.GREEN + "✅ Payment details captured successfully!" + ColorConstants.RESET);
+                        System.out.println(transaction); // Assuming toString() is properly overridden
+                    }
+                    catch(Exception e){
+                        System.out.println(ColorConstants.RED + e.getMessage() + ColorConstants.RESET);
+                    }
                 }
 
                 case 9 -> {
