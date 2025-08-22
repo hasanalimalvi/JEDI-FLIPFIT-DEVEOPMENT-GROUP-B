@@ -335,7 +335,7 @@ customer.setPinCode(pinCode);
             // Step 4: Check if seats are available
             if (seatsAvailable <= 0) {
                 conn.rollback();
-                throw new SlotsNotAvailableException(slotId); // Changed to use the proper exception
+                throw new SlotsNotAvailableException(slotId, date); // Changed to use the proper exception
             }
 
             // Step 5: Decrease seat count
