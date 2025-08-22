@@ -21,5 +21,5 @@ public interface FlipFitDirectCustomerService {
     FlipFitDirectCustomer login(String customerName, String password);
     //FlipFitBookings
     FlipFitBooking makeFlipFitBooking(int customerID, int slotId, LocalDate date);
-    boolean cancelFlipFitBooking(int bookingId);
+    boolean cancelFlipFitBooking(int bookingId) throws EntityNotFoundException;
 }

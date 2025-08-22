@@ -81,7 +81,7 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
 
 
     @Override
-    public boolean cancelFlipFitBooking(int bookingId) {
+    public boolean cancelFlipFitBooking(int bookingId) throws EntityNotFoundException {
         return flipFitDirectCustomerDAO.cancelFlipFitBooking(bookingId);
     }
 }
