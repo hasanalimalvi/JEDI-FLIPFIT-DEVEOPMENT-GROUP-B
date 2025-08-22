@@ -1,6 +1,7 @@
 package com.flipfit.dao;
 
 import com.flipfit.bean.*;
+import com.flipfit.exception.EntityNotFoundException;
 import com.flipfit.exception.UsernameExistsException;
 import com.flipfit.utils.DBConnection;
 
@@ -138,7 +139,7 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
     }
 
     @Override
-    public FlipFitGym viewGym(int gymId) {
+    public FlipFitGym viewGym(int gymId) throws EntityNotFoundException {
         String selectGymSQL = "SELECT gymID, gymOwnerID, address, pinCode, isApproved, description FROM FlipFitGym WHERE gymID = ?";
 
         try (Connection conn = DBConnection.getConnection();
@@ -156,13 +157,18 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
                 gym.setApproved(rs.getBoolean("isApproved"));
                 gym.setDescription(rs.getString("description"));
                 return gym;
+            } else {
+                throw new EntityNotFoundException(gymId, "Gym");
             }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-
-        return null; // Return null if gym not found or error occurs
+        catch(EntityNotFoundException e){
+            throw e;
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.flipfit.business;
 
 import com.flipfit.bean.*;
+import com.flipfit.exception.EntityNotFoundException;
 import com.flipfit.exception.UsernameExistsException;
 
 import java.time.LocalDate;
@@ -10,7 +11,7 @@ public interface FlipFitGymOwnerService {
     FlipFitGymOwner registerGymOwner(FlipFitGymOwner gymOwner) throws UsernameExistsException;
     FlipFitGym addGym(FlipFitGym gym);
     FlipFitGym updateGym(FlipFitGym gym);
-    FlipFitGym viewGym(int gymId);
+    FlipFitGym viewGym(int gymId) throws EntityNotFoundException;
     List<FlipFitGym> viewGyms(int gymOwnerId);
     List<FlipFitTransaction> viewTransactions(int gymId);
     FlipFitGymOwner editDetails(FlipFitGymOwner gymOwner);

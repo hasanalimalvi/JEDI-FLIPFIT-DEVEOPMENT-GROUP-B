@@ -4,6 +4,7 @@ import com.flipfit.bean.*;
 import com.flipfit.constant.ColorConstants;
 import com.flipfit.dao.FlipFitGymOwnerDAO;
 import com.flipfit.dao.FlipFitGymOwnerDAOImpl;
+import com.flipfit.exception.EntityNotFoundException;
 import com.flipfit.exception.UsernameExistsException;
 
 import java.time.LocalDate;
@@ -33,7 +34,7 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
     }
 
     @Override
-    public FlipFitGym viewGym(int gymId) {
+    public FlipFitGym viewGym(int gymId) throws EntityNotFoundException {
         return flipFitGymOwnerDAO.viewGym(gymId);
     }
 

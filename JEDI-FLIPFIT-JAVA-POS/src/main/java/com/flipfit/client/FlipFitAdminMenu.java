@@ -61,8 +61,13 @@ public class FlipFitAdminMenu {
                     System.out.println("Enter Gym Owner Id : ");
                     int id = input.nextInt();
 
-                    flipFitAdminService.validateGymOwner(id);
-                    System.out.println("Gym Owner Approved...");
+                    try {
+                        flipFitAdminService.validateGymOwner(id);
+                        System.out.println("Gym Owner Approved...");
+                    }
+                    catch(Exception e){
+                        System.out.println(ColorConstants.RED + e.getMessage() + ColorConstants.RESET);
+                    }
                 }
                 case 7 -> {
                     System.out.println("Approve Gym ...");
@@ -70,8 +75,15 @@ public class FlipFitAdminMenu {
                     System.out.println("Enter Gym Id : ");
                     int id = input.nextInt();
 
-                    flipFitAdminService.validateGym(id);
-                    System.out.println("Gym Approved");
+                    try {
+                        flipFitAdminService.validateGym(id);
+                        System.out.println("Gym Approved");
+                    }
+                    catch(Exception e){
+                        System.out.println(ColorConstants.RED + e.getMessage() + ColorConstants.RESET);
+                    }
+
+
                 }
                 case 8 -> {
                     System.out.println("View Approved Gym Owners Request List ...");

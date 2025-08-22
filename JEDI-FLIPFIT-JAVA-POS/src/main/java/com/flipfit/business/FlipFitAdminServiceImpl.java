@@ -3,6 +3,7 @@ package com.flipfit.business;
 import com.flipfit.bean.*;
 import com.flipfit.dao.FlipFitAdminDAO;
 import com.flipfit.dao.FlipFitAdminDAOImpl;
+import com.flipfit.exception.EntityNotFoundException;
 
 import java.util.List;
 
@@ -78,12 +79,12 @@ public class FlipFitAdminServiceImpl implements FlipFitAdminService{
     }
 
     @Override
-    public boolean validateGymOwner(int gymOwnerId) {
+    public boolean validateGymOwner(int gymOwnerId) throws EntityNotFoundException {
         return flipFitAdminDAO.validateGymOwner(gymOwnerId);
     }
 
     @Override
-    public boolean validateGym(int gymId) {
+    public boolean validateGym(int gymId) throws EntityNotFoundException {
         FlipFitGym flipFitGym = flipFitGymOwnerService.viewGym(gymId);
         flipFitGym.setApproved(true);
         flipFitGymOwnerService.updateGym(flipFitGym);

@@ -1,6 +1,7 @@
 package com.flipfit.dao;
 
 import com.flipfit.bean.*;
+import com.flipfit.exception.EntityNotFoundException;
 import com.flipfit.utils.DBConnection;
 
 import java.sql.Connection;
@@ -277,7 +278,7 @@ public class FlipFitAdminDAOImpl implements FlipFitAdminDAO{
     }
 
     @Override
-    public boolean validateGymOwner(int gymOwnerId) {
+    public boolean validateGymOwner(int gymOwnerId) throws EntityNotFoundException {
         String updateSQL = "UPDATE FlipFitGymOwner SET isApproved = ? WHERE gymOwnerId = ?";
 
         try (Connection conn = DBConnection.getConnection();
@@ -287,9 +288,17 @@ public class FlipFitAdminDAOImpl implements FlipFitAdminDAO{
             stmt.setInt(2, gymOwnerId);
 
             int affectedRows = stmt.executeUpdate();
-            return affectedRows > 0;
 
-        } catch (SQLException e) {
+            if (affectedRows == 0) {
+                throw new EntityNotFoundException(gymOwnerId, "GymOwner");
+            }
+
+            return true;
+
+        } catch(EntityNotFoundException e){
+            throw e;
+        }
+        catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
