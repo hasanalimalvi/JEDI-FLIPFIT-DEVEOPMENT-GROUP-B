@@ -49,7 +49,7 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
     }
 
     @Override
-    public List<FlipFitTransaction> viewTransactions(int gymId) {
+    public List<FlipFitTransaction> viewTransactions(int gymId) throws EntityNotFoundException {
         return flipFitGymOwnerDAO.viewTransactions(gymId);
     }
 
@@ -65,7 +65,7 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
     }
 
     @Override
-    public boolean deleteGym(int gymId) {
+    public boolean deleteGym(int gymId) throws EntityNotFoundException {
         return flipFitGymOwnerDAO.deleteGym(gymId);
     }
 

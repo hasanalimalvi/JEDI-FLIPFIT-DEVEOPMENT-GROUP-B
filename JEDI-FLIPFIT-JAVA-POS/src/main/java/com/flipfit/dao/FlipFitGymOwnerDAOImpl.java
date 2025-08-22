@@ -202,7 +202,7 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
     }
 
     @Override
-    public List<FlipFitTransaction> viewTransactions(int gymId) {
+    public List<FlipFitTransaction> viewTransactions(int gymId) throws EntityNotFoundException  {
         List<FlipFitTransaction> transactions = new ArrayList<>();
 
         String sql = "SELECT ft.transactionId, ft.userId, ft.bookingId, ft.paymentType, ft.amount " +
@@ -217,7 +217,10 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
             pstmt.setInt(1, gymId);
 
             try (ResultSet rs = pstmt.executeQuery()) {
+                boolean found = false;
+
                 while (rs.next()) {
+                    found = true;
                     FlipFitTransaction transaction = new FlipFitTransaction();
                     transaction.setTransactionId(rs.getInt("transactionId"));
                     transaction.setUserId(rs.getInt("userId"));
@@ -227,6 +230,12 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
 
                     transactions.add(transaction);
                 }
+
+                if (!found) {
+                    throw new EntityNotFoundException(gymId, "Gym");
+                }
+            } catch (EntityNotFoundException e) {
+                throw e;
             }
 
         } catch (SQLException e) {
@@ -236,6 +245,7 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
 
         return transactions;
     }
+
 
     @Override
     public FlipFitGymOwner editDetails(FlipFitGymOwner gymOwner) {
@@ -338,7 +348,7 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
     }
 
     @Override
-    public boolean deleteGym(int gymId) {
+    public boolean deleteGym(int gymId) throws EntityNotFoundException {
         String deleteGymSQL = "DELETE FROM FlipFitGym WHERE gymID = ?";
 
         try (Connection conn = DBConnection.getConnection();
@@ -347,13 +357,18 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
             stmt.setInt(1, gymId);
             int affectedRows = stmt.executeUpdate();
 
-            return affectedRows > 0;
+            if (affectedRows == 0) {
+                throw new EntityNotFoundException(gymId, "Gym");
+            }
+
+            return true;
 
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
     }
+
 
     @Override
     public List<FlipFitSlotAvailability> viewSlots(int gymId, LocalDate date) {

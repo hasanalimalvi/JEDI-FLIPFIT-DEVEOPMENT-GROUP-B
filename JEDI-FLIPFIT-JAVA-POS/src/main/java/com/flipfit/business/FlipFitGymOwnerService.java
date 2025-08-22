@@ -13,11 +13,11 @@ public interface FlipFitGymOwnerService {
     FlipFitGym updateGym(FlipFitGym gym);
     FlipFitGym viewGym(int gymId) throws EntityNotFoundException;
     List<FlipFitGym> viewGyms(int gymOwnerId);
-    List<FlipFitTransaction> viewTransactions(int gymId);
+    List<FlipFitTransaction> viewTransactions(int gymId) throws EntityNotFoundException;
     FlipFitGymOwner editDetails(FlipFitGymOwner gymOwner);
     FlipFitGymOwner viewDetails(int gymOwnerId);
 
-    boolean deleteGym(int gymId);
+    boolean deleteGym(int gymId) throws EntityNotFoundException;
     List<FlipFitSlotAvailability> viewSlots(int gymId, LocalDate date);
 
     FlipFitGymOwner login(String username, String password);
