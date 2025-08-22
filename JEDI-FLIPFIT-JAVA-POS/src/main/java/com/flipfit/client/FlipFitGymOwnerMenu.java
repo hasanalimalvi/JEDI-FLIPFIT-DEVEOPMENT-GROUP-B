@@ -190,28 +190,27 @@ public class FlipFitGymOwnerMenu {
                     System.out.println(gymOwner);
                 }
                 case 8 -> {
-                    Scanner scanner = new Scanner(System.in);
-                    System.out.print("🏋️ Enter Gym ID to view payments: ");
-                    int gymId = scanner.nextInt();
 
-                    System.out.println(ColorConstants.YELLOW + "💳 Fetching payments for Gym ID: " + gymId + "..." + ColorConstants.RESET);
+                    try{
+                        Scanner scanner = new Scanner(System.in);
+                        System.out.print("🏋️ Enter Gym ID to view payments: ");
+                        int gymId = scanner.nextInt();
 
-                    List<FlipFitTransaction> transactions = flipFitGymOwnerService.viewTransactions(gymId);
+                        System.out.println(ColorConstants.YELLOW + "💳 Fetching payments for Gym ID: " + gymId + "..." + ColorConstants.RESET);
 
-                    if (transactions.isEmpty()) {
-                        System.out.println(ColorConstants.RED + "⚠️ No payments found for Gym ID: " + gymId + ColorConstants.RESET);
-                    } else {
-                        for (FlipFitTransaction txn : transactions) {
-                            System.out.println(ColorConstants.CYAN +
-                                    "╔════════════════════════════════════════════════╗\n" +
-                                    String.format("║ 🆔 Transaction ID : %-26d ║\n", txn.getTransactionId()) +
-                                    String.format("║ 👤 User ID        : %-26d ║\n", txn.getUserId()) +
-                                    String.format("║ 📌 Booking ID     : %-26d ║\n", txn.getBookingId()) +
-                                    String.format("║ 💰 Payment Type   : %-26d ║\n", txn.getPaymentType()) +
-                                    String.format("║ 💵 Amount         : ₹%-25.2f ║\n", txn.getAmount()) +
-                                    "╚════════════════════════════════════════════════╝" +
-                                    ColorConstants.RESET);
+                        List<FlipFitTransaction> transactions = flipFitGymOwnerService.viewTransactions(gymId);
+
+                        if (transactions.isEmpty()) {
+                            System.out.println(ColorConstants.RED + "⚠️ No payments found for Gym ID: " + gymId + ColorConstants.RESET);
+                        } else {
+                            for (FlipFitTransaction txn : transactions) {
+                                System.out.println(txn);
+                            }
                         }
+
+                    }
+                    catch (Exception e){
+                        System.out.println(ColorConstants.RED + e.getMessage() + ColorConstants.RESET);
                     }
 
 
