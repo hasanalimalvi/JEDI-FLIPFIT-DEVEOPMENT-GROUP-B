@@ -1,14 +1,16 @@
 package com.flipfit.exception;
 
-public class SlotsNotAvailableException extends Exception{
+import java.time.LocalDate;
 
-    String message;
-    public SlotsNotAvailableException(int slotId){
-        System.out.println("Slots with slotId " + slotId + " not available");
+public class SlotsNotAvailableException extends Exception {
+    private String message;
+
+    public SlotsNotAvailableException(int slotId, LocalDate date) {
+        this.message = "Slot :'" + slotId + "' on '" + date.toString() + "' is not available.";
     }
 
-    @Override
     public String getMessage() {
+
         return message;
     }
 }
