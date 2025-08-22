@@ -191,10 +191,14 @@ public class FlipFitApplication {
                     gymOwner.setPanCard(panCard);
                     gymOwner.setIsApproved(false);
 
-
-                    flipFitGymOwnerService.registerGymOwner(gymOwner);
-                    System.out.println(ColorConstants.GREEN + "\n✅ Registration Successful! Here's your info:" + ColorConstants.RESET);
-                    System.out.println(gymOwner);
+                  try {
+                      flipFitGymOwnerService.registerGymOwner(gymOwner);
+                      System.out.println(ColorConstants.GREEN + "\n✅ Registration Successful! Here's your info:" + ColorConstants.RESET);
+                      System.out.println(gymOwner);
+                  }
+                  catch (Exception e) {
+                      System.out.println(ColorConstants.RED + e.getMessage() + ColorConstants.RESET);
+                  }
 
                 }
 

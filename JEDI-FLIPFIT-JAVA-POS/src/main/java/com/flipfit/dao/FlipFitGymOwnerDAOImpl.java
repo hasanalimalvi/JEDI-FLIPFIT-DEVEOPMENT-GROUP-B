@@ -1,6 +1,7 @@
 package com.flipfit.dao;
 
 import com.flipfit.bean.*;
+import com.flipfit.exception.UsernameExistsException;
 import com.flipfit.utils.DBConnection;
 
 import java.sql.*;
@@ -12,34 +13,44 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
 
 
     @Override
-    public FlipFitGymOwner registerGymOwner(FlipFitGymOwner gymOwner) {
+    public FlipFitGymOwner registerGymOwner(FlipFitGymOwner gymOwner) throws UsernameExistsException {
+        String checkUsernameSQL = "SELECT COUNT(*) FROM FlipFitUser WHERE username = ?";
         String insertUserSQL = "INSERT INTO FlipFitUser (username, email, password, roleId) VALUES (?, ?, ?, ?)";
         String insertGymOwnerSQL = "INSERT INTO FlipFitGymOwner (gymOwnerId, phoneNumber, city, pinCode, panCard, gstin, aadharNumber, isApproved) " +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DBConnection.getConnection()) {
+            // Step 1: Check if username already exists
+            try (PreparedStatement checkStmt = conn.prepareStatement(checkUsernameSQL)) {
+                checkStmt.setString(1, gymOwner.getUsername());
+                ResultSet rs = checkStmt.executeQuery();
+                if (rs.next() && rs.getInt(1) > 0) {
+                    throw new UsernameExistsException(gymOwner.getUsername());
+                }
+            }
+
             conn.setAutoCommit(false); // Start transaction
 
-            // Step 1: Insert into FlipFitUser
+            // Step 2: Insert into FlipFitUser
             try (PreparedStatement userStmt = conn.prepareStatement(insertUserSQL, Statement.RETURN_GENERATED_KEYS)) {
                 userStmt.setString(1, gymOwner.getUsername());
                 userStmt.setString(2, gymOwner.getEmail());
                 userStmt.setString(3, gymOwner.getPassword());
-                userStmt.setInt(4, gymOwner.getRoleId()); // e.g. 2 for gym owner
+                userStmt.setInt(4, gymOwner.getRoleId());
 
                 userStmt.executeUpdate();
 
                 ResultSet rs = userStmt.getGeneratedKeys();
                 if (rs.next()) {
                     int userId = rs.getInt(1);
-                    gymOwner.setUserId(userId); // Set FK for gym owner
+                    gymOwner.setUserId(userId);
                 } else {
                     conn.rollback();
                     throw new SQLException("Failed to retrieve generated userId.");
                 }
             }
 
-            // Step 2: Insert into FlipFitGymOwner
+            // Step 3: Insert into FlipFitGymOwner
             try (PreparedStatement gymStmt = conn.prepareStatement(insertGymOwnerSQL)) {
                 gymStmt.setInt(1, gymOwner.getUserId());
                 gymStmt.setString(2, gymOwner.getPhoneNumber());
@@ -54,12 +65,15 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
             }
 
             conn.commit(); // Commit transaction
-            System.out.println("Gym owner registered successfully.");
+            System.out.println("✅ Gym owner registered successfully.");
 
+        } catch (UsernameExistsException e) {
+            throw e; // Propagate to service/client layer
         } catch (SQLException e) {
             e.printStackTrace();
             // Optional rollback logic
         }
+
         return gymOwner;
     }
 

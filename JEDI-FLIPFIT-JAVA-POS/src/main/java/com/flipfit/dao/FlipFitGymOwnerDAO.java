@@ -1,12 +1,13 @@
 package com.flipfit.dao;
 
 import com.flipfit.bean.*;
+import com.flipfit.exception.UsernameExistsException;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public interface FlipFitGymOwnerDAO {
-    FlipFitGymOwner registerGymOwner(FlipFitGymOwner gymOwner);
+    FlipFitGymOwner registerGymOwner(FlipFitGymOwner gymOwner) throws UsernameExistsException;
     FlipFitGym addGym(FlipFitGym gym);
     FlipFitGym updateGym(FlipFitGym gym);
     FlipFitGym viewGym(int gymId);

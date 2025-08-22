@@ -4,6 +4,7 @@ import com.flipfit.bean.*;
 import com.flipfit.constant.ColorConstants;
 import com.flipfit.dao.FlipFitGymOwnerDAO;
 import com.flipfit.dao.FlipFitGymOwnerDAOImpl;
+import com.flipfit.exception.UsernameExistsException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -17,7 +18,7 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
     public static FlipFitGymOwner loggedInGymOwner = null;
 
     @Override
-    public FlipFitGymOwner registerGymOwner(FlipFitGymOwner gymOwner) {
+    public FlipFitGymOwner registerGymOwner(FlipFitGymOwner gymOwner) throws UsernameExistsException {
         return flipFitGymOwnerDAO.registerGymOwner(gymOwner);
     }
 
