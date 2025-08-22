@@ -1,6 +1,7 @@
 package com.flipfit.dao;
 
 import com.flipfit.bean.*;
+import com.flipfit.exception.UsernameExistsException;
 import com.flipfit.utils.DBConnection;
 
 import java.sql.*;
@@ -110,28 +111,37 @@ customer.setPinCode(pinCode);
     }
 
     @Override
-    public FlipFitDirectCustomer registerCustomer(FlipFitDirectCustomer directCustomer) {
+    public FlipFitDirectCustomer registerCustomer(FlipFitDirectCustomer directCustomer) throws UsernameExistsException {
+        String checkUsernameSQL = "SELECT COUNT(*) FROM FlipFitUser WHERE username = ?";
         String insertUserSQL = "INSERT INTO FlipFitUser (username, email, password, roleId) VALUES (?, ?, ?, ?)";
         String insertCustomerSQL = "INSERT INTO FlipFitDirectCustomer (customerId, phoneNumber, city, pinCode) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DBConnection.getConnection();
+             PreparedStatement checkStmt = conn.prepareStatement(checkUsernameSQL);
              PreparedStatement userStmt = conn.prepareStatement(insertUserSQL, Statement.RETURN_GENERATED_KEYS);
              PreparedStatement customerStmt = conn.prepareStatement(insertCustomerSQL)) {
 
-            // Insert into FlipFitUser
+            // 🔍 Check if username already exists
+            checkStmt.setString(1, directCustomer.getUsername());
+            ResultSet checkResult = checkStmt.executeQuery();
+            if (checkResult.next() && checkResult.getInt(1) > 0) {
+                throw new UsernameExistsException(directCustomer.getUsername());
+            }
+
+            // ✅ Insert into FlipFitUser
             userStmt.setString(1, directCustomer.getUsername());
             userStmt.setString(2, directCustomer.getEmail());
             userStmt.setString(3, directCustomer.getPassword());
             userStmt.setInt(4, directCustomer.getRoleId());
             userStmt.executeUpdate();
 
-            // Get generated userId
+            // 🔑 Get generated userId
             ResultSet rs = userStmt.getGeneratedKeys();
             if (rs.next()) {
                 int userId = rs.getInt(1);
                 directCustomer.setUserId(userId);
 
-                // Insert into FlipFitDirectCustomer
+                // 🧍 Insert into FlipFitDirectCustomer
                 customerStmt.setInt(1, userId);
                 customerStmt.setString(2, directCustomer.getPhoneNumber());
                 customerStmt.setString(3, directCustomer.getCity());
@@ -143,11 +153,15 @@ customer.setPinCode(pinCode);
                 throw new SQLException("User ID generation failed.");
             }
 
+        } catch (UsernameExistsException e) {
+            // Let the exception bubble up to be handled by the service or client layer
+            throw e;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
     }
+
 
     @Override
     public FlipFitDirectCustomer editDetails(FlipFitDirectCustomer directCustomer) {

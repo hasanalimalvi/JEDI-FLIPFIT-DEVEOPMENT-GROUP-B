@@ -5,6 +5,7 @@ import com.flipfit.bean.FlipFitDirectCustomer;
 import com.flipfit.bean.FlipFitGymOwner;
 import com.flipfit.business.*;
 import com.flipfit.constant.ColorConstants;
+import com.flipfit.exception.UsernameExistsException;
 
 import java.util.Scanner;
 
@@ -138,9 +139,13 @@ public class FlipFitApplication {
                     gymCustomer.setPassword(password);
                     gymCustomer.setRoleId(1);
 
-                    flipFitDirectCustomerService.registerCustomer(gymCustomer);
-                    System.out.println(ColorConstants.GREEN + "\n✅ Registration Successful! Here's your info:" + ColorConstants.RESET);
-                    System.out.println(gymCustomer);
+                    try {
+                        flipFitDirectCustomerService.registerCustomer(gymCustomer);
+                        System.out.println(ColorConstants.GREEN + "\n✅ Registration Successful! Here's your info:" + ColorConstants.RESET);
+                        System.out.println(gymCustomer);
+                    } catch (Exception e) {
+                        System.out.println(ColorConstants.RED + e.getMessage() + ColorConstants.RESET);
+                    }
                 }
 
                 case 3 -> {
@@ -185,6 +190,7 @@ public class FlipFitApplication {
                     gymOwner.setAadharNumber(aadharNumber);
                     gymOwner.setPanCard(panCard);
                     gymOwner.setIsApproved(false);
+
 
                     flipFitGymOwnerService.registerGymOwner(gymOwner);
                     System.out.println(ColorConstants.GREEN + "\n✅ Registration Successful! Here's your info:" + ColorConstants.RESET);
