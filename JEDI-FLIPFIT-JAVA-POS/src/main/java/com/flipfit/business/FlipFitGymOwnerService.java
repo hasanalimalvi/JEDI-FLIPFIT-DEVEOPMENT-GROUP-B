@@ -18,12 +18,12 @@ public interface FlipFitGymOwnerService {
     FlipFitGymOwner viewDetails(int gymOwnerId);
 
     boolean deleteGym(int gymId) throws EntityNotFoundException;
-    List<FlipFitSlotAvailability> viewSlots(int gymId, LocalDate date);
+    List<FlipFitSlotAvailability> viewSlots(int gymId, LocalDate date) throws EntityNotFoundException;
 
     FlipFitGymOwner login(String username, String password);
 
     //Slot
     FlipFitSlot addSlot(FlipFitSlot slot);
-    boolean deleteSlot(int slotId);
+    boolean deleteSlot(int slotId) throws EntityNotFoundException;
     List<FlipFitBooking> viewBookings(int gymId);
 }

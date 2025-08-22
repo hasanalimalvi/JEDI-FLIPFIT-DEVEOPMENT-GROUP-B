@@ -70,7 +70,7 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
     }
 
     @Override
-    public List<FlipFitSlotAvailability> viewSlots(int gymId, LocalDate date) {
+    public List<FlipFitSlotAvailability> viewSlots(int gymId, LocalDate date) throws EntityNotFoundException {
         return flipFitGymOwnerDAO.viewSlots(gymId, date);
     }
 
@@ -88,7 +88,7 @@ public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
     }
 
     @Override
-    public boolean deleteSlot(int slotId) {
+    public boolean deleteSlot(int slotId) throws EntityNotFoundException {
         return flipFitGymOwnerDAO.deleteSlot(slotId);
     }
 

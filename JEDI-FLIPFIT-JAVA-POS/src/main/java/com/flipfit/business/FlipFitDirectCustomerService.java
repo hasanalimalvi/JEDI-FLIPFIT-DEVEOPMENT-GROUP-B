@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface FlipFitDirectCustomerService {
-    List<FlipFitSlotAvailability> viewSlots(int gymId, LocalDate date);
+    List<FlipFitSlotAvailability> viewSlots(int gymId, LocalDate date) throws EntityNotFoundException;
     List<FlipFitBooking> viewBookedSlots(int userId);
     FlipFitDirectCustomer viewDetails(int customerId);
     FlipFitDirectCustomer registerCustomer(FlipFitDirectCustomer directCustomer) throws UsernameExistsException;

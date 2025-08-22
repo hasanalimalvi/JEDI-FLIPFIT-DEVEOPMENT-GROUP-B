@@ -371,7 +371,7 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
 
 
     @Override
-    public List<FlipFitSlotAvailability> viewSlots(int gymId, LocalDate date) {
+    public List<FlipFitSlotAvailability> viewSlots(int gymId, LocalDate date) throws EntityNotFoundException {
         String selectSlotsSQL = "SELECT s.slotId, s.gymId, s.startTime, s.totalSeats, a.seatsAvailable, a.date " +
                 "FROM FlipFitSlot s " +
                 "LEFT JOIN FlipFitSlotAvailability a ON s.slotId = a.slotId AND a.date = ? " +
@@ -385,12 +385,16 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
              PreparedStatement selectStmt = conn.prepareStatement(selectSlotsSQL);
              PreparedStatement insertStmt = conn.prepareStatement(insertAvailabilitySQL)) {
 
-            selectStmt.setDate(1, java.sql.Date.valueOf(date)); // for LEFT JOIN condition
+            selectStmt.setDate(1, java.sql.Date.valueOf(date));
             selectStmt.setInt(2, gymId);
 
             ResultSet rs = selectStmt.executeQuery();
 
+            boolean found = false;
+
             while (rs.next()) {
+                found = true;
+
                 FlipFitSlotAvailability slot = new FlipFitSlotAvailability();
                 slot.setSlotId(rs.getInt("slotId"));
                 slot.setGymId(rs.getInt("gymId"));
@@ -407,7 +411,7 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
                     insertStmt.executeUpdate();
 
                     slot.setSeatsAvailable(slot.getTotalSeats());
-                    slot.setDate(date); // manually set since it wasn't in result set
+                    slot.setDate(date);
                 } else {
                     slot.setSeatsAvailable(seatsAvailable);
                     slot.setDate(rs.getDate("date").toLocalDate());
@@ -416,12 +420,17 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
                 slots.add(slot);
             }
 
+            if (!found) {
+                throw new EntityNotFoundException(gymId, "Gym");
+            }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         return slots;
     }
+
 
     @Override
     public FlipFitGymOwner login(String gymOwnerName, String password) {
@@ -508,7 +517,7 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
     }
 
     @Override
-    public boolean deleteSlot(int slotId) {
+    public boolean deleteSlot(int slotId) throws EntityNotFoundException {
         String deleteAvailabilitySQL = "DELETE FROM FlipFitSlotAvailability WHERE slotId = ?";
         String deleteSlotSQL = "DELETE FROM FlipFitSlot WHERE slotId = ?";
 
@@ -526,8 +535,13 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
                 slotStmt.setInt(1, slotId);
                 int affectedRows = slotStmt.executeUpdate();
 
+                if (affectedRows == 0) {
+                    conn.rollback(); // Rollback if slot not found
+                    throw new EntityNotFoundException(slotId, "Slot");
+                }
+
                 conn.commit(); // Commit transaction
-                return affectedRows > 0;
+                return true;
 
             } catch (SQLException e) {
                 conn.rollback(); // Rollback on error
@@ -540,6 +554,7 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
             return false;
         }
     }
+
 
 
     @Override

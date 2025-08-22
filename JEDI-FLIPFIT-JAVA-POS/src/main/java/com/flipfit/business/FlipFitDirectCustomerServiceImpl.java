@@ -24,7 +24,7 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
     FlipFitGymOwnerService flipFitGymOwnerService = new FlipFitGymOwnerServiceImpl();
 
     @Override
-    public List<FlipFitSlotAvailability> viewSlots(int gymId, LocalDate date) {
+    public List<FlipFitSlotAvailability> viewSlots(int gymId, LocalDate date) throws EntityNotFoundException {
         return flipFitGymOwnerService.viewSlots(gymId, date);
     }
 

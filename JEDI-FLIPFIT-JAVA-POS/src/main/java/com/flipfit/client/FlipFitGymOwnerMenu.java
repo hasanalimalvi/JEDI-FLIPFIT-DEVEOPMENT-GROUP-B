@@ -110,19 +110,26 @@ public class FlipFitGymOwnerMenu {
                     System.out.println(newSlot);
                 }
                 case 4 -> {
-                    System.out.println("🗑️ Deleting a slot...");
-                    Scanner scanner = new Scanner(System.in);
 
-                    System.out.print("⏰ Enter Slot ID: ");
-                    int slotId = scanner.nextInt();
+                    try{
+                        System.out.println("🗑️ Deleting a slot...");
+                        Scanner scanner = new Scanner(System.in);
 
-                    boolean deleted = flipFitGymOwnerService.deleteSlot(slotId);
+                        System.out.print("⏰ Enter Slot ID: ");
+                        int slotId = scanner.nextInt();
 
-                    if (deleted) {
-                        System.out.println(ColorConstants.GREEN + "✅ Slot deleted successfully!" + ColorConstants.RESET);
-                    } else {
-                        System.out.println(ColorConstants.RED + "❌ Slot not found or could not be deleted." + ColorConstants.RESET);
+                        boolean deleted = flipFitGymOwnerService.deleteSlot(slotId);
+
+                        if (deleted) {
+                            System.out.println(ColorConstants.GREEN + "✅ Slot deleted successfully!" + ColorConstants.RESET);
+                        } else {
+                            System.out.println(ColorConstants.RED + "❌ Slot not found or could not be deleted." + ColorConstants.RESET);
+                        }
                     }
+                    catch (Exception e){
+                        System.out.println(ColorConstants.RED + e.getMessage() + ColorConstants.RESET);
+                    }
+
 
                 }
                 case 5 -> {
@@ -239,17 +246,24 @@ public class FlipFitGymOwnerMenu {
 
                 }
                 case 10 -> {
-                    System.out.println(ColorConstants.YELLOW + "📖 Viewing Slots..." + ColorConstants.RESET);
 
-                    System.out.println("Enter Gym Id : ");
-                    int id = input.nextInt();
+                    try{
+                        System.out.println(ColorConstants.YELLOW + "📖 Viewing Slots..." + ColorConstants.RESET);
 
-                    System.out.println("Enter Date in specific format : ");
-                    String date = input.next();
-                    LocalDate dateObj = LocalDate.parse(date);
+                        System.out.println("Enter Gym Id : ");
+                        int id = input.nextInt();
+
+                        System.out.println("Enter Date in specific format : ");
+                        String date = input.next();
+                        LocalDate dateObj = LocalDate.parse(date);
 
 
-                    System.out.println(flipFitGymOwnerService.viewSlots(id, dateObj));
+                        System.out.println(flipFitGymOwnerService.viewSlots(id, dateObj));
+                    }
+                    catch (Exception e){
+                        System.out.println(ColorConstants.RED + e.getMessage() + ColorConstants.RESET);
+                    }
+
                 }
                 case 11 -> {
                     System.out.println(ColorConstants.YELLOW + "🔓 Logging out... Stay fit!" + ColorConstants.RESET);
