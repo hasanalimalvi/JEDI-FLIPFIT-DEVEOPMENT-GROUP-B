@@ -4,13 +4,14 @@ import com.flipfit.bean.*;
 import com.flipfit.business.FlipFitDirectCustomerService;
 import com.flipfit.business.FlipFitDirectCustomerServiceImpl;
 import com.flipfit.constant.ColorConstants;
+import com.flipfit.exception.EntityNotFoundException;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Scanner;
 
 public class FlipFitDirectCustomerMenu {
-    public void getDirectCustomerMenu() {
+    public void getDirectCustomerMenu() throws EntityNotFoundException {
         Scanner input = new Scanner(System.in);
         FlipFitDirectCustomerService flipFitDirectCustomerService = new FlipFitDirectCustomerServiceImpl();
         int choice;
@@ -103,13 +104,16 @@ public class FlipFitDirectCustomerMenu {
                     Scanner scanner = new Scanner(System.in);
                     int bookingId = scanner.nextInt();
 
-                    boolean bo = flipFitDirectCustomerService.cancelFlipFitBooking(bookingId);
-                    if (bo){
-                        System.out.println("Booking Cancelled Successfully!!");
+                    try {
+                        boolean bo = flipFitDirectCustomerService.cancelFlipFitBooking(bookingId);
+                        if (bo) {
+                            System.out.println("Booking Cancelled Successfully!!");
+                        } else {
+                            System.out.println("Booking Cancelled Failed!!");
+                        }
                     }
-
-                    else{
-                        System.out.println("Booking Cancelled Failed!!");
+                    catch(Exception e){
+                        System.out.println(ColorConstants.RED + e.getMessage() + ColorConstants.RESET);
                     }
 
                 }

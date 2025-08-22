@@ -6,6 +6,7 @@ import com.flipfit.dao.FlipFitAdminDAO;
 import com.flipfit.dao.FlipFitAdminDAOImpl;
 import com.flipfit.dao.FlipFitDirectCustomerDAO;
 import com.flipfit.dao.FlipFitDirectCustomerDAOImpl;
+import com.flipfit.exception.EntityNotFoundException;
 import com.flipfit.exception.UsernameExistsException;
 
 import java.time.LocalDate;
@@ -79,7 +80,7 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
 
 
     @Override
-    public boolean cancelFlipFitBooking(int bookingId) {
+    public boolean cancelFlipFitBooking(int bookingId) throws EntityNotFoundException {
         return flipFitDirectCustomerDAO.cancelFlipFitBooking(bookingId);
     }
 }

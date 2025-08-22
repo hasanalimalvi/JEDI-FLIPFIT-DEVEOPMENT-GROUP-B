@@ -5,12 +5,13 @@ import com.flipfit.bean.FlipFitDirectCustomer;
 import com.flipfit.bean.FlipFitGymOwner;
 import com.flipfit.business.*;
 import com.flipfit.constant.ColorConstants;
+import com.flipfit.exception.EntityNotFoundException;
 import com.flipfit.exception.UsernameExistsException;
 
 import java.util.Scanner;
 
 public class FlipFitApplication {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws EntityNotFoundException {
         FlipFitDirectCustomerService flipFitDirectCustomerService = new FlipFitDirectCustomerServiceImpl();
         FlipFitGymOwnerService flipFitGymOwnerService = new FlipFitGymOwnerServiceImpl();
         FlipFitAdminService flipFitAdminService = new FlipFitAdminServiceImpl();

@@ -1,6 +1,7 @@
 package com.flipfit.dao;
 
 import com.flipfit.bean.*;
+import com.flipfit.exception.EntityNotFoundException;
 import com.flipfit.exception.UsernameExistsException;
 import com.flipfit.utils.DBConnection;
 
@@ -375,7 +376,7 @@ customer.setPinCode(pinCode);
 
 
     @Override
-    public boolean cancelFlipFitBooking(int bookingId) {
+    public boolean cancelFlipFitBooking(int bookingId) throws EntityNotFoundException {
         Connection conn = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -392,7 +393,7 @@ customer.setPinCode(pinCode);
 
             if (!rs.next()) {
                 conn.rollback();
-                return false; // Booking not found
+                throw new EntityNotFoundException(bookingId, "Booking");
             }
 
             int slotId = rs.getInt("slotId");
@@ -407,7 +408,7 @@ customer.setPinCode(pinCode);
                 return false; // Already cancelled
             }
 
-            // Step 2: Update booking to cancelled (set isCancelled = true)
+            // Step 2: Update booking to cancelled
             String cancelBookingSQL = "UPDATE FlipFitBooking SET isCancelled = true WHERE bookingId = ?";
             ps = conn.prepareStatement(cancelBookingSQL);
             ps.setInt(1, bookingId);
@@ -424,6 +425,8 @@ customer.setPinCode(pinCode);
             conn.commit(); // End transaction
             return true;
 
+        } catch (EntityNotFoundException e) {
+            throw e;
         } catch (Exception e) {
             try {
                 if (conn != null) conn.rollback();

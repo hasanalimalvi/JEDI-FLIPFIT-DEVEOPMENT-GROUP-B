@@ -3,6 +3,7 @@ package com.flipfit.business;
 
 
 import com.flipfit.bean.*;
+import com.flipfit.exception.EntityNotFoundException;
 import com.flipfit.exception.UsernameExistsException;
 
 import java.time.LocalDate;
@@ -19,5 +20,5 @@ public interface FlipFitDirectCustomerService {
     FlipFitDirectCustomer login(String customerName, String password);
     //FlipFitBookings
     FlipFitBooking makeFlipFitBooking(int customerID, int slotId, LocalDate date);
-    boolean cancelFlipFitBooking(int bookingId);
+    boolean cancelFlipFitBooking(int bookingId) throws EntityNotFoundException;
 }
