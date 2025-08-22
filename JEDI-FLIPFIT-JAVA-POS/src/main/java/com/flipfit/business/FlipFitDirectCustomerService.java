@@ -3,6 +3,7 @@ package com.flipfit.business;
 
 
 import com.flipfit.bean.*;
+import com.flipfit.exception.EntityNotFoundException;
 import com.flipfit.exception.PaymentFailedException;
 import com.flipfit.exception.UsernameExistsException;
 
@@ -16,7 +17,7 @@ public interface FlipFitDirectCustomerService {
     FlipFitDirectCustomer registerCustomer(FlipFitDirectCustomer directCustomer) throws UsernameExistsException;
     FlipFitDirectCustomer editDetails(FlipFitDirectCustomer directCustomer);
     List<FlipFitGym> viewGyms();
-    FlipFitTransaction makePayment(FlipFitTransaction flipFitTransaction) throws PaymentFailedException;
+    FlipFitTransaction makePayment(FlipFitTransaction flipFitTransaction) throws PaymentFailedException, EntityNotFoundException;
     FlipFitDirectCustomer login(String customerName, String password);
     //FlipFitBookings
     FlipFitBooking makeFlipFitBooking(int customerID, int slotId, LocalDate date);

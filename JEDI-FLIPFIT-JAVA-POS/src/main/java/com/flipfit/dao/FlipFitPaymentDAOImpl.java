@@ -1,6 +1,7 @@
 package com.flipfit.dao;
 
 import com.flipfit.bean.FlipFitTransaction;
+import com.flipfit.exception.EntityNotFoundException;
 import com.flipfit.exception.PaymentFailedException;
 import com.flipfit.utils.DBConnection;
 
@@ -12,22 +13,33 @@ import java.sql.*;
 public class FlipFitPaymentDAOImpl implements FlipFitPaymentDAO{
 
     @Override
-    public FlipFitTransaction processPayment(FlipFitTransaction transaction) throws PaymentFailedException {
-        String checkSQL = "SELECT transactionId FROM FlipFitTransaction WHERE bookingId = ?";
+    public FlipFitTransaction processPayment(FlipFitTransaction transaction)
+            throws PaymentFailedException, EntityNotFoundException {
+
+        String validateBookingSQL = "SELECT bookingId FROM FlipFitBooking WHERE bookingId = ?";
+        String checkTransactionSQL = "SELECT transactionId FROM FlipFitTransaction WHERE bookingId = ?";
         String insertSQL = "INSERT INTO FlipFitTransaction (userId, bookingId, paymentType, amount) VALUES (?, ?, ?, ?)";
 
         try (Connection conn = DBConnection.getConnection();
-             PreparedStatement checkStmt = conn.prepareStatement(checkSQL);
+             PreparedStatement validateStmt = conn.prepareStatement(validateBookingSQL);
+             PreparedStatement checkStmt = conn.prepareStatement(checkTransactionSQL);
              PreparedStatement insertStmt = conn.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS)) {
 
-            // 🔍 Check if payment already exists for the bookingId
+            // 🔍 Step 1: Validate bookingId exists
+            validateStmt.setInt(1, transaction.getBookingId());
+            ResultSet bookingResult = validateStmt.executeQuery();
+            if (!bookingResult.next()) {
+                throw new EntityNotFoundException(transaction.getBookingId(), "Booking");
+            }
+
+            // 🔍 Step 2: Check if payment already exists for the bookingId
             checkStmt.setInt(1, transaction.getBookingId());
-            ResultSet rs = checkStmt.executeQuery();
-            if (rs.next()) {
+            ResultSet transactionResult = checkStmt.executeQuery();
+            if (transactionResult.next()) {
                 throw new PaymentFailedException(String.valueOf(transaction.getBookingId()));
             }
 
-            // ✅ Insert new transaction
+            // ✅ Step 3: Insert new transaction
             insertStmt.setInt(1, transaction.getUserId());
             insertStmt.setInt(2, transaction.getBookingId());
             insertStmt.setInt(3, transaction.getPaymentType());
@@ -45,13 +57,14 @@ public class FlipFitPaymentDAOImpl implements FlipFitPaymentDAO{
                 throw new SQLException("Failed to insert transaction.");
             }
 
-        } catch (PaymentFailedException e) {
-            // Let the exception bubble up to be handled by the service or client layer
+        } catch (PaymentFailedException | EntityNotFoundException e) {
+            // Let custom exceptions bubble up
             throw e;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
     }
+
 
 }
