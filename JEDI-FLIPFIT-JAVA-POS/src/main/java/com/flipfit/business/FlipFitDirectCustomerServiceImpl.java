@@ -6,6 +6,7 @@ import com.flipfit.dao.FlipFitAdminDAO;
 import com.flipfit.dao.FlipFitAdminDAOImpl;
 import com.flipfit.dao.FlipFitDirectCustomerDAO;
 import com.flipfit.dao.FlipFitDirectCustomerDAOImpl;
+import com.flipfit.exception.PaymentFailedException;
 import com.flipfit.exception.UsernameExistsException;
 
 import java.time.LocalDate;
@@ -60,7 +61,7 @@ public class FlipFitDirectCustomerServiceImpl implements FlipFitDirectCustomerSe
     }
 
     @Override
-    public FlipFitTransaction makePayment(FlipFitTransaction flipFitTransaction) {
+    public FlipFitTransaction makePayment(FlipFitTransaction flipFitTransaction) throws PaymentFailedException {
         return flipFitPaymentService.processPayment(flipFitTransaction);
     }
 
