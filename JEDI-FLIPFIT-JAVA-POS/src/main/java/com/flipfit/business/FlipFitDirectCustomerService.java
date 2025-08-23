@@ -35,7 +35,7 @@ import java.util.List;
  *@Author : "Chanukya"
  *@Parameters: "FlipFitCustomerDAOImpl, FlipFitGymOwnerDAOImpl, FlipFitAdminDAOImpl, FlipFitPaymentDAOImpl"
  *@Exceptions: "EntityNotFoundException, SQLException"
- *@Description : "This interface provides data access object (DAO) methods for managing admin-related operations in the FlipFit application."
+ *@Description : "This interface provides data access object (DAO) methods for managing admin-related operations in the application."
  */
 
 public interface FlipFitDirectCustomerService {
