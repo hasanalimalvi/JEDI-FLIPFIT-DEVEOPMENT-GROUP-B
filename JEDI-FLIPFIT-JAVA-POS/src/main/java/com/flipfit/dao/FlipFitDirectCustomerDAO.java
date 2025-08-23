@@ -8,6 +8,12 @@ import com.flipfit.exception.UsernameExistsException;
 import java.time.LocalDate;
 import java.util.List;
 
+/**
+ *@Author : "Shalini"
+ *@Parameters: "FlipFitCustomerDAOImpl, FlipFitGymOwnerDAOImpl, FlipFitAdminDAOImpl, FlipFitPaymentDAOImpl, FlipFitDirectCustomerDAOImpl"
+ *@Exceptions: "UsernameExistsException, EntityNotFoundException"
+ *@Description : "This interface provides data access object (DAO) methods for managing customer-related operations in the FlipFit application."
+ */
 public interface FlipFitDirectCustomerDAO {
     List<FlipFitBooking> viewBookedSlots(int userId);
     FlipFitDirectCustomer viewDetails(int customerId);
@@ -18,5 +24,4 @@ public interface FlipFitDirectCustomerDAO {
     //FlipFitBookings
     FlipFitBooking makeFlipFitBooking(int customerID, int slotId, LocalDate date) throws SlotsNotAvailableException, EntityNotFoundException;
     boolean cancelFlipFitBooking(int bookingId) throws EntityNotFoundException;
-
 }

@@ -19,6 +19,13 @@ import com.flipfit.exception.EntityNotFoundException;
 
 import java.util.List;
 
+/**
+ *@Author : "Hasanali"
+ *@Parameters: "FlipFitCustomerDAOImpl, FlipFitGymOwnerDAOImpl, FlipFitAdminDAOImpl, FlipFitPaymentDAOImpl"
+ *@Exceptions: "EntityNotFoundException, SQLException"
+ *@Description : "This interface provides data access object (DAO) methods for managing admin-related operations in the FlipFit application."
+ */
+
 public class FlipFitAdminServiceImpl implements FlipFitAdminService{
 
 

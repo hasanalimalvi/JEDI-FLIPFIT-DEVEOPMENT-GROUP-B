@@ -11,6 +11,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *@Author : "Chanukya"
+ *@Parameters: "FlipFitCustomerDAOImpl, FlipFitGymOwnerDAOImpl, FlipFitAdminDAOImpl, FlipFitPaymentDAOImpl, FlipFitDirectCustomerDAOImpl"
+ *@Exceptions: "UsernameExistsException, EntityNotFoundException, SQLException"
+ *@Description : "This class provides data access object (DAO) methods for managing customer-related operations in the FlipFit application, implementing the FlipFitDirectCustomerDAO interface."
+ */
 public class FlipFitDirectCustomerDAOImpl implements FlipFitDirectCustomerDAO{
 
 
@@ -90,14 +96,14 @@ public class FlipFitDirectCustomerDAOImpl implements FlipFitDirectCustomerDAO{
 
                     // Create a new FlipFitDirectCustomer object with the retrieved data
                     customer = new FlipFitDirectCustomer();
-customer.setUserId(retrievedCustomerId);
-customer.setUsername(username);
-customer.setEmail(email);
-customer.setPassword(password);
-customer.setRoleId(roleId);
-customer.setPhoneNumber(phoneNumber);
-customer.setCity(city);
-customer.setPinCode(pinCode);
+                    customer.setUserId(retrievedCustomerId);
+                    customer.setUsername(username);
+                    customer.setEmail(email);
+                    customer.setPassword(password);
+                    customer.setRoleId(roleId);
+                    customer.setPhoneNumber(phoneNumber);
+                    customer.setCity(city);
+                    customer.setPinCode(pinCode);
 
 
                 }

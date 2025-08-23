@@ -10,6 +10,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *@Author : "Harshil"
+ *@Parameters: "FlipFitCustomerDAOImpl, FlipFitGymOwnerDAOImpl, FlipFitAdminDAOImpl"
+ *@Exceptions: "N/A"
+ *@Description : "This class provides data access object (DAO) methods for managing gym owner-related operations in the FlipFit application, implementing the FlipFitGymOwnerDAO interface."
+ */
 public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
 
 
@@ -607,6 +613,5 @@ public class FlipFitGymOwnerDAOImpl implements FlipFitGymOwnerDAO{
 
         return bookings;
     }
-
 
 }

@@ -6,6 +6,12 @@ import com.flipfit.exception.UsernameExistsException;
 
 import java.time.LocalDate;
 import java.util.List;
+/**
+ *@Author : "Akshita"
+ *@Parameters: "FlipFitCustomerDAOImpl, FlipFitGymOwnerDAOImpl, FlipFitAdminDAOImpl, FlipFitPaymentDAOImpl"
+ *@Exceptions: "EntityNotFoundException, SQLException"
+ *@Description : "This interface provides data access object (DAO) methods for managing admin-related operations in the FlipFit application."
+ */
 
 public interface FlipFitGymOwnerService {
     FlipFitGymOwner registerGymOwner(FlipFitGymOwner gymOwner) throws UsernameExistsException;

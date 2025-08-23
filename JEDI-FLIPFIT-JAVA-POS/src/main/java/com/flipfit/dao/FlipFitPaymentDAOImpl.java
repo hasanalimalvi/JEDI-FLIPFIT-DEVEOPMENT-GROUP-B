@@ -10,6 +10,12 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.sql.*;
 
+/**
+ *@Author : "Ain Fatima"
+ *@Parameters: "FlipFitCustomerDAOImpl, FlipFitGymOwnerDAOImpl, FlipFitAdminDAOImpl, FlipFitPaymentDAOImpl"
+ *@Exceptions: "PaymentFailedException, EntityNotFoundException, SQLException"
+ *@Description : "This class provides data access object (DAO) methods for managing payment-related operations in the FlipFit application, implementing the FlipFitPaymentDAO interface."
+ */
 public class FlipFitPaymentDAOImpl implements FlipFitPaymentDAO{
 
     @Override

@@ -9,6 +9,13 @@ import com.flipfit.exception.EntityNotFoundException;
 
 import java.util.List;
 
+/**
+ *@Author: Akshita
+ * @Parameters: Not applicable for an interface Javadoc.
+ * @Exceptions: Not applicable for an interface Javadoc.
+ * @Descriptiion: This interface provides data access object (DAO) methods for managing admin-related
+ *  * operations in the FlipFit application.
+ */
 public interface FlipFitAdminDAO {
     List<FlipFitGymOwner> getPendingGymOwnerList();
     List<FlipFitGymOwner> getApprovedGymOwnerList();

@@ -23,7 +23,7 @@ public class FlipFitAdminMenu {
         ║  4 → 🏋️  View All Gyms                     ║
         ║  5 → 💳 View Payments                      ║
         ║  6 -> Approve Gym Owner                    ║
-        ║  7 -> Approve Gym                          ║ 
+        ║  7 -> Approve Gym                          ║
         ║  8 -> View Approved Gym Owner Requests     ║
         ║  9 -> View Pending Gym Requests            ║
         ║  10 -> View Approved Gym Requests          ║

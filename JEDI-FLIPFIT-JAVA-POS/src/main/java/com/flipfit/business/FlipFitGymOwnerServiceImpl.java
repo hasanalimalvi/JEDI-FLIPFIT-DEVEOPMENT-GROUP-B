@@ -1,3 +1,4 @@
+
 package com.flipfit.business;
 
 import com.flipfit.bean.*;
@@ -10,7 +11,12 @@ import com.flipfit.exception.UsernameExistsException;
 import java.time.LocalDate;
 import java.util.List;
 
-
+/**
+ *@Author : "Chanukya"
+ *@Parameters: "FlipFitCustomerDAOImpl, FlipFitGymOwnerDAOImpl, FlipFitAdminDAOImpl, FlipFitPaymentDAOImpl"
+ *@Exceptions: "EntityNotFoundException, SQLException"
+ *@Description : "This interface provides data access object (DAO) methods for managing admin-related operations in the FlipFit application."
+ */
 
 public class FlipFitGymOwnerServiceImpl implements FlipFitGymOwnerService{
 
