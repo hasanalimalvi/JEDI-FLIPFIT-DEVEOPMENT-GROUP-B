@@ -14,7 +14,7 @@ import java.util.List;
  * @Parameters: Not applicable for an interface Javadoc.
  * @Exceptions: Not applicable for an interface Javadoc.
  * @Descriptiion: This interface provides data access object (DAO) methods for managing admin-related
- *  * operations in the FlipFit application.
+ *  * operations in the  application.
  */
 public interface FlipFitAdminDAO {
     List<FlipFitGymOwner> getPendingGymOwnerList();
