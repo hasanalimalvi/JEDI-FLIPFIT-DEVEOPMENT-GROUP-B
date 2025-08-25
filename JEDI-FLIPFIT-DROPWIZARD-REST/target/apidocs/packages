@@ -1,0 +1,9 @@
+com.dropwizard
+com.flipkart.restcontroller
+com.flipfit.bean
+com.flipfit.business
+com.flipfit.dao
+com.flipfit.utils
+com.flipfit.constant
+com.flipfit.exception
+com.flipfit.rest
