@@ -1,0 +1,938 @@
+{
+	"info": {
+		"_postman_id": "8a11e1d7-24ad-4c4b-878d-b89052a1bdc9",
+		"name": "FlipFitGym Group-B",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "47447968",
+		"_collection_link": "https://suravarapu-c-1823826.postman.co/workspace/Suravarapu-Chanukya-Maruthi's-W~2203d78d-bbc7-4ceb-89bb-6c3d49ff48d3/collection/47447968-8a11e1d7-24ad-4c4b-878d-b89052a1bdc9?action=share&source=collection_link&creator=47447968"
+	},
+	"item": [
+		{
+			"name": "FlipFit Gym Admin Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"SCM\",\n  \"password\": \"SCM\",\n  \"role\": \"admin\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/user/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Owner Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"Maruthi\",\n  \"password\": \"Maruthi\",\n  \"role\": \"owner\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/user/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Customer Login",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"Chanukya\",\n  \"password\": \"Chanukya\",\n  \"role\": \"customer\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/user/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Owner Registration",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"owner1\",\n  \"password\": \"owner1\",\n  \"email\": \"owner1@gmail.com\",\n  \"phoneNumber\": \"9123456789\",\n  \"city\": \"Delhi\",\n  \"pinCode\": \"110001\",\n  \"panCard\": \"ABCDE1234F\",\n  \"gstin\": \"22ABCDE1234F1Z5\",\n  \"aadharNumber\": \"123456789012\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/user/register/owner",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"register",
+						"owner"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Customer Registration",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"username\": \"customer\",\n  \"email\": \"customer@gmail.com\",\n  \"phoneNumber\": \"9000000000\",\n  \"city\": \"Mumbai\",\n  \"pinCode\": \"400001\",\n  \"password\": \"customer\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/user/register/customer",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"register",
+						"customer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Admin - Gym Owners",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/gym-owners",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"gym-owners"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Admin - Gym Customers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/customers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Admin - Gyms",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/gyms",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"gyms"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Admin - Pending Gym Owners",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/gym-owner/pending",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"gym-owner",
+						"pending"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Admin - Pending Gyms",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/gym/pending",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"gym",
+						"pending"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Admin - Approve Gym Owner",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/gym-owner/approve/7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"gym-owner",
+						"approve",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Admin - Approve Gym",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/gym/approve/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"gym",
+						"approve",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Admin - Approved Gym Owners",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/gym-owner/approved",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"gym-owner",
+						"approved"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Admin - Approved Gyms",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/gym/approved",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"gym",
+						"approved"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Admin - Payments",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/payments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"payments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Admin - Logout",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/admin/logout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"admin",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Owner - Add Gym",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"gymOwnerID\": 3,\n  \"address\": \"123 Fitness St\",\n  \"pinCode\": \"560001\",\n  \"description\": \"Premium gym with modern equipment\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/owner/gym",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"owner",
+						"gym"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Owner - View Gyms by OwnerId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/owner/gyms/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"owner",
+						"gyms",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Owner - Add Slot",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"gymId\": 5,\n  \"startTime\": \"09:00\",\n  \"totalSeats\": 20\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/owner/slot",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"owner",
+						"slot"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Owner - Delete Slot",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/owner/slot/7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"owner",
+						"slot",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Owner - View Bookings by GymId",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/owner/bookings/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"owner",
+						"bookings",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Owner - View Profile",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/owner/profile/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"owner",
+						"profile",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Owner - Edit Profile",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userId\": 5,\n    \"username\": \"owner\",\n    \"email\": \"chirala\",\n    \"password\": \"owner\",\n    \"roleId\": 2,\n    \"phoneNumber\": \"8333000000\",\n    \"city\": \"Chirala\",\n    \"pinCode\": \"4555\",\n    \"panCard\": \"333\",\n    \"gstin\": \"222\",\n    \"aadharNumber\": \"2222\",\n    \"isApproved\": true\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/owner/profile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"owner",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Owner - View Payments by GymId",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/owner/payments/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"owner",
+						"payments",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Owner - Delete Gym",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/owner/gym/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"owner",
+						"gym",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Owner - View Slots by Date",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/owner/slots/1/2025-08-25",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"owner",
+						"slots",
+						"1",
+						"2025-08-25"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Owner - Logout",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/owner/logout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"owner",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Customer - View Gyms",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/customer/gyms",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"customer",
+						"gyms"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFIt Gym Customer - View Slots by Date",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/customer/slots/1/2025-08-25",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"customer",
+						"slots",
+						"1",
+						"2025-08-25"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Customer - View Bookings by CustomerId",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/customer/bookings/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"customer",
+						"bookings",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Customer - Book Slot",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"userId\": 2,\n  \"slotId\": 6,\n  \"date\": \"2025-08-25\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/customer/book",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"customer",
+						"book"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Customer - Cancel Booking",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/customer/cancel/3",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"customer",
+						"cancel",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFIt Gym Customer - View Profile",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/customer/profile/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"customer",
+						"profile",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Customer - Edit Profile",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userId\": 2,\n    \"username\": \"Chanukya\",\n    \"email\": \"chanukyamaruthi75@gmail.com\",\n    \"password\": \"Chanukya\",\n    \"roleId\": 1,\n    \"phoneNumber\": \"0000\",\n    \"city\": \"Chirala\",\n    \"pinCode\": \"523155\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/customer/profile",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"customer",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Customer - Make Payment",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"userId\": 2,\n  \"bookingId\": 3,\n  \"paymentType\": 1,\n  \"amount\": 499.99\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/customer/payment",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"customer",
+						"payment"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FlipFit Gym Customer - Logout",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/customer/logout/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"customer",
+						"logout",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
